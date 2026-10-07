@@ -10,7 +10,7 @@
   A 24-minute narrated explainer, in the visual style of 3Blue1Brown, of the claimed proof of the
   spin-1 Haldane gap released by OpenAI in October 2026. It is written for theoretical physicists.
   <br><br>
-  <a href="https://github.com/yuxuanwang2009/haldane-gap-explainer/releases/latest"><b>▶ Watch / download the video (1080p, with subtitles)</b></a>
+  <a href="https://github.com/yuxuanwang2009/haldane-gap-explainer/releases/latest"><b>▶ Watch / download the video (1080p)</b></a>
 </p>
 
 ---
@@ -101,7 +101,7 @@ script/narration.json  ──► tools/tts.py ──► audio/<chapter>/<segment
 script/storyboard.md   ──► scenes/chNN_*.py  (manim CE 0.20; NarratedScene syncs each
                                               animation block to its narration clip)
                        ──► tools/build.py render ──► output/chapters/chNN.mp4
-                       ──► tools/build.py assemble ──► haldane_gap_explainer.mp4 + .srt
+                       ──► tools/build.py assemble ──► haldane_gap_explainer.mp4
 ```
 
 - The script, storyboard, animation code and narration were produced with
@@ -129,7 +129,7 @@ python3.11 -m venv .venv-tts && .venv-tts/bin/pip install -r requirements-tts.tx
 # 3. render and assemble
 python tools/build.py render all --draft           # fast 480p preview
 python tools/build.py render all                   # 1080p30
-python tools/build.py assemble                     # -> output/haldane_gap_explainer.mp4 (+ .srt)
+python tools/build.py assemble                     # -> output/haldane_gap_explainer.mp4
 ```
 
 To change the wording, edit `script/build_script.py` and run it with `--write`. It regenerates

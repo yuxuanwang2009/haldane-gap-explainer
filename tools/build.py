@@ -14,7 +14,6 @@ copied to output/chapters/.  --draft renders 480p15 for fast checks.
 import argparse
 import json
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -26,7 +25,6 @@ OUT = ROOT / "output"
 # manim's render cache; override with HALDANE_MEDIA to keep it off synced folders
 MEDIA = Path(os.environ.get("HALDANE_MEDIA", ROOT / "media"))
 PY = Path(sys.executable)   # run this script with the manim environment's python
-LEAD = 0.33                 # Kokoro clips open with ~0.33 s of silence; subtitles follow the voice
 
 
 def chapter_files():
@@ -69,12 +67,6 @@ def duration(path):
     return float(r.stdout.strip())
 
 
-def srt_time(t):
-    h, rem = divmod(t, 3600)
-    m, s = divmod(rem, 60)
-    return f"{int(h):02d}:{int(m):02d}:{int(s):02d},{int(round((s % 1) * 1000)):03d}"
-
-
 def assemble(draft):
     src = OUT / ("chapters_draft" if draft else "chapters")
     script = json.loads((ROOT / "script" / "narration.json").read_text())
@@ -91,25 +83,6 @@ def assemble(draft):
                     "-c:v", "libx264", "-crf", "18", "-preset", "medium",
                     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k",
                     "-movflags", "+faststart", str(final)], check=True)
-
-    # subtitles: split each segment into sentences, time by character share
-    texts = {(c["id"], s["id"]): s["text"] for c in script["chapters"] for s in c["segments"]}
-    blocks, offset, n = [], 0.0, 1
-    for v in vids:
-        ch = v.stem
-        tl = json.loads((OUT / "timelines" / f"{ch}.json").read_text())
-        for seg in tl["segments"]:
-            text = texts.get((ch, seg["id"]), "")
-            sents = [s for s in re.split(r"(?<=[.!?])\s+", text) if s]
-            total = sum(len(s) for s in sents) or 1
-            t = offset + seg["start"] + LEAD
-            for s in sents:
-                dt = seg["dur"] * len(s) / total
-                blocks.append(f"{n}\n{srt_time(t)} --> {srt_time(t + dt)}\n{s}\n")
-                n += 1
-                t += dt
-        offset += duration(v)
-    (OUT / f"{name}.srt").write_text("\n".join(blocks))
     print(f"-> {final}  ({duration(final)/60:.1f} min)")
 
 
