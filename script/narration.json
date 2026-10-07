@@ -1,0 +1,435 @@
+{
+ "voice": "af_heart",
+ "speed": 1.0,
+ "chapters": [
+  {
+   "id": "ch01",
+   "title": "A gap that refuses to close",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "Here are two rings of quantum spins: spin one-half on the left, spin one on the right. Neighbors want to point opposite ways, and that is the whole Hamiltonian: S dot S, summed around the ring."
+    },
+    {
+     "id": "s02",
+     "text": "Make the rings longer and track the gap, the energy of the first excited state. These are exact diagonalizations, up to 24 sites for spin one-half and 16 for spin one."
+    },
+    {
+     "id": "s03",
+     "text": "For spin one-half, the gap falls like one over the length, on its way to zero. For spin one, it seems to level off, near 0.41. Duncan Haldane predicted this difference in 1981, and published it in 1983."
+    },
+    {
+     "id": "s04",
+     "text": "Seems. Every finite ring has a gap; that is just linear algebra. The real question is whether there is one number, bigger than zero, that the gap never drops below, no matter how long the ring."
+    },
+    {
+     "id": "s05",
+     "text": "And finite data can fool you. In 1984, a published comment applied the same finite-size scaling that had suggested a spin one gap to spin one-half chains, known to be gapless, and found strikingly similar results."
+    },
+    {
+     "id": "s06",
+     "text": "So here is the puzzle: how can a finite computation tell you something certain about every length at once?"
+    },
+    {
+     "id": "s07",
+     "text": "On October 6, 2026, OpenAI released two manuscripts, produced by one of its AI models. The first claims exactly that: on even rings, the spin one gap never closes; the second, a matching claim for open chains. They are preprints, not yet independently refereed, but the argument is short, and its computer checks re-run on a laptop."
+    },
+    {
+     "id": "s08",
+     "text": "And its central idea uses no field theory at all: one partition function read in two directions, a trick of squaring probabilities, and a staircase that climbs to infinite length."
+    }
+   ]
+  },
+  {
+   "id": "ch02",
+   "title": "Haldane's picture, and why it is not a proof",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "In 1931, Bethe solved the spin one-half chain exactly; it is gapless. Haldane's claim that integer spins differ was rejected by several journals and dubbed a conjecture; the name stuck.",
+     "say": "In 1931, Bayta solved the spin one-half chain exactly; it is gapless. Haldane's claim that integer spins differ was rejected by several journals and dubbed a conjecture; the name stuck."
+    },
+    {
+     "id": "s02",
+     "text": "If you learned it from Altland and Simons: in the spin path integral, each spin picks up a Berry phase, S times the solid angle its arrow sweeps on the sphere."
+    },
+    {
+     "id": "s03",
+     "text": "In an antiferromagnet, neighbors point opposite ways, and their Berry phases nearly cancel. Nearly. What survives is theta times Q, where Q counts how often the staggered field wraps the sphere over space time, and theta equals two pi S."
+    },
+    {
+     "id": "s04",
+     "text": "So the low-energy theory is the O three sigma model plus a topological term, weighting each winding sector by e to the i theta Q. For half-integer spin, theta is pi, modulo two pi: sectors alternate in sign, interfere, and the chain stays critical."
+    },
+    {
+     "id": "s05",
+     "text": "For integer spin every phase is one, leaving the plain O three sigma model, believed to generate a mass: a gap shrinking like e to the minus pi S, up to powers of S."
+    },
+    {
+     "id": "s06",
+     "text": "But it is not a proof. It expands in large spin, then sets S equal to one. It takes a continuum limit of a lattice whose correlation length is only about six sites. And even the endpoint, the mass gap of the O three model, has no accepted proof."
+    },
+    {
+     "id": "s07",
+     "text": "Keep one image, though: a sheet of space and imaginary time, edges glued. The new proof lives there too, but asks a very different question."
+    }
+   ]
+  },
+  {
+   "id": "ch03",
+   "title": "Why a proof was hard",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "What could mathematics prove? On the half-integer side, a lot. Lieb, Schultz and Mattis, and later Affleck and Lieb, showed that a half-integer chain cannot have a unique ground state with a gap: it is gapless, or degenerate."
+    },
+    {
+     "id": "s02",
+     "text": "Their trick, a slow spiral of the spins around the ring, costs energy of order one over L and, for half-integer spin, is orthogonal to the ground state. Integer spin escapes, but escaping a no-go theorem is not having a gap."
+    },
+    {
+     "id": "s03",
+     "text": "In 1987, Affleck, Kennedy, Lieb and Tasaki found a cousin with a provable gap: split each spin one into two spin one-halves, bound into singlets across every bond. That A-K-L-T state minimizes every bond term at once, and for such frustration-free chains, a large enough gap on one finite chain settles all longer ones."
+    },
+    {
+     "id": "s04",
+     "text": "The Heisenberg chain is not frustration-free: each bond would love to be a singlet, at energy minus two, but a spin cannot be in a singlet with both neighbors, so the ground state settles near minus 1.40 per bond. That kills the finite check, and perturbation theory around A-K-L-T stops short of the Heisenberg point."
+    },
+    {
+     "id": "s05",
+     "text": "Physicists, meanwhile, stopped doubting. Neutrons saw the gap in cesium nickel chloride in 1986, and in 1993, D-M-R-G pinned it at 0.4105."
+    },
+    {
+     "id": "s06",
+     "text": "In 2024, Hal Tasaki proved that if odd open chains with a field on their end spins have a uniform gap, the ground state is topologically nontrivial. He named a computer-aided proof of that gap as the challenge."
+    },
+    {
+     "id": "s07",
+     "text": "Here, precisely, is the claim. For the spin one ring of every even length from 60 sites on, the gap exceeds 0.000479. From two thousand three hundred and four sites on, it exceeds log 20 over 784, about 0.0038."
+    },
+    {
+     "id": "s08",
+     "text": "That is about a hundred times below the true 0.41: the claim is that a gap exists, not its size. Uniqueness of the ground state on even rings is classical, from Marshall, Lieb and Mattis. The new content is uniformity."
+    }
+   ]
+  },
+  {
+   "id": "ch04",
+   "title": "One torus, two knives",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "Everything revolves around Z of L and beta, the trace of e to the minus beta H for a ring of L spins. As a path integral it lives on a torus: space wraps because the ring is periodic, imaginary time because of the trace."
+    },
+    {
+     "id": "s02",
+     "text": "Slice it with a horizontal knife, and you cut the whole ring at one instant. Stepping upward is imaginary-time evolution, so Z is a sum of e to the minus beta E over all eigenstates: positive weights, the Gibbs distribution."
+    },
+    {
+     "id": "s03",
+     "text": "Slice vertically, between two sites, and you cut one bond's whole history in imaginary time. Stepping it around the ring takes a spatial transfer operator X, in the spirit of Suzuki's quantum transfer matrix, and Z becomes the trace of X to the L, a sum of its eigenvalues lambda to the L."
+    },
+    {
+     "id": "s04",
+     "text": "In a relativistic continuum you could just rotate the torus; on a lattice, X must be built. Multiply the spin one matrices by i, in a Cartesian basis, and you get real antisymmetric matrices, G alpha: each bond is exactly minus the sum of G alpha tensor G alpha."
+    },
+    {
+     "id": "s05",
+     "text": "Then e to the minus beta H expands into events with positive weights: a bond, a moment, a label x, y or z. Group them by bond, and each bond carries a history, a list of labeled times."
+    },
+    {
+     "id": "s06",
+     "text": "A site sits between two bonds and contributes a three by three trace: merge the neighboring histories in time order, and multiply the matrices. The ring becomes a chain whose variables are histories, with signed couplings: bonds are the states, and sites do the transferring."
+    },
+    {
+     "id": "s07",
+     "text": "Sanity check: at infinite temperature every history is empty, X is just the number three, and Z is three to the L. Three states per site. Good."
+    },
+    {
+     "id": "s08",
+     "text": "Now the key property. Merging two lists doesn't care which came from the left, and the matrices are real. So the kernel is real and symmetric, X is self-adjoint, and its eigenvalues are real."
+    },
+    {
+     "id": "s09",
+     "text": "Real, but not necessarily positive. Pause and think: what would negative eigenvalues do to a ring with an odd number of sites?"
+    },
+    {
+     "id": "s10",
+     "text": "The paper's data at beta 12.25, energies measured from a fixed reference: if all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3."
+    },
+    {
+     "id": "s11",
+     "text": "So negative eigenvalues exist, and only on even rings is lambda to the L never negative. There, the spatial weights form a second probability distribution for the same Z: that is why the theorem is about even rings."
+    },
+    {
+     "id": "s12",
+     "text": "A physicist's reading, not the paper's: the top eigenvalue encodes the free energy and the others set correlation lengths, so gap in time and correlation length in space are two faces of one mass. The proof needs none of this."
+    }
+   ]
+  },
+  {
+   "id": "ch05",
+   "title": "Purity",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "Two knives, two distributions, one Z. To measure how much one term dominates, use purity: the sum of squared probabilities, the chance that two independent draws agree. One minus the purity is the defect, roughly twice the chance of missing the dominant outcome."
+    },
+    {
+     "id": "s02",
+     "text": "Square a Gibbs weight, e to the minus beta E, and you get e to the minus two beta E. So the thermal purity T is Z at doubled beta over Z squared: the familiar trace of rho squared."
+    },
+    {
+     "id": "s03",
+     "text": "Square a spatial weight, lambda to the L, and you get lambda to the two L. So the spatial purity S is Z at doubled length over Z squared. Doubling beta squares one distribution; doubling L squares the other."
+    },
+    {
+     "id": "s04",
+     "text": "Notice: both purities are ratios of partition functions. No single energy or eigenvalue is needed, and that is what will make the argument checkable."
+    },
+    {
+     "id": "s05",
+     "text": "And squaring is good for purity: the tall bar grows, the short ones collapse, and a defect becomes at most roughly half its own square, however many bars there are."
+    },
+    {
+     "id": "s06",
+     "text": "Why chase purity? If the thermal purity is above one half, so is the largest Gibbs weight, and the ground state is unique: two copies would each need more than half. The excited level's relative weight, e to the minus beta times the gap, is at most the leftover over the ground weight. Small defect, small ratio: a gap."
+    },
+    {
+     "id": "s07",
+     "text": "Here a skeptic jumps in: at any fixed length, purity goes to one as beta grows, for spin one and spin one-half alike. The first objection, in a new costume."
+    },
+    {
+     "id": "s08",
+     "text": "But suppose beta doubles each step while the defect squares. Then the defect falls exponentially in beta, at a fixed rate, and that rate is a gap at every length along the way. So that is the target: length and beta doubling together."
+    }
+   ]
+  },
+  {
+   "id": "ch06",
+   "title": "The leapfrog",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "Let's try. Attempt one: double only beta. The thermal defect squares, again and again, but the ring never grew: we have proved that one fixed ring has a gap, which we knew."
+    },
+    {
+     "id": "s02",
+     "text": "Attempt two: double only the length. The spatial defect squares, but the longer ring's thermal purity, at the same beta, gets worse. A rough heuristic: a defect counts places for an excitation, times its Boltzmann cost, and a longer ring has more places."
+    },
+    {
+     "id": "s03",
+     "text": "The mirror image holds too: a longer imaginary time degrades the spatial purity. Each purity improves in its own direction and degrades in the other."
+    },
+    {
+     "id": "s04",
+     "text": "So we must double both, and everything hinges on the exchange rate: when we double beta, how much spatial purity do we lose? Pause here. This is where the proof is decided."
+    },
+    {
+     "id": "s05",
+     "text": "The answer is an identity, almost embarrassingly simple. The spatial purity at doubled beta equals the old one squared, times the thermal purity of the doubled ring, over the old thermal purity squared. Expand into partition functions, and everything cancels: an exact equality, by pure algebra."
+    },
+    {
+     "id": "s06",
+     "text": "One way to see it: both sides are one signed combination of log Z on four tori, a big one, its halves and its quarters. Area terms cancel, and a mixed second difference doesn't care which direction comes first."
+    },
+    {
+     "id": "s07",
+     "text": "The only inequality needed: a purity is at most one, so drop the denominator. Doubling beta then costs the spatial defect about twice itself, plus the thermal defect. A linear loss."
+    },
+    {
+     "id": "s08",
+     "text": "A mirror identity, with space and time swapped, lets spatial purity pay for doubling the length of the thermal one. Now chain them, tracking a pair: spatial purity at length n, thermal purity at length two n, same beta."
+    },
+    {
+     "id": "s09",
+     "text": "Step one: pay with thermal purity to double beta for the spatial one. Step two: square in space, which doubles the length. Step three: pay with the new spatial purity to double the length for the thermal one. Step four: square in time."
+    },
+    {
+     "id": "s10",
+     "text": "The pair that sat at n and beta now sits at two n and two beta: same shape, twice the size, one step up a staircase."
+    },
+    {
+     "id": "s11",
+     "text": "Count the cost. About three defects go in, and squaring halves their square: about nine halves of the defect squared. Keep the exact correction factors, and this quadratic gain beats the linear loss below about 0.127, just above one eighth. Call that region the basin."
+    },
+    {
+     "id": "s12",
+     "text": "Iterate. If both defects start at one in a hundred, the next round gives five in ten thousand, then about one in a million, then about eight in a trillion. The number of zeros doubles every step."
+    }
+   ]
+  },
+  {
+   "id": "ch07",
+   "title": "From purity to a gap",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "That is doubly exponential in the number of steps. But beta doubles each step too, so against beta the defect falls like a plain exponential, at a fixed rate: Boltzmann suppression, which is exactly what a gap looks like."
+    },
+    {
+     "id": "s02",
+     "text": "Doubling only reaches special lengths. For those in between, the spatial reading helps again: Z to the power one over L is a norm of the spatial eigenvalue list, shrinking as even L grows, covering every even length in between, at the cost of a factor of three in the defect."
+    },
+    {
+     "id": "s03",
+     "text": "Now cash it in. At step j, e to the minus beta j times the gap is at most about three times the defect, which stays below r to the power two to the j. Meanwhile beta j is two to the j times beta zero."
+    },
+    {
+     "id": "s04",
+     "text": "Take logs, and the powers of two cancel. The gap exceeds log of one over r, divided by beta zero, at every even length from the start on. One rate, certified at the starting scale, bounds the gap forever."
+    },
+    {
+     "id": "s05",
+     "text": "Notice what this machine never used: spin. Two nonnegative readings of one partition function, a squaring inequality, an algebraic identity. So why doesn't it prove spin one-half gapped, which Lieb, Schultz and Mattis forbid?"
+    },
+    {
+     "id": "s06",
+     "text": "First, the paper builds its spatial operator only for spin one. But even granting one, the recursion needs both defects small at the same scale. A physicist's argument: at a critical point, both purities depend only on the torus's shape, so doubling both sides changes nothing."
+    },
+    {
+     "id": "s07",
+     "text": "And they seesaw: long in space means spatially pure but thermally mixed, and the reverse. Along beta equals L, exact diagonalization shows spin one's thermal defect falling while spin one-half's stalls. Spatial defects are large for both at these tiny sizes; on such tori, spin one's should fall once the ring spans many correlation lengths, spin one-half's never will."
+    },
+    {
+     "id": "s08",
+     "text": "Our calculation, not the paper's: for the spin one-half chain's conformal field theory, the best balance leaves a defect of about 0.55, far outside the basin. The physics lives in the starting data, and for spin one, everything hinges on getting in."
+    }
+   ]
+  },
+  {
+   "id": "ch08",
+   "title": "Getting into the basin",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "The paper starts at 36 and 72 sites, at beta 12.25, far beyond any diagonalization. The rescue is the vertical knife again: Z of n is the trace of X to the n, so small rings are low moments of the very operator whose high moments we need."
+    },
+    {
+     "id": "s02",
+     "text": "Is this just numerics? Not in the usual sense: rings of four to twelve sites are enclosed in integer arithmetic, with explicit error bounds, and no floating-point eigenvalue is ever a premise."
+    },
+    {
+     "id": "s03",
+     "text": "Some rings get a seam: a half-turn spin rotation inserted at one bond. Through the vertical knife, the seam becomes a symmetry operator inside the trace, splitting the eigenvalues into a symmetric sector and a sector of triples."
+    },
+    {
+     "id": "s04",
+     "text": "Next, a polynomial filter: never negative, and huge beyond some wall. Its sum over one sector's eigenvalues is a combination of known moments, a fixed budget. If one eigenvalue stood beyond the wall, it alone would exceed the budget."
+    },
+    {
+     "id": "s05",
+     "text": "The walls land here: symmetric eigenvalues below 1.00139 in size, threefold ones below 0.872. That is the upper jaw. But purity also needs one eigenvalue to be big."
+    },
+    {
+     "id": "s06",
+     "text": "The lower jaw is one explicit trial state, a matrix product state with bond dimension 26 and integer entries. On 72 sites, its energy per bond is certified below minus 1.401482, just above the true value near minus 1.401484."
+    },
+    {
+     "id": "s07",
+     "text": "The paper measures energy from exactly minus 1.401482 per site, a shift that cancels from every purity and the gap, so the shifted Z of 72 exceeds one at every temperature. Yet if every symmetric eigenvalue were at most 0.999, the small-ring moments would force it below one."
+    },
+    {
+     "id": "s08",
+     "text": "So one eigenvalue is pinched between 0.999 and 1.00139, and the twelfth-moment budget leaves no room for a second symmetric one near one. The threefold ones are crushed: 0.872 to the 72nd power is about five in a hundred thousand. The seed: a spatial defect certified below 0.048 at 36 sites."
+    },
+    {
+     "id": "s09",
+     "text": "The thermal side is looser: Z of 72 is above one at doubled beta, but the wall caps it only near 1.1 at beta, so the thermal defect at 72 sites is bounded only by about 0.18."
+    },
+    {
+     "id": "s10",
+     "text": "That is too big for the clean recursion, so the paper first runs the leapfrog six times, in exact arithmetic. The spatial bound gets worse first, from 0.048 up to 0.071, as the loose thermal bound leaks into it."
+    },
+    {
+     "id": "s11",
+     "text": "Then both bounds collapse. At beta 784, the spatial defect at two thousand three hundred and four sites is below 0.0085, and the thermal one, on the doubled ring, below 0.0055: under one percent, the one in a hundred we started from. With r one twentieth, every even ring from there on has a gap above log 20 over 784."
+    },
+    {
+     "id": "s12",
+     "text": "A second seed, from rings of six to ten sites and the trial state on 120 sites, starts with bounds of one eighth, barely inside the basin: a weaker floor of 0.000479, but for every even ring from 60 sites on."
+    },
+    {
+     "id": "s13",
+     "text": "Two readings of ours, not the paper's: the 0.872 wall caps the correlation length here near seven sites, against a true value near six, and the trial state's bonds carry only half-integer spins: valence-bond physics, smuggled in through an energy bound."
+    }
+   ]
+  },
+  {
+   "id": "ch09",
+   "title": "The edges remember",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "Now cut the ring open. In the valence-bond picture, each end carries a free spin one-half, giving four nearly degenerate states: an open chain has no uniform gap, for a boring reason."
+    },
+    {
+     "id": "s02",
+     "text": "Tasaki's fix: an odd chain, with the same field on both end spins. The edge spins align, the ground state is unique, and his theorem turns a uniform gap into a topological index of minus one: a nontrivial S-P-T phase."
+    },
+    {
+     "id": "s03",
+     "text": "The companion manuscript claims that gap for an end field of three fifths: above log 10 over 392, about 0.00587, on every such chain of at least one thousand nine hundred and twenty-one sites. It reuses the operator X, with the end fields as boundary states, and a second bootstrap."
+    },
+    {
+     "id": "s04",
+     "text": "So every infinite-chain limit selected by these end fields, along any subsequence of lengths, has index minus one. Convergence of the whole sequence, and uniqueness of the infinite-volume ground state, are not claimed."
+    },
+    {
+     "id": "s05",
+     "text": "Where does the sign come from? The selected ground state has total spin along z equal to one, so a pi rotation about z gives minus one. Deform that rotation into a gentle, local twist in the bulk: reflection keeps its expectation real, and the gap keeps it from crossing zero."
+    },
+    {
+     "id": "s06",
+     "text": "A physicist's reading, in neither paper: theta equals two pi is invisible in the bulk, but at an edge it leaves the Berry phase of a free spin one-half, and the index is a rigorous fingerprint of that."
+    }
+   ]
+  },
+  {
+   "id": "ch10",
+   "title": "What it means",
+   "segments": [
+    {
+     "id": "s01",
+     "text": "So what is claimed? A uniform gap for the spin one Heisenberg chain on even rings from 60 sites on; and for long odd open chains with end fields of three fifths, a uniform gap, and index minus one for every limit they select."
+    },
+    {
+     "id": "s02",
+     "text": "Not claimed: the gap's value, odd periodic rings, uniqueness of the infinite-volume state, or spin two and beyond, where we suspect a correlation length near 50 sites puts seeds out of reach."
+    },
+    {
+     "id": "s03",
+     "text": "Why is the bound a hundred times too small? Doubling preserves the rate the seed certifies, but never improves it: a certified one percent at beta 784, where a rough free-magnon estimate puts the true defect near e to the minus 300."
+    },
+    {
+     "id": "s04",
+     "text": "What's new is a tool: a finite-size gap criterion that does not need frustration-freeness, which the paper offers as reusable for other models with the same two readings."
+    },
+    {
+     "id": "s05",
+     "text": "And it is not an explanation. It claims to certify that spin one is gapped, never why; the theta term is still the explanation."
+    },
+    {
+     "id": "s06",
+     "text": "On status: this is OpenAI's claimed proof, a preprint released on October 6, 2026, not yet independently refereed. The analytic argument is short enough to check by hand; the computer only proves finitely many inequalities, about thermal traces of rings and chains of at most twelve sites, and a few integer trial states."
+    },
+    {
+     "id": "s07",
+     "text": "Those computations are published with the paper, about forty minutes of processor time. For this video we re-ran them on a laptop, in about twenty minutes, and every certified number matched."
+    },
+    {
+     "id": "s08",
+     "text": "As for the AI: the manuscripts are credited to OpenAI, with no human author named. For a skeptic, what matters is that the argument is checkable, and its central idea fits in your head."
+    },
+    {
+     "id": "s09",
+     "text": "One torus. A horizontal knife gives Gibbs weights; a vertical knife gives spatial weights. Squaring one doubles beta, squaring the other doubles L, and an exact identity lets each pay for the other's doubling."
+    },
+    {
+     "id": "s10",
+     "text": "Small rings and one good trial state put the pair inside the basin, and the staircase climbs from there to infinite length. Under the curve we started with, there is now a claimed floor. Low, but a floor, and it never moves."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+n,b,rotated L'=v b,rotated b'=n/v,1-S HEURISTIC (rotated magnon gas),context
+36,12.25,30.50,14.46,1.375e-02,"paper seed p0 bounds 1-S(36,49/4) by 0.047916"
+60,26.25,65.36,24.10,4.303e-04,"paper seed bounds 1-S(60,105/4) by 1/8 (proved >0.8756)"
+72,24.5,61.01,28.92,5.043e-05,"paper j=1 p bounds 1-S(72,49/2) by 0.0604996"
+2304,784,1952.16,925.30,4.412e-164,"paper j=6 p bounds 1-S(2304,784) by 0.0084513"

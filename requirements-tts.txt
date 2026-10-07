@@ -1,0 +1,7 @@
+# Narration environment (Kokoro-82M neural TTS). Keep it separate from the
+# manim env: torch's OpenMP runtime conflicts with conda-forge's.
+#   python3.11 -m venv .venv-tts && .venv-tts/bin/pip install -r requirements-tts.txt
+kokoro==0.9.4
+misaki[en]==0.9.4
+soundfile>=0.12
+numpy

@@ -1,0 +1,11 @@
+# Rendering environment (manim + GPL ffmpeg for libx264).
+#   conda env create -f environment.yml && conda activate haldane-manim
+name: haldane-manim
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - manim=0.20.1
+  - ffmpeg=*=gpl*
+  - numpy
+  - scipy

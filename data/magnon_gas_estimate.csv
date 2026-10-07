@@ -1,0 +1,9 @@
+L,b,"1-T dilute-magnon ESTIMATE (Delta=0.41048,v=2.49)",1-T exact ED,context
+8,8,1.9804e-01,4.9828e-02,ED compare
+10,10,9.3483e-02,3.0738e-02,ED compare
+12,12,4.2458e-02,1.7714e-02,ED compare
+12,6,3.8900e-01,2.6003e-01,ED compare
+72,12.25,8.4837e-02,,"paper seed q0 bounds 1-T(72,49/4) by 0.181521"
+120,26.25,3.1186e-04,,"paper seed bounds 1-T(120,105/4) by 1/8"
+144,24.5,7.9609e-04,,"paper j=1 q bounds 1-T(144,49/2) by 0.1733812"
+4608,784,1.7511e-138,,"paper j=6 q bounds 1-T(4608,784) by 0.0054986"
