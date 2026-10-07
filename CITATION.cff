@@ -4,8 +4,7 @@ message: >-
   For the result itself, cite OpenAI's preprints (listed under references).
 type: software
 title: >-
-  The Haldane Gap, Proved? A Narrated Explainer of the Claimed Proof
-  of the Spin-1 Haldane Gap
+  The Haldane Gap, Proved? A Claude-Generated Explainer of the Claimed Proof
 abstract: >-
   A 24-minute narrated, 3Blue1Brown-style explainer video (manim animations
   with neural-TTS narration) of OpenAI's claimed proof of the spin-1 Haldane

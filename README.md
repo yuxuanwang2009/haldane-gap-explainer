@@ -176,7 +176,7 @@ If you use this video or its code, please cite it. GitHub's **"Cite this reposit
 ```bibtex
 @misc{wang2026haldane,
   author       = {Wang, Yuxuan},
-  title        = {The {Haldane} Gap, Proved? A Narrated Explainer of the Claimed Proof of the Spin-1 {Haldane} Gap},
+  title        = {The {Haldane} Gap, Proved? A {Claude}-Generated Explainer of the Claimed Proof},
   year         = {2026},
   month        = oct,
   howpublished = {Video and source code, GitHub release v1.0},
