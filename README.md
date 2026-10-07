@@ -170,12 +170,10 @@ They occasionally cite internal research notes ("digests") that are not part of 
 
 ## Citing
 
-If you use this video or its code, please cite it. GitHub's **"Cite this repository"** button
-(generated from [`CITATION.cff`](CITATION.cff)) gives other formats.
+If you use this video or its code, please cite it as:
 
 ```bibtex
-@misc{claude2026haldane,
-  author       = {{Claude (Anthropic)}},
+@misc{haldanegapexplainer2026,
   title        = {The {Haldane} Gap, Proved? A {Claude}-Generated Explainer of the Claimed Proof},
   year         = {2026},
   month        = oct,
