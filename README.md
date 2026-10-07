@@ -168,6 +168,26 @@ They occasionally cite internal research notes ("digests") that are not part of 
 - H. Tasaki, *The ground state of the S = 1 antiferromagnetic Heisenberg chain is topologically nontrivial if gapped*, Phys. Rev. Lett. **134**, 076602 (2025), [arXiv:2407.17041](https://arxiv.org/abs/2407.17041).
 - M. Aizenman and B. Nachtergaele, Commun. Math. Phys. **164**, 17 (1994) (ordered bond expansion); M. Suzuki, Phys. Rev. B **31**, 2957 (1985) (quantum transfer matrix).
 
+## Citing
+
+If you use this video or its code, please cite it. GitHub's **"Cite this repository"** button
+(generated from [`CITATION.cff`](CITATION.cff)) gives other formats.
+
+```bibtex
+@misc{wang2026haldane,
+  author       = {Wang, Yuxuan},
+  title        = {The {Haldane} Gap, Proved? A Narrated Explainer of the Claimed Proof of the Spin-1 {Haldane} Gap},
+  year         = {2026},
+  month        = oct,
+  howpublished = {Video and source code, GitHub release v1.0},
+  url          = {https://github.com/yuxuanwang2009/haldane-gap-explainer},
+  note         = {Script, animations and narration produced with Claude (Anthropic)}
+}
+```
+
+For the result itself, cite OpenAI's preprints. Each preprint's directory in
+[openai/math](https://github.com/openai/math) gives its BibTeX.
+
 ## License
 
 - **Code** (`scenes/`, `tools/`, `analysis/`, `script/build_script.py`): [MIT](LICENSE).
