@@ -13,8 +13,7 @@ abstract: >-
   plotted number. Script, animations and narration were produced with
   Claude (Anthropic).
 authors:
-  - family-names: Wang
-    given-names: Yuxuan
+  - name: "Claude (Anthropic)"
 version: "1.0"
 date-released: "2026-10-07"
 url: "https://github.com/yuxuanwang2009/haldane-gap-explainer"

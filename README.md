@@ -174,14 +174,14 @@ If you use this video or its code, please cite it. GitHub's **"Cite this reposit
 (generated from [`CITATION.cff`](CITATION.cff)) gives other formats.
 
 ```bibtex
-@misc{wang2026haldane,
-  author       = {Wang, Yuxuan},
+@misc{claude2026haldane,
+  author       = {{Claude (Anthropic)}},
   title        = {The {Haldane} Gap, Proved? A {Claude}-Generated Explainer of the Claimed Proof},
   year         = {2026},
   month        = oct,
   howpublished = {Video and source code, GitHub release v1.0},
   url          = {https://github.com/yuxuanwang2009/haldane-gap-explainer},
-  note         = {Script, animations and narration produced with Claude (Anthropic)}
+  note         = {Generated with Claude Code}
 }
 ```
 
