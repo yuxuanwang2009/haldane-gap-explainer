@@ -12,7 +12,7 @@ import json
 from motifs import *  # noqa: F401,F403
 
 # clip lengths when the cue times below were measured
-D_REF = {"s01": 15.875, "s02": 15.5, "s03": 19.35, "s04": 19.025, "s11": 9.825, "s12": 12.375, "s13": 8.25, "s14": 22.425,
+D_REF = {"s01": 15.875, "s02": 15.5, "s03": 19.35, "s11": 9.825, "s12": 12.375, "s13": 8.25, "s14": 22.425,
          "s15": 14.65, "s16": 14.65}
 
 XYZ = {"x": SX, "y": SY, "z": SZ}
@@ -182,8 +182,7 @@ class Ch04(NarratedScene):
         self.s01()
         self.s02()
         self.s03()
-        self.s04()
-        for k in range(5, 17):
+        for k in range(4, 17):
             getattr(self, "s%02d" % k)()
 
     # ================================================================ s01
@@ -394,82 +393,102 @@ class Ch04(NarratedScene):
 
     # ================================================================ s04
     def s04(self):
+        """What a transfer matrix needs (classical Ising ring)."""
         tor = self.tor
         with self.voice("s04") as d:
             self.begin("s04", d)
             self.play(FadeOut(self.s03_all), run_time=0.35)
-
             body = VGroup(tor.rect, tor.grid, tor.chev_time, tor.chev_space)
             c = tor.rect.get_center()
-            L0, b0 = tor.L_label.get_center(), tor.beta_label.get_center()
-            L1 = c + LEFT * (1.5 + 0.35)
-            b1 = c + DOWN * (2.5 + 0.35)
-            cap1 = T("continuum: rotate the torus", font_size=32).move_to([3.4, 0.55, 0])
-            cap2 = TX(r"lattice: build ", r"$X$", font_size=32).move_to([3.4, -0.35, 0])
-            cap2[1].set_color(SPACE)
-            cap2.align_to(cap1, LEFT)
             labs = VGroup(tor.L_label, tor.beta_label)
-            self.at(0.34)
-            # labels step aside while the body turns, then reappear upright (L now vertical)
-            self.play(Rotate(body, -PI / 2, about_point=c, run_time=1.1),
-                      FadeOut(labs, run_time=0.35), FadeIn(cap1, shift=0.1 * UP, run_time=1.1))
-            tor.L_label.move_to(L1)
-            tor.beta_label.move_to(b1)
-            self.play(FadeIn(labs), run_time=0.35)
-            self.wait(0.3)
-            self.play(Rotate(body, PI / 2, about_point=c, run_time=1.1),
-                      FadeOut(labs, run_time=0.35))
-            tor.L_label.move_to(L0)
-            tor.beta_label.move_to(b0)
-            self.play(FadeIn(labs), run_time=0.35)
-            self.at(3.96)
-            self.play(FadeIn(cap2, shift=0.1 * UP),
-                      tor.grid.animate(rate_func=there_and_back).set_stroke(DIM, width=2.5),
-                      run_time=1.2)
+            cap1 = T("continuum: rotate the torus", font_size=32).move_to([3.4, 0.55, 0])
+            cap2 = TX(r"lattice: build it", font_size=32).next_to(cap1, DOWN, buff=0.4).align_to(cap1, LEFT)
+            self.play(Rotate(body, -PI / 2, about_point=c, run_time=1.0), FadeOut(labs, run_time=0.3),
+                      FadeIn(cap1, shift=0.1 * UP, run_time=1.0))
+            self.play(Rotate(body, PI / 2, about_point=c, run_time=1.0))
+            self.play(FadeIn(labs), FadeIn(cap2, shift=0.1 * UP), run_time=0.6)
 
-            # the Cartesian spin-one matrices
+            self.at_words("Recall how that works")
+            self.play(FadeOut(VGroup(cap1, cap2)), run_time=0.4)
+            # classical Ising ring: a variable per site, a factor per bond
+            ring_c = np.array([1.6, 1.0, 0])
+            n = 8
+            pts = [ring_c + 1.05 * np.array([np.cos(TAU * j / n + PI / 2), np.sin(TAU * j / n + PI / 2), 0])
+                   for j in range(n)]
+            spins = [1, -1, 1, 1, -1, 1, -1, -1]
+            hoop = Circle(radius=1.05, color=FAINT, stroke_width=2).move_to(ring_c)
+            arr = VGroup(*[Arrow(p + DOWN * 0.22 * s_, p + UP * 0.22 * s_, buff=0, color=FG,
+                                 stroke_width=4, max_tip_length_to_length_ratio=0.35)
+                           for p, s_ in zip(pts, spins)])
+            bonds = VGroup(*[Line(pts[j], pts[(j + 1) % n], color=DIM, stroke_width=4)
+                             for j in range(n)])
+            self.play(Create(hoop), LaggedStart(*[GrowArrow(a) for a in arr], lag_ratio=0.08),
+                      run_time=1.0)
+            lab_v = T("variable on each site", font_size=26, color=DIM).next_to(hoop, DOWN, buff=0.25)
+            self.play(FadeIn(lab_v), run_time=0.5)
+            self.at_words("a weight that is a product")
+            z1 = MT(r"Z=\sum_{\{s\}}\prod_j e^{K s_j s_{j+1}}", font_size=34).move_to([4.9, 1.35, 0])
+            self.play(Create(bonds), Write(z1), run_time=1.3)
+            self.at_words("Put those factors in a matrix T")
+            z2 = MT(r"T(s,s')=e^{Kss'}", font_size=34).next_to(z1, DOWN, buff=0.35)
+            self.play(Write(z2), run_time=0.9)
+            self.at_words("and Z is the trace of T")
+            z3 = MT(r"Z=\operatorname{Tr}\,T^{L}", font_size=36, color=SPACE).next_to(z2, DOWN, buff=0.35)
+            self.play(Write(z3), run_time=0.8)
+            self.at_words("So we need two things")
+            need = VGroup(TX(r"1.\ a variable for each slot", font_size=30),
+                          TX(r"2.\ weight $=$ product of nearest-neighbour factors", font_size=30))
+            need.arrange(DOWN, aligned_edge=LEFT, buff=0.22).move_to([2.9, -2.4, 0])
+            self.play(FadeIn(need[0], shift=0.1 * UP), run_time=0.6)
+            self.at_words("and a weight that is a product of nearest")
+            self.play(FadeIn(need[1], shift=0.1 * UP), run_time=0.6)
+        self.s04_all = VGroup(hoop, arr, bonds, lab_v, z1, z2, z3)
+        self.need = need
+
+    # ================================================================ s05
+    def s05(self):
+        """The Hamiltonian as a sum of plus-signed G (x) G terms."""
+        with self.voice("s05") as d:
+            self.begin("s05", d)
+            self.play(FadeOut(self.s04_all), FadeOut(self.need), run_time=0.6)
             gdef = MT(r"G_\alpha=iS^\alpha", r",\qquad (G_\alpha)_{jk}=\varepsilon_{\alpha jk}",
-                      font_size=36).move_to([1.0, 2.5, 0], aligned_edge=LEFT)
-            self.at(6.58)
-            self.play(FadeOut(cap1), FadeOut(cap2), Write(gdef[0]), run_time=1.0)
-            self.at(9.28)
-            self.play(Write(gdef[1]), run_time=1.0)
-
+                      font_size=36).move_to([1.0, 2.6, 0], aligned_edge=LEFT)
+            self.at_words("Multiply the spin one matrices")
+            self.play(Write(gdef[0]), run_time=0.9)
+            self.at_words("in a Cartesian basis")
+            self.play(Write(gdef[1]), run_time=0.9)
             ent = [["0", "1", "0"], ["-1", "0", "0"], ["0", "0", "0"]]
             mat = Matrix(ent, left_bracket="(", right_bracket=")", h_buff=0.75, v_buff=0.62,
-                         element_to_mobject=lambda s: MathTex(s, tex_template=TEX_TEMPLATE,
-                                                              font_size=36))
+                         element_to_mobject=lambda s_: MathTex(s_, tex_template=TEX_TEMPLATE,
+                                                               font_size=34))
             for e in mat.get_entries():
                 e.set_color(FG if e.get_tex_string() == "0" else SZ)
             mat.get_brackets().set_color(FG)
-            glab = MT("G_{", "z", "}=", font_size=36)
+            glab = MT("G_{", "z", "}=", font_size=34)
             glab[1].set_color(SZ)
-            gz = VGroup(glab, mat).arrange(RIGHT, buff=0.15).move_to([3.4, 0.8, 0])
-            gtag = inline_tag("real, antisymmetric, norm 1", gz, DOWN, buff=0.3)
-            self.at(10.94)
-            self.play(FadeIn(gz, shift=0.1 * UP), run_time=0.8)
-            self.play(FadeIn(gtag), run_time=0.6)
-            self.at(13.47)
-            self.play(Indicate(gdef[0][0:2], color=FG, scale_factor=1.25), run_time=0.8)
+            gz = VGroup(glab, mat).arrange(RIGHT, buff=0.15).move_to([2.6, 1.05, 0])
+            gtag = inline_tag("real, antisymmetric, norm 1", gz, DOWN, buff=0.12)
+            self.at_words("real antisymmetric matrices")
+            self.play(FadeIn(gz, shift=0.1 * UP), FadeIn(gtag), run_time=0.9)
+            self.at_words("Each bond term is then")
+            b = MT(r"\mathbf S_j\cdot\mathbf S_{j+1}", r"=-\big(", r"G_x\otimes G_x", "+", r"G_y\otimes G_y",
+                   "+", r"G_z\otimes G_z", r"\big)", font_size=34)
+            b[2].set_color(SX)
+            b[4].set_color(SY)
+            b[6].set_color(SZ)
+            b.move_to([3.45, -0.75, 0])
+            self.play(Write(b), run_time=1.6)
+            self.at_words("so minus H is a sum")
+            mh = MT(r"-H=\sum_{\text{bonds}}\sum_{\alpha}G_\alpha\otimes G_\alpha", font_size=36)
+            mh.move_to([3.0, -1.75, 0])
+            plus = T("all plus signs", font_size=28, color=GAP).next_to(mh, RIGHT, buff=0.35)
+            self.play(Write(mh), run_time=1.1)
+            self.play(FadeIn(plus), run_time=0.5)
+        self.s05_all = VGroup(gdef, gz, gtag, b, plus)
+        self.mh = mh
 
-            # the bond, one coloured term per label (x red, y green, z blue)
-            b_lhs = MT(r"\mathbf S_j\cdot\mathbf S_{j+1}", font_size=36)
-            b_rhs = MT(r"=-\big(", r"G_x\otimes G_x", "+", r"G_y\otimes G_y", "+",
-                       r"G_z\otimes G_z", r"\big)", font_size=36)
-            b_rhs[1].set_color(SX)
-            b_rhs[3].set_color(SY)
-            b_rhs[5].set_color(SZ)
-            b_rhs.next_to(b_lhs, DOWN, buff=0.22).align_to(b_lhs, LEFT).shift(RIGHT * 0.45)
-            bond = VGroup(b_lhs, b_rhs)
-            bond.move_to([3.15, -1.95, 0])
-            self.at(14.61)
-            self.play(Succession(Write(b_lhs, run_time=0.6), Write(b_rhs, run_time=1.2)))
-        self.s04_all = VGroup(gdef, gz, gtag)
-        self.bond = bond
-
-    # ================================================================ s05
+    # ================================================================ s06
     def rungs_for(self, sites, events):
-        """Event rungs between neighbouring world lines for {bond k: [(t, label)]}, t in [0, 3]."""
         ybot = sites[0].get_start()[1]
         ytop = sites[0].get_end()[1]
         g = VGroup()
@@ -482,11 +501,11 @@ class Ch04(NarratedScene):
             g.add(bg)
         return g
 
-    def s05(self):
-        """What an event is: one bond term, one moment, one label, G_alpha on both ends."""
+    def s06(self):
+        """The ordered expansion; one term = a list of events."""
         tor = self.tor
-        with self.voice("s05") as d:
-            self.begin("s05", d)
+        with self.voice("s06") as d:
+            self.begin("s06", d)
             hd = bond_history_diagram(n_sites=7, beta=3.0, spacing=0.9,
                                       events=[[t for t, _ in EVENTS[k]] for k in range(6)])
             hd.shift(DIAG_C - hd.get_center())
@@ -495,368 +514,258 @@ class Ch04(NarratedScene):
                 for r, (_, lab) in zip(ev[k], EVENTS[k]):
                     r.set_color(XYZ[lab])
             ybot = sites[0].get_start()[1]
-            expf = MT(r"e^{-\beta H}=\exp\Big(\beta\sum_{\langle jk\rangle}\sum_\alpha "
-                      r"G_\alpha^{(j)}G_\alpha^{(k)}\Big)", font_size=36).move_to([-1.3, 3.0, 0])
+            expf = MT(r"e^{-\beta H}=\sum_{k\ge0}\int_{0<t_1<\cdots<t_k<\beta}dt_1\cdots dt_k\,(-H)^k",
+                      font_size=34).move_to([-0.6, 3.05, 0])
             tau_ax = Arrow([-5.45, ybot, 0], [-5.45, ybot + 3.35, 0], buff=0, color=TIME,
                            stroke_width=3, max_tip_length_to_length_ratio=0.07)
-            tau_lab = M(r"\tau", color=TIME, font_size=34).next_to(tau_ax.get_end(), LEFT,
-                                                                   buff=0.15)
+            tau_lab = M(r"\tau", color=TIME, font_size=34).next_to(tau_ax.get_end(), LEFT, buff=0.15)
             rest = [m for m in [tor.rect, tor.grid[0], tor.grid[8], *tor.grid[9:], tor.chev_time,
                                 tor.chev_space, tor.L_label, tor.beta_label]]
-            self.play(FadeOut(self.s04_all), FadeOut(self.bond, shift=0.3 * UP), run_time=0.4)
-            self.play(Write(expf),
-                      ReplacementTransform(VGroup(*tor.grid[1:8]), sites),
-                      *[FadeOut(m) for m in rest], run_time=1.4)
+            self.play(FadeOut(self.s05_all), self.mh.animate.scale(0.85).move_to([4.2, 2.1, 0]),
+                      run_time=0.5)
+            self.play(Write(expf), ReplacementTransform(VGroup(*tor.grid[1:8]), sites),
+                      *[FadeOut(m) for m in rest], run_time=1.6)
             self.remove(tor)
             self.add(sites)
-            self.at_words("Each term switches on")
+            self.at_words("A term in this expansion is a list")
             rungs = sorted([r for g in ev for r in g], key=lambda r: r.get_y())
             self.play(Create(tau_ax), FadeIn(tau_lab),
-                      LaggedStart(*[GrowFromCenter(r) for r in rungs], lag_ratio=0.15),
-                      run_time=2.4)
+                      LaggedStart(*[GrowFromCenter(r) for r in rungs], lag_ratio=0.15), run_time=2.2)
             self.add(ev)
-
-            # one event: a bond, a moment, a label -- and G_alpha on BOTH ends
             e_star = ev[5][0]                      # bond (5,6), label z
             ys = e_star.get_y()
-            self.at_words("Call each one an event")
-            self.play(Indicate(e_star, color=SZ, scale_factor=1.4), run_time=0.8)
-            self.at_words("a bond,")
-            br = Brace(Line(sites[5].get_start(), sites[6].get_start()), DOWN, buff=0.12,
-                       color=FG)
+            self.at_words("Each event picks a bond")
+            br = Brace(Line(sites[5].get_start(), sites[6].get_start()), DOWN, buff=0.12, color=FG)
             br_lab = T("bond", font_size=28).next_to(br, DOWN, buff=0.1)
-            self.play(GrowFromCenter(br), FadeIn(br_lab), run_time=0.6)
-            self.at_words("a moment,")
-            dl = DashedLine([sites[6].get_x() + 0.08, ys, 0], [sites[6].get_x() + 0.75, ys, 0],
-                            color=DIM, stroke_width=2, dash_length=0.08)
-            tl = M(r"\tau", color=TIME, font_size=34).next_to(dl, RIGHT, buff=0.12)
-            self.play(Create(dl), FadeIn(tl), run_time=0.6)
-            self.at_words("and a label")
+            self.play(Indicate(e_star, color=SZ, scale_factor=1.4), GrowFromCenter(br), FadeIn(br_lab),
+                      run_time=0.9)
+            self.at_words("a label x, y or z")
             leg = VGroup()
             for s_ in "xyz":
                 leg.add(VGroup(Line(LEFT * 0.2, RIGHT * 0.2, color=XYZ[s_], stroke_width=5),
-                               M(s_, color=XYZ[s_], font_size=32)).arrange(DOWN, buff=0.12))
-            leg.arrange(RIGHT, buff=0.35).move_to([4.3, 1.55, 0])
-            leg_lab = T("label", font_size=28, color=DIM).next_to(leg, UP, buff=0.2)
-            self.play(LaggedStart(*[FadeIn(g, shift=0.1 * UP) for g in leg], lag_ratio=0.25),
-                      FadeIn(leg_lab), run_time=0.9)
-            self.play(Indicate(leg[2], color=SZ, scale_factor=1.3), run_time=0.6)
-            self.at_words("acts with that same")
-            # one G_z on each end of the bond, right where it acts
+                               M(s_, color=XYZ[s_], font_size=30)).arrange(DOWN, buff=0.12))
+            leg.arrange(RIGHT, buff=0.35).move_to([4.2, 0.85, 0])
+            self.play(LaggedStart(*[FadeIn(g, shift=0.1 * UP) for g in leg], lag_ratio=0.25), run_time=0.8)
+            self.at_words("and a moment")
+            dl = DashedLine([sites[6].get_x() + 0.08, ys, 0], [sites[6].get_x() + 0.75, ys, 0],
+                            color=DIM, stroke_width=2, dash_length=0.08)
+            tl = M(r"\tau", color=TIME, font_size=32).next_to(dl, RIGHT, buff=0.12)
+            self.play(Create(dl), FadeIn(tl), run_time=0.6)
+            self.at_words("and inserts G alpha")
             a1 = M("G_z", color=SZ, font_size=28).next_to([sites[5].get_x(), ys, 0], LEFT, buff=0.08)
             a2 = M("G_z", color=SZ, font_size=28).next_to([sites[6].get_x(), ys, 0], RIGHT, buff=0.08)
-            acts = MT(r"G_z", r"\otimes", r"G_z", font_size=40)
-            acts[0].set_color(SZ)
-            acts[2].set_color(SZ)
-            acts.move_to([4.3, -0.15, 0])
-            note = T(r"the same $G_z$ on both ends", font_size=28, color=DIM).next_to(
-                acts, DOWN, buff=0.3)
-            self.play(FadeOut(VGroup(dl, tl)), FadeIn(a1, shift=0.1 * RIGHT),
-                      FadeIn(a2, shift=0.1 * LEFT), Indicate(e_star, color=SZ), run_time=0.9)
-            self.play(Write(acts), FadeIn(note), run_time=0.9)
+            self.play(FadeOut(VGroup(dl, tl)), FadeIn(a1, shift=0.1 * RIGHT), FadeIn(a2, shift=0.1 * LEFT),
+                      run_time=0.8)
+            self.at_words("Its coefficient is just")
+            coef = MT(r"\text{coefficient}=dt\ \text{per event}>0", font_size=30, color=GAP)
+            coef.move_to([4.2, -0.3, 0])
+            self.play(Write(coef), run_time=1.0)
+            self.at_words("The picture shows one term")
+            tag1 = tag_box("one term of the expansion").move_to([4.2, -1.25, 0])
+            self.play(FadeIn(tag1), Indicate(ev, scale_factor=1.03), run_time=0.8)
         self.hd, self.expf, self.tau = hd, expf, VGroup(tau_ax, tau_lab)
-        self.s05_extra = VGroup(br, br_lab, leg, leg_lab, acts, note, a1, a2)
-
-    # ================================================================ s06
-    def s06(self):
-        """The picture is ONE term: placement is free, so nothing lines up."""
-        sites, ev = self.hd
-        with self.voice("s06") as d:
-            self.begin("s06", d)
-            self.play(FadeOut(self.s05_extra), run_time=0.4)
-            tag1 = tag_box("one configuration = one term of the sum").to_corner(UR, buff=0.42)
-            self.play(FadeIn(tag1, shift=0.1 * DOWN), Indicate(ev, scale_factor=1.04), run_time=0.9)
-            self.at_words("any number of them")
-            free = TX(r"any number", r" $\cdot$ any bond", r" $\cdot$ any moment",
-                      r" $\cdot$ any label", font_size=30).move_to([0, -3.05, 0])
-            self.play(LaggedStart(*[FadeIn(p, shift=0.1 * UP) for p in free], lag_ratio=0.5),
-                      run_time=2.2)
-            self.at_words("each with a positive coefficient")
-            pos = T("all coefficients positive", font_size=28, color=GAP).next_to(
-                self.expf, DOWN, buff=0.15)
-            self.play(FadeIn(pos, shift=0.1 * UP), run_time=0.6)
-            self.at_words("That is why nothing lines up")
-            # sweep across the bonds: their events sit at unrelated heights
-            self.play(LaggedStart(*[Indicate(g, scale_factor=1.08, color=FG) for g in ev],
-                                  lag_ratio=0.25), run_time=1.6)
-            # other terms of the sum (random placements), then back to the first one
-            rng = np.random.default_rng(7)
-            alt = []
-            for _ in range(2):
-                cfg = {}
-                for k in range(6):
-                    n = int(rng.integers(0, 5))
-                    cfg[k] = sorted((float(rng.uniform(0.1, 2.9)), "xyz"[int(rng.integers(3))])
-                                    for _ in range(n))
-                alt.append(self.rungs_for(sites, cfg))
-            counter = TX(r"term 1", font_size=28, color=DIM).next_to(tag1, DOWN, buff=0.25).align_to(tag1, RIGHT)
-            self.add(counter)
-            self.at_words("Here is another term")
-            cur = ev
-            for i, g in enumerate(alt):
-                new_c = TX(r"term %d" % (i + 2), font_size=28, color=DIM).move_to(counter)
-                self.play(FadeOut(cur, run_time=0.5), FadeIn(g, run_time=0.5),
-                          Transform(counter, new_c, run_time=0.5))
-                self.remove(cur)
-                cur = g
-                if i == 0:
-                    self.at_words("and another")
-            self.wait(0.8)
-            back = TX(r"term 1", font_size=28, color=DIM).move_to(counter)
-            self.play(FadeOut(cur), FadeIn(ev), Transform(counter, back), run_time=0.6)
-        self.pos = pos
-        self.s06_extra = VGroup(free, counter)
-        self.tag_conf = tag1
+        self.s06_extra = VGroup(br, br_lab, leg, a1, a2, coef, tag1, self.mh)
 
     # ================================================================ s07
     def s07(self):
-        """Free placement does not mean independence: the weight is computed site by site."""
+        """Tr over the ring = product of 3x3 site traces; the interleaving matters."""
         sites, ev = self.hd
+        site = sites[3]
         with self.voice("s07") as d:
             self.begin("s07", d)
             self.play(FadeOut(self.s06_extra), run_time=0.4)
-            self.at_words("Each configuration carries a weight")
-            wq = MT(r"\text{weight}(", r"\text{this term}", r")\;=\;?", font_size=34)
-            wq.move_to([3.6, 1.6, 0])
-            self.play(Write(wq), run_time=0.9)
-            self.at_words("computed site by site")
-            self.play(LaggedStart(*[Indicate(s_, color=FG, scale_factor=1.0) for s_ in sites],
-                                  lag_ratio=0.1),
-                      *[s_.animate.set_stroke(width=3) for s_ in sites], run_time=1.2)
-            self.at_words("Watch one site")
-            site = sites[3]
+            tf = MT(r"\operatorname{Tr}\big[\cdots\big]=\prod_{\text{sites }j}\operatorname{tr}_j\big[\,"
+                    r"G\text{'s at }j\text{, in time order}\,\big]", font_size=32).move_to([2.9, 1.85, 0])
+            self.at_words("so the trace of the whole ring splits")
+            self.play(Write(tf), LaggedStart(*[Indicate(s_, color=FG, scale_factor=1.0) for s_ in sites],
+                                             lag_ratio=0.08), run_time=1.6)
+            self.at_words("A site sees only the events")
             dimmed = VGroup(*[r for k in (0, 1, 4, 5) for r in ev[k]])
             self.play(dimmed.animate.set_stroke(opacity=0.2),
                       *[s_.animate.set_stroke(opacity=0.35) for i, s_ in enumerate(sites) if i != 3],
-                      site.animate.set_stroke(FG, width=5), run_time=0.9)
-            self.at_words("every event on its left bond")
-            self.play(*[r.animate.set_stroke(width=9) for r in ev[2]], run_time=0.6)
-            self.play(Indicate(ev[2], scale_factor=1.06, color=FG), run_time=0.6)
-            self.at_words("every event on its right bond")
-            self.play(*[r.animate.set_stroke(width=9) for r in ev[3]], run_time=0.6)
-            self.play(Indicate(ev[3], scale_factor=1.06, color=FG), run_time=0.6)
-            self.at_words("acts on this same")
-            spin = T(r"one shared spin (3 states)", font_size=28).next_to(site, UP, buff=0.22)
-            self.play(FadeIn(spin, shift=0.1 * DOWN), Indicate(site, color=FG), run_time=0.9)
-        self.s07_extra = VGroup(wq, spin)
-        self.dimmed = dimmed
-
-    # ================================================================ s08
-    def s08(self):
-        """Merge, multiply, trace -- and the interleaving matters (G's do not commute)."""
-        sites, ev = self.hd
-        site = sites[3]
-        with self.voice("s08") as d:
-            self.begin("s08", d)
-            wq, spin = self.s07_extra
+                      site.animate.set_stroke(FG, width=5),
+                      *[r.animate.set_stroke(width=8) for k in (2, 3) for r in ev[k]], run_time=1.0)
             pair = sorted([(r, lab) for k in (2, 3) for r, (_, lab) in zip(ev[k], EVENTS[k])],
                           key=lambda p: p[0].get_y())
-            ticks = VGroup(*[Line([site.get_x() - 0.17, r.get_y(), 0],
-                                  [site.get_x() + 0.17, r.get_y(), 0], color=XYZ[lab],
-                                  stroke_width=7) for r, lab in pair])
-            self.play(FadeOut(wq), run_time=0.3)
+            ticks = VGroup(*[Line([site.get_x() - 0.17, r.get_y(), 0], [site.get_x() + 0.17, r.get_y(), 0],
+                                  color=XYZ[lab], stroke_width=7) for r, lab in pair])
+            self.at_words("Merge them in time order")
             self.play(*[ReplacementTransform(r.copy(), t) for (r, _), t in zip(pair, ticks)],
                       *[r.animate.set_stroke(opacity=0.35, width=5) for k in (2, 3) for r in ev[k]],
-                      run_time=1.5)
-            self.at_words("multiply the matrices")
-            prod = MT(r"\operatorname{tr}\big[", *[r"G_{%s}" % lab for _, lab in pair], r"\big]",
-                      font_size=38)
+                      run_time=1.3)
+            prod = MT(r"\operatorname{tr}\big[", *[r"G_{%s}" % lab for _, lab in pair], r"\big]", font_size=36)
             for i, (_, lab) in enumerate(pair):
                 prod[i + 1].set_color(XYZ[lab])
-            prod.move_to([3.6, 1.6, 0])
+            prod.move_to([2.9, 0.85, 0])
             self.play(FadeIn(prod[0]), FadeIn(prod[-1]),
-                      LaggedStart(*[ReplacementTransform(t, prod[i + 1])
-                                    for i, t in enumerate(ticks)], lag_ratio=0.12),
-                      run_time=1.3)
-            contrib = T("= this site's factor", font_size=28, color=DIM).next_to(prod, DOWN,
-                                                                               buff=0.25)
-            self.at_words("that number is")
-            self.play(FadeIn(contrib), run_time=0.5)
-
-            # the order matters: a three-line zoom
-            self.at_words("And the order matters")
-            nc = MT(r"G_xG_y\neq G_yG_x", font_size=34).move_to([3.6, 2.55, 0])
+                      LaggedStart(*[ReplacementTransform(t, prod[i + 1]) for i, t in enumerate(ticks)],
+                                  lag_ratio=0.12), run_time=1.1)
+            # the interleaving matters
+            self.at_words("The matrices do not commute")
             xs = [2.4, 3.6, 4.8]
-            yb, yt = -2.05, 0.75
+            yb, yt = -2.2, 0.35
             zl = VGroup(*[Line([x, yb, 0], [x, yt, 0], color=DIM, stroke_width=2) for x in xs])
             zl[1].set_stroke(FG, width=4)
-            def rung(b, y, lab):
-                return Line([xs[b], y, 0], [xs[b + 1], y, 0], color=XYZ[lab], stroke_width=6)
-            rx, rz, ry = rung(0, -1.35, "x"), rung(0, 0.25, "z"), rung(1, -0.55, "y")
+
+            def rung(b_, y, lab):
+                return Line([xs[b_], y, 0], [xs[b_ + 1], y, 0], color=XYZ[lab], stroke_width=6)
+            rx, rz, ry = rung(0, -1.75, "x"), rung(0, -0.2, "z"), rung(1, -0.95, "y")
             hl = VGroup(*[M(m, color=XYZ[m], font_size=28) for m in "xzy"])
             hl[0].next_to(rx, LEFT, buff=0.1)
             hl[1].next_to(rz, LEFT, buff=0.1)
             hl[2].next_to(ry, RIGHT, buff=0.1)
-            side = VGroup(T("left bond", font_size=24, color=DIM).next_to(VGroup(zl[0], zl[1]), DOWN, buff=0.12),
-                          T("right bond", font_size=24, color=DIM).next_to(VGroup(zl[1], zl[2]), DOWN, buff=0.12))
-            self.play(FadeOut(VGroup(prod, contrib)), FadeIn(nc), run_time=0.6)
-            self.play(FadeIn(zl), FadeIn(side), run_time=0.6)
-            self.at_words("Here an x event on the left")
-            self.play(GrowFromCenter(rx), GrowFromCenter(rz), FadeIn(hl[0]), FadeIn(hl[1]),
-                      run_time=0.6)
-            self.play(GrowFromCenter(ry), FadeIn(hl[2]), run_time=0.5)
-            f1 = MT(r"\operatorname{tr}[\,", r"G_x", r"G_y", r"G_z", r"\,]=", r"+1", font_size=36)
+            self.play(FadeOut(prod), FadeIn(zl), GrowFromCenter(rx), GrowFromCenter(rz), FadeIn(hl[0]),
+                      FadeIn(hl[1]), GrowFromCenter(ry), FadeIn(hl[2]), run_time=1.0)
+            f1 = MT(r"\operatorname{tr}[\,", r"G_x", r"G_y", r"G_z", r"\,]=", r"+1", font_size=34)
             for i, c in ((1, SX), (2, SY), (3, SZ)):
                 f1[i].set_color(c)
             f1[5].set_color(GAP)
-            f1.move_to([3.6, -2.75, 0])
-            self.at_words("and the trace is plus one")
+            f1.move_to([3.6, -2.95, 0])
+            self.at_words("x, then y, then z")
             self.play(Write(f1), run_time=0.9)
-            self.at_words("Slide the y below the x")
-            ry2 = rung(1, -1.8, "y")
-            self.play(Transform(ry, ry2), hl[2].animate.next_to(ry2, RIGHT, buff=0.1),
-                      run_time=1.1)
-            f2 = MT(r"\operatorname{tr}[\,", r"G_y", r"G_x", r"G_z", r"\,]=", r"-1", font_size=36)
+            self.at_words("move the y below the x")
+            ry2 = rung(1, -2.1, "y")
+            self.play(Transform(ry, ry2), hl[2].animate.next_to(ry2, RIGHT, buff=0.1), run_time=1.0)
+            f2 = MT(r"\operatorname{tr}[\,", r"G_y", r"G_x", r"G_z", r"\,]=", r"-1", font_size=34)
             for i, c in ((1, SY), (2, SX), (3, SZ)):
                 f2[i].set_color(c)
             f2[5].set_color(SX)
             f2.move_to(f1)
-            self.at_words("and it becomes minus one")
-            self.play(TransformMatchingTex(f1, f2), run_time=0.9)
-            self.play(Indicate(f2[5], color=SX, scale_factor=1.3), run_time=0.5)
-        self.s08_extra = VGroup(nc, zl, side, rx, rz, ry, hl, f2, spin)
+            self.play(TransformMatchingTex(f1, f2), run_time=0.8)
+        self.s07_extra = VGroup(tf, zl, rx, rz, ry, hl, f2)
 
-    # ================================================================ s09
-    def s09(self):
-        """Only shared sites couple bonds: the weight is a product of site factors."""
+    # ================================================================ s08
+    def s08(self):
+        """The transfer-matrix structure with sites and bonds exchanged; histories and their measure."""
         sites, ev = self.hd
-        with self.voice("s09") as d:
-            self.begin("s09", d)
-            self.play(FadeOut(self.s08_extra),
+        with self.voice("s08") as d:
+            self.begin("s08", d)
+            self.play(FadeOut(self.s07_extra),
                       *[r.animate.set_stroke(opacity=1, width=5) for g in ev for r in g],
-                      *[s_.animate.set_stroke(DIM, width=2, opacity=1) for s_ in sites],
-                      run_time=0.4)
-            # bonds 0 and 3 share no site: slide an event of bond 0 past one of bond 3
-            self.at_words("Events on bonds that share no site")
-            others = VGroup(*[r for k in (1, 2, 4, 5) for r in ev[k]])
-            self.play(others.animate.set_stroke(opacity=0.2),
-                      *[r.animate.set_stroke(width=8) for k in (0, 3) for r in ev[k]],
-                      run_time=0.7)
-            # two events adjacent in time, on bonds (0,1) and (3,4): they act on different spins
-            ea, eb = ev[0][1], ev[3][1]          # (1.60, z) and (1.85, z)
-            self.play(Indicate(ea, color=SZ, scale_factor=1.3), Indicate(eb, color=SZ, scale_factor=1.3),
-                      run_time=0.7)
-            self.at_words("so their order never matters")
-            same = MT(r"G_z^{(0)}G_z^{(1)}\;G_z^{(3)}G_z^{(4)}", r"=", r"G_z^{(3)}G_z^{(4)}\;G_z^{(0)}G_z^{(1)}",
-                      font_size=30).move_to([3.6, 1.6, 0])
-            ok = check_mark(0.3).next_to(same, RIGHT, buff=0.2)
-            dif = T("spins 0, 1 vs spins 3, 4: they commute", font_size=26, color=DIM).next_to(
-                same, DOWN, buff=0.2)
-            self.play(FadeIn(same), Create(ok), FadeIn(dif), run_time=0.8)
-            self.at_words("Only interleavings at a shared site count")
-            self.play(others.animate.set_stroke(opacity=1),
-                      *[r.animate.set_stroke(width=5) for k in (0, 3) for r in ev[k]],
-                      LaggedStart(*[Indicate(s_, color=FG, scale_factor=1.0) for s_ in sites[1:6]],
-                                  lag_ratio=0.1), run_time=1.2)
-            # one bracket per site, spanning its two bonds
-            self.at_words("So the weight of a whole configuration")
-            ybot = sites[0].get_start()[1]
-            brs = VGroup()
-            for j in range(1, 6):
-                x0, x1 = (sites[j - 1].get_x() + sites[j].get_x()) / 2, (sites[j].get_x() + sites[j + 1].get_x()) / 2
-                yy = ybot - 0.3 - 0.28 * (j % 2)
-                brs.add(VGroup(Line([x0, yy, 0], [x1, yy, 0], color=FG, stroke_width=2.5),
-                               Line([x0, yy, 0], [x0, yy + 0.1, 0], color=FG, stroke_width=2.5),
-                               Line([x1, yy, 0], [x1, yy + 0.1, 0], color=FG, stroke_width=2.5),
-                               Dot([sites[j].get_x(), yy, 0], radius=0.04, color=FG)))
-            wf = MT(r"\text{weight}=\prod_{\text{sites }j}\operatorname{tr}_j\big[\cdots\big]",
-                    font_size=34).move_to([3.6, 0.55, 0])
-            self.play(FadeOut(VGroup(same, ok, dif)), Write(wf), run_time=0.9)
-            self.at_words("each factor involves exactly two")
-            self.play(LaggedStart(*[Create(b) for b in brs], lag_ratio=0.2), run_time=1.4)
-            two = T("each factor: two neighbouring bonds", font_size=28, color=DIM).next_to(
-                wf, DOWN, buff=0.3)
-            self.play(FadeIn(two), run_time=0.5)
-        self.s09_extra = VGroup(brs, wf, two)
-
-    # ================================================================ s10
-    def s10(self):
-        """Histories, the nearest-neighbour kernel, and the transfer operator."""
-        sites, ev = self.hd
-        with self.voice("s10") as d:
-            self.begin("s10", d)
-            self.play(FadeOut(self.s09_extra), FadeOut(self.tag_conf), run_time=0.4)
-            # each bond's events -> a capsule (its history)
+                      *[s_.animate.set_stroke(DIM, width=2, opacity=1) for s_ in sites], run_time=0.5)
+            cmp = VGroup(TX(r"classical Ising: ", r"variable on a site", r", ", r"factor on a bond",
+                            font_size=28),
+                         TX(r"here: ", r"variable on a bond", r" (its history), ", r"factor on a site",
+                            r" (a trace)", font_size=28))
+            cmp[1][1].set_color(SPACE)
+            cmp.arrange(DOWN, aligned_edge=LEFT, buff=0.22).move_to([0.9, 2.75, 0])
+            self.play(FadeOut(self.expf), FadeIn(cmp[0]), run_time=0.8)
+            self.play(FadeIn(cmp[1], shift=0.1 * UP), run_time=0.8)
+            self.at_words("The variable lives on")
             caps = VGroup()
             for k in range(6):
                 xk = (sites[k].get_x() + sites[k + 1].get_x()) / 2
-                caps.add(history_capsule(EVENTS[k], height=3.0, width=0.34).move_to(
-                    [xk, DIAG_C[1], 0]))
+                caps.add(history_capsule(EVENTS[k], height=3.0, width=0.34).move_to([xk, DIAG_C[1], 0]))
             xl = VGroup(*[M(r"x_{%d}" % k, color=SPACE, font_size=28).next_to(caps[k], DOWN, buff=0.15)
                           for k in range(6)])
             self.play(*[Create(c.box) for c in caps],
-                      *[ReplacementTransform(r, t) for k in range(6)
-                        for r, t in zip(ev[k], caps[k].ticks)],
-                      FadeOut(self.tau), run_time=1.0)
+                      *[ReplacementTransform(r, t) for k in range(6) for r, t in zip(ev[k], caps[k].ticks)],
+                      FadeOut(self.tau), run_time=1.1)
             self.play(LaggedStart(*[FadeIn(m) for m in xl], lag_ratio=0.1), run_time=0.7)
-            self.at_words("The site between bonds j")
-            kern = MT(r"k_\beta(x_j,x_{j+1})=\operatorname{tr}\big[\,G_{\alpha_1}G_{\alpha_2}\cdots "
-                      r"\big]_{\text{events of }x_j,\,x_{j+1}\text{ merged in time}}",
-                      font_size=34).move_to([0, 3.0, 0])
-            self.play(FadeOut(self.expf), FadeOut(self.pos), FadeIn(kern, shift=0.1 * DOWN),
-                      Indicate(sites[3], color=FG), run_time=0.9)
-            # the ring of beads
-            self.at_words("and Z sums the product around the ring")
+            self.at_words("weighted by d t one")
+            mu = MT(r"d\mu(x)=dt_1\cdots dt_k,\qquad \mu(\varnothing)=1", font_size=32).move_to([3.9, 0.9, 0])
+            self.play(Write(mu), run_time=1.2)
+            self.at_words("And each site supplies a factor")
+            kd = MT(r"k_\beta(x,y)=\operatorname{tr}\big[\text{merged }G\text{'s}\big]", font_size=32)
+            kd.move_to([3.9, -0.15, 0])
+            zf = MT(r"Z_L=\int\prod_j d\mu(x_j)\;\prod_j k_\beta(x_j,x_{j+1})", font_size=34)
+            zf.move_to([3.9, -1.3, 0])
+            self.play(Write(kd), LaggedStart(*[Indicate(s_, color=FG, scale_factor=1.0) for s_ in sites[1:6]],
+                                              lag_ratio=0.1), run_time=1.2)
+            self.play(Write(zf), run_time=1.2)
+        self.s08_all = VGroup(cmp, mu, kd)
+        self.zf, self.caps, self.xl = zf, caps, xl
+
+    # ================================================================ s09
+    def s09(self):
+        """The exact operator: K on L^2(histories); X = e^{-a beta} K."""
+        sites, _ = self.hd
+        with self.voice("s09") as d:
+            self.begin("s09", d)
+            caps = self.caps
             angles = [np.deg2rad(a) for a in (198, 162, 126, 90, 54, 18, -18, -54, -90, -126)]
             R = 1.75
             beads = VGroup()
             for k, a in enumerate(angles):
                 evs = [(t / 3.0, lab) for t, lab in EVENTS[k]] if k < 6 else EXTRA_BEADS[k - 6]
-                b = history_capsule(evs, height=0.8, width=0.3, tick_w=0.2, tick_stroke=4,
-                                    frac=True, fill=1.0)
+                b = history_capsule(evs, height=0.8, width=0.3, tick_w=0.2, tick_stroke=4, frac=True, fill=1.0)
                 b.move_to(RING_C + R * np.array([np.cos(a), np.sin(a), 0]))
                 beads.add(b)
             hoop = Circle(radius=R, color=FAINT, stroke_width=2).move_to(RING_C)
-            nodes = VGroup(*[Dot(RING_C + R * np.array([np.cos(a - np.deg2rad(18)),
-                                                        np.sin(a - np.deg2rad(18)), 0]),
+            nodes = VGroup(*[Dot(RING_C + R * np.array([np.cos(a - np.deg2rad(18)), np.sin(a - np.deg2rad(18)), 0]),
                                  radius=0.07, color=FG) for a in angles])
             klab = M(r"k_\beta", font_size=32).move_to(
                 RING_C + (R + 0.48) * np.array([np.cos(np.deg2rad(72)), np.sin(np.deg2rad(72)), 0]))
-            self.play(*[Transform(caps[k], beads[k]) for k in range(6)],
-                      FadeOut(sites), FadeOut(xl), run_time=0.9)
+            kb = M(r"K_\beta", color=SPACE, font_size=38).move_to(RING_C)
+            kbox = SurroundingRectangle(kb, buff=0.14, color=SPACE, stroke_width=2, corner_radius=0.08)
+            self.play(FadeOut(self.s08_all), FadeOut(self.xl), FadeOut(sites),
+                      self.zf.animate.move_to([3.6, -2.55, 0]),
+                      *[Transform(caps[k], beads[k]) for k in range(6)], run_time=1.0)
             self.remove(*caps)
             self.add(*beads[:6])
-            zf1 = MT(r"Z_L(\beta)=\int\prod_j k_\beta(x_j,x_{j+1})\,d\mu(x_j)", font_size=34)
-            zf1.move_to([0.9, 0.45, 0], aligned_edge=LEFT)
             self.play(Create(hoop), LaggedStart(*[FadeIn(b) for b in beads[6:]], lag_ratio=0.2),
-                      LaggedStart(*[GrowFromCenter(n) for n in nodes], lag_ratio=0.06),
-                      FadeIn(klab), Write(zf1), run_time=1.4)
+                      LaggedStart(*[GrowFromCenter(n_) for n_ in nodes], lag_ratio=0.06), FadeIn(klab),
+                      FadeIn(kb), Create(kbox), run_time=1.2)
             self.bring_to_front(beads, nodes)
-            self.at_words("whose variables are entire histories")
-            self.play(LaggedStart(*[Indicate(b, color=SPACE, scale_factor=1.15) for b in beads],
-                                  lag_ratio=0.05), run_time=1.0)
-            self.at_words("couplings that can even be negative")
-            ex = MT(r"\operatorname{tr}(G_xG_x)=", r"-2<0", font_size=34, color=DIM)
-            ex[1].set_color(FG)
-            ex.move_to([-3.6, 2.15, 0])
-            neg = inline_tag("kernel can be negative", ex, RIGHT, buff=0.35)
-            self.play(FadeIn(ex, shift=0.1 * DOWN), FadeIn(neg),
-                      LaggedStart(*[Indicate(n, color=FG, scale_factor=1.6) for n in nodes],
-                                  lag_ratio=0.05), run_time=1.0)
-            self.at_words("Summing it bond by bond")
-            zf2 = MT(r"=\operatorname{Tr}\,", r"X_\beta^{\,L}", font_size=34)
-            zf2[1].set_color(SPACE)
-            zf2.next_to(zf1, DOWN, buff=0.35).align_to(zf1, LEFT).shift(RIGHT * 1.15)
+            self.at_words("K f at x is")
+            g1 = MT(r"(K_\beta f)(x)=\int k_\beta(x,y)\,f(y)\,d\mu(y)", font_size=34).move_to([3.6, 2.5, 0])
+            self.play(Write(g1), run_time=1.5)
+            self.at_words("Composing two of them")
+            g2 = MT(r"(K_\beta^2)(x,z)=\int k_\beta(x,y)\,k_\beta(y,z)\,d\mu(y)", font_size=32)
+            g2.move_to([3.6, 1.55, 0])
+            self.play(Write(g2), Circumscribe(beads[3], color=SPACE, buff=0.06), run_time=1.4)
+            self.at_words("so around the ring")
+            g3 = MT(r"\operatorname{Tr}K_\beta^{\,L}=\operatorname{Tr}\,e^{-\beta H_L}", font_size=34)
+            g3.move_to([3.6, 0.6, 0])
+            self.play(Write(g3), LaggedStart(*[Indicate(b, color=SPACE, scale_factor=1.12) for b in beads],
+                                             lag_ratio=0.06), run_time=1.4)
+            self.at_words("The paper's X is")
             xb = M(r"X_\beta", color=SPACE, font_size=38).move_to(RING_C)
-            xbox = SurroundingRectangle(xb, buff=0.14, color=SPACE, stroke_width=2,
-                                        corner_radius=0.08)
-            self.play(FadeOut(VGroup(kern, ex, neg)), FadeIn(xb), Create(xbox), run_time=0.9)
-            self.at_words("around the ring Z is the trace")
-            self.play(Write(zf2), run_time=0.9)
-            capt = TX(r"bonds = states,", r" sites = transfer", font_size=32)
-            capt.move_to([3.55, -1.75, 0])
+            xbox = SurroundingRectangle(xb, buff=0.14, color=SPACE, stroke_width=2, corner_radius=0.08)
+            h1 = MT(r"X_\beta=e^{-a\beta}K_\beta,\qquad a=1.401482", font_size=34).move_to([3.6, -0.45, 0])
+            h1[0][0:2].set_color(SPACE)
+            self.play(Write(h1), Transform(kb, xb), Transform(kbox, xbox), run_time=1.2)
+            self.at_words("which only measures energies")
+            h2 = MT(r"\operatorname{Tr}X_\beta^{\,L}=\operatorname{Tr}\,e^{-\beta(H_L+aL)}", font_size=30, color=DIM)
+            h2.move_to([3.6, -1.4, 0])
+            self.play(FadeIn(h2, shift=0.1 * UP), run_time=0.8)
+        self.beads, self.nodes, self.hoop, self.klab = beads, nodes, hoop, klab
+        self.xb, self.xbox = kb, kbox
+        self.s09_all = VGroup(g1, g2, g3, h1, h2, self.zf)
+
+    # ================================================================ s10
+    def s10(self):
+        """Properties: signed entries, compact, discrete spectrum; bonds = states."""
+        beads, nodes = self.beads, self.nodes
+        with self.voice("s10") as d:
+            self.begin("s10", d)
+            self.play(FadeOut(self.s09_all), run_time=0.5)
+            ex = MT(r"\operatorname{tr}(G_xG_x)=-2", font_size=34).move_to([1.9, 2.4, 0])
+            neg = inline_tag("entries can be negative", ex, RIGHT, buff=0.3)
+            self.at_words("two x events give")
+            self.play(Write(ex), FadeIn(neg), LaggedStart(*[Indicate(n_, color=FG, scale_factor=1.6) for n_ in nodes],
+                                                          lag_ratio=0.05), run_time=1.2)
+            self.at_words("the kernel is bounded by three")
+            c1 = MT(r"|k_\beta|\le3,\qquad \mu(\text{all histories})=e^{3\beta}", font_size=32).move_to([3.6, 1.2, 0])
+            self.play(Write(c1), run_time=1.3)
+            self.at_words("so X is a compact operator")
+            c2 = MT(r"\Rightarrow\ X_\beta\ \text{compact}", font_size=34).move_to([3.6, 0.3, 0])
+            self.play(Write(c2), run_time=0.8)
+            self.at_words("and Z is a sum of lambda")
+            c3 = MT(r"Z_L=\sum_i\lambda_i(\beta)^{L}", font_size=38, color=GAP).move_to([3.6, -0.85, 0])
+            box = SurroundingRectangle(c3, buff=0.15, color=GAP, stroke_width=2, corner_radius=0.08)
+            self.play(Write(c3), Create(box), run_time=1.0)
+            capt = TX(r"bonds = states,", r" sites = transfer", font_size=32).move_to([3.55, -2.2, 0])
             capt[0].set_color(SPACE)
-            self.at_words("bonds are the states")
+            self.at_words("Bonds are the states")
             self.play(FadeIn(capt[0], shift=0.1 * UP),
-                      LaggedStart(*[Indicate(b, color=SPACE, scale_factor=1.15) for b in beads],
-                                  lag_ratio=0.05), run_time=1.0)
+                      LaggedStart(*[Indicate(b, color=SPACE, scale_factor=1.15) for b in beads], lag_ratio=0.05),
+                      run_time=1.0)
             self.at_words("sites do the transferring")
             self.play(FadeIn(capt[1], shift=0.1 * UP),
-                      LaggedStart(*[Indicate(n, color=FG, scale_factor=1.6) for n in nodes],
-                                  lag_ratio=0.05), run_time=1.0)
-        self.beads, self.nodes, self.hoop, self.klab = beads, nodes, hoop, klab
-        self.xb, self.xbox = xb, xbox
-        self.s06_right = VGroup(zf1, zf2, capt)
+                      LaggedStart(*[Indicate(n_, color=FG, scale_factor=1.6) for n_ in nodes], lag_ratio=0.05),
+                      run_time=1.0)
+        self.s06_right = VGroup(ex, neg, c1, c2, c3, box, capt)
 
     # ================================================================ s11
     def s11(self):

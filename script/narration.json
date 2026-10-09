@@ -131,31 +131,31 @@
     },
     {
      "id": "s04",
-     "text": "In a relativistic continuum you could just rotate the torus; on a lattice, X must be built. Multiply the spin one matrices by i, in a Cartesian basis, and you get real antisymmetric matrices, G alpha: each bond is exactly minus the sum of G alpha tensor G alpha."
+     "text": "In a relativistic continuum you could just rotate the torus; on a lattice, the spatial operator has to be built. Recall how that works for a classical Ising ring: one variable per site, and a weight that is a product of factors, each coupling two neighbors. Put those factors in a matrix T, indexed by the variable, and Z is the trace of T to the L. So we need two things: a variable for each slot of the ring, and a weight that is a product of nearest-neighbor factors."
     },
     {
      "id": "s05",
-     "text": "Now expand e to the minus beta H as a sum over moments in imaginary time. Each term switches on bond terms one at a time. Call each one an event: it picks a bond, a moment, and a label x, y or z, and acts with that same G alpha on both ends of the bond."
+     "text": "For the quantum ring, rewrite the Hamiltonian first. Multiply the spin one matrices by i, in a Cartesian basis, and they become real antisymmetric matrices, G alpha. Each bond term is then exactly minus the sum of G alpha tensor G alpha, so minus H is a sum of terms with plus signs, one for each bond and each label."
     },
     {
      "id": "s06",
-     "text": "The picture shows just one term of that sum: one configuration. The sum runs over every way of placing events: any number of them, on any bond, at any moment, with any label, each with a positive coefficient. That is why nothing lines up from one bond to the next. Here is another term, and another."
+     "text": "Now expand e to the minus beta H in powers of minus H, ordered along imaginary time. A term in this expansion is a list of events. Each event picks a bond, a label x, y or z, and a moment, and inserts G alpha at both ends of that bond. Its coefficient is just d t per event, so every term enters with a positive sign. The picture shows one term."
     },
     {
      "id": "s07",
-     "text": "Placing events freely does not make the bonds independent. Each configuration carries a weight, and the weight is computed site by site. Watch one site: every event on its left bond and every event on its right bond acts on this same three-state spin."
+     "text": "Now take the trace. Each event acts on two sites, so the trace of the whole ring splits into one three by three trace per site. A site sees only the events on its two bonds. Merge them in time order and multiply: that is the site's factor. The matrices do not commute, so the factor depends on how the two lists interleave: x, then y, then z gives plus one; move the y below the x and it gives minus one."
     },
     {
      "id": "s08",
-     "text": "So merge the two lists in time order, multiply the matrices, and take the trace: that number is the site's contribution. And the order matters, because the G matrices do not commute. Here an x event on the left comes before a y event on the right, and the trace is plus one. Slide the y below the x, and it becomes minus one."
+     "text": "This is the structure a transfer matrix needs, with the roles of sites and bonds exchanged. The variable lives on a bond: its history, a list of increasing times between zero and beta, each with a label. Summing over all terms means integrating over every bond's history, weighted by d t one up to d t k, and by one for the empty history. And each site supplies a factor coupling its two neighboring histories, k of x j and x j plus one."
     },
     {
      "id": "s09",
-     "text": "Events on bonds that share no site act on different spins, so their order never matters. Only interleavings at a shared site count. So the weight of a whole configuration is a product over sites, and each factor involves exactly two neighboring bonds."
+     "text": "So the spatial operator is the integral operator with that kernel, acting on functions of one history: K f at x is the integral of k of x and y, times f of y, d mu of y. Composing two of them integrates over the history in between, so around the ring the trace of K to the L is the partition function. The paper's X is K times e to the minus a beta, with a equal to 1.401482: one constant per site, which only measures energies from a fixed reference."
     },
     {
      "id": "s10",
-     "text": "Now group each bond's events into its history, x j. The site between bonds j and j plus one contributes k of x j and x j plus one, and Z sums the product around the ring. That is a one-dimensional chain whose variables are entire histories, with nearest-neighbor couplings that can even be negative. Summing it bond by bond is the action of an operator X, and around the ring Z is the trace of X to the L: bonds are the states, sites do the transferring."
+     "text": "Unlike a classical transfer matrix, the entries can be negative: two x events give a trace of minus two. Still, the kernel is bounded by three, and all histories together weigh e to the three beta, so X is a compact operator with a discrete list of eigenvalues, and Z is a sum of lambda to the L. Bonds are the states; sites do the transferring."
     },
     {
      "id": "s11",

@@ -80,12 +80,12 @@ in β, and that rate *is* a uniform gap.
 | 1:56 | Haldane's picture, and why it is not a proof |
 | 3:33 | Why a proof was hard |
 | 5:51 | One torus, two knives |
-| 10:32 | Purity |
-| 12:24 | The leapfrog |
-| 15:14 | From purity to a gap |
-| 17:33 | Getting into the basin |
-| 21:31 | The edges remember |
-| 23:10 | What it means |
+| 11:14 | Purity |
+| 13:06 | The leapfrog |
+| 15:56 | From purity to a gap |
+| 18:15 | Getting into the basin |
+| 22:13 | The edges remember |
+| 23:51 | What it means |
 
 Physical interpretations that are **not** in the papers are tagged on screen ("physicist's
 reading", "our calculation", "heuristic", "schematic"). Examples are the CFT no-go for spin ½, the

@@ -1,10 +1,10 @@
 # Storyboard: "The Haldane gap, proved?" (final synthesis)
 
-Narration voice `af_heart`, speed 1.0. Total narration: 3864 words (about 23.4 min at 165 wpm), 10 chapters.
+Narration voice `af_heart`, speed 1.0. Total narration: 4009 words (about 24.3 min at 165 wpm), 10 chapters.
 
 Source of truth for wording and segment ids: `script/narration.json`. Every narration line below is copied verbatim from it.
 
-Chapter word counts: ch01 283; ch02 253; ch03 327; ch04 751; ch05 307; ch06 438; ch07 356; ch08 541; ch09 244; ch10 364.
+Chapter word counts: ch01 283; ch02 253; ch03 327; ch04 896; ch05 307; ch06 438; ch07 356; ch08 541; ch09 244; ch10 364.
 
 ## Global conventions (read once; they apply to every chapter)
 
@@ -339,7 +339,7 @@ NOTE: Ratios (critic): 0.4105/0.003821 = 107.4 and 0.4105/0.000479 = 856.7. Neve
 
 ## ch04: One torus, two knives
 
-**Purpose.** Build the one object of the proof: Z(L, beta) read along time (Gibbs weights) and along space (a self-adjoint spatial transfer operator on bond histories). Make the symmetric real kernel feel inevitable; answer 'why even L?' with the paper's own numbers.  *(751 words, about 4.6 min)*
+**Purpose.** Build the one object of the proof: Z(L, beta) read along time (Gibbs weights) and along space (a self-adjoint spatial transfer operator on bond histories). Make the symmetric real kernel feel inevitable; answer 'why even L?' with the paper's own numbers.  *(896 words, about 5.4 min)*
 
 ### ch04.s01  (45 words, ~16 s)
 
@@ -375,80 +375,81 @@ VISUAL:
 
 NOTE: Say and show only 'in the spirit of'. X is not claimed to equal Suzuki's QTM (finite-Trotter QTMs are different operators). In the paper the states of X are BOND histories and each site is the kernel between its two incident bond histories (s06), so the cut goes through a bond, not along a site world line (unlike Suzuki's QTM). No eigenvalues of X are known numerically: every eigenvalue number line in ch04 is schematic.
 
-### ch04.s04  (49 words, ~18 s)
+### ch04.s04  (90 words, ~33 s)
 
-> In a relativistic continuum you could just rotate the torus; on a lattice, X must be built. Multiply the spin one matrices by i, in a Cartesian basis, and you get real antisymmetric matrices, G alpha: each bond is exactly minus the sum of G alpha tensor G alpha.
-
-VISUAL:
-- The torus rotates by 90 degrees and back (`Rotate`, 0.3 d) with caption `T(r"continuum: rotate the torus $\cdot$ lattice: build $X$")`.
-- `M(r"G_\alpha=iS^\alpha,\qquad (G_\alpha)_{jk}=\varepsilon_{\alpha jk}")` and the example `M(r"G_z=\begin{pmatrix}0&1&0\\-1&0&0\\0&0&0\end{pmatrix}")` (entries `SZ`). Tag "real, antisymmetric, norm 1".
-- `M(r"\mathbf S_j\cdot\mathbf S_{j+1}=-\sum_{\alpha=x,y,z}G_\alpha\otimes G_\alpha")`, the three terms coloured `SX`, `SY`, `SZ`.
-
-NOTE: Paper eq. (2.2): (S^alpha)_jk = -i eps_{alpha jk}, so G_alpha = i S^alpha has entries eps_{alpha jk}. Bond eigenvalues are -2, -1, 1.
-
-### ch04.s05  (57 words, ~21 s)
-
-> Now expand e to the minus beta H as a sum over moments in imaginary time. Each term switches on bond terms one at a time. Call each one an event: it picks a bond, a moment, and a label x, y or z, and acts with that same G alpha on both ends of the bond.
+> In a relativistic continuum you could just rotate the torus; on a lattice, the spatial operator has to be built. Recall how that works for a classical Ising ring: one variable per site, and a weight that is a product of factors, each coupling two neighbors. Put those factors in a matrix T, indexed by the variable, and Z is the trace of T to the L. So we need two things: a variable for each slot of the ring, and a weight that is a product of nearest-neighbor factors.
 
 VISUAL:
-- The torus zooms into 7 site world lines (time up); `M(r"e^{-\beta H}=\exp\Big(\beta\sum_{\langle jk\rangle}\sum_\alpha G_\alpha^{(j)}G_\alpha^{(k)}\Big)")` on top.
-- Events (rungs between neighbouring world lines, coloured `SX`/`SY`/`SZ`) appear in time order.
-- One event is singled out: brace "bond", dashed line to "tau", label legend x/y/z, and a small `G_z` at each of its two ends.
+- Torus rotates and back ("continuum: rotate the torus" / "lattice: build X").
+- Right panel: a classical Ising ring of +/- spins; `M(r"Z=\sum_{\{s\}}\prod_j e^{Ks_js_{j+1}}")`, `M(r"T(s,s')=e^{Kss'}")`, `M(r"Z=\operatorname{Tr}T^L")`.
+- Checklist: "1. a variable for each slot"; "2. weight = product of nearest-neighbour factors".
 
-NOTE: Paper Prop. 3.1 (ordered bond expansion): each event inserts G_alpha (x) G_alpha on its bond; -h = sum_alpha G_alpha (x) G_alpha.
+NOTE: Classical anchor only; standard 1D transfer matrix.
 
-### ch04.s06  (56 words, ~20 s)
+### ch04.s05  (60 words, ~22 s)
 
-> The picture shows just one term of that sum: one configuration. The sum runs over every way of placing events: any number of them, on any bond, at any moment, with any label, each with a positive coefficient. That is why nothing lines up from one bond to the next. Here is another term, and another.
-
-VISUAL:
-- Corner tag "one configuration = one term of the sum".
-- Caption `T(r"any number $\cdot$ any bond $\cdot$ any moment $\cdot$ any label")`; `GAP` "positive coefficients".
-- The events morph into a second random configuration, then a third, then back to the first.
-
-NOTE: The placement measure factorizes over bonds; the coefficients (beta^k ordered-time volume) are positive. Signs and coupling enter only through the weights (next segments).
-
-### ch04.s07  (44 words, ~16 s)
-
-> Placing events freely does not make the bonds independent. Each configuration carries a weight, and the weight is computed site by site. Watch one site: every event on its left bond and every event on its right bond acts on this same three-state spin.
+> For the quantum ring, rewrite the Hamiltonian first. Multiply the spin one matrices by i, in a Cartesian basis, and they become real antisymmetric matrices, G alpha. Each bond term is then exactly minus the sum of G alpha tensor G alpha, so minus H is a sum of terms with plus signs, one for each bond and each label.
 
 VISUAL:
-- Everything dims except site 3's world line and the events of its two bonds (2,3) and (3,4).
-- Small arrows from those events onto the site line; label "one shared spin (3 states)".
+- `M(r"G_\alpha=iS^\alpha,\qquad (G_\alpha)_{jk}=\varepsilon_{\alpha jk}")`, the matrix G_z, tag "real, antisymmetric, norm 1".
+- `M(r"\mathbf S_j\cdot\mathbf S_{j+1}=-\big(G_x\otimes G_x+G_y\otimes G_y+G_z\otimes G_z\big)")`, then `M(r"-H=\sum_{\text{bonds}}\sum_\alpha G_\alpha\otimes G_\alpha")`.
 
-NOTE: The coupling between neighbouring bonds lives in the shared site, not in the placement.
+NOTE: Paper eq. (2.2). Bond eigenvalues -2, -1, 1.
 
-### ch04.s08  (64 words, ~23 s)
+### ch04.s06  (72 words, ~26 s)
 
-> So merge the two lists in time order, multiply the matrices, and take the trace: that number is the site's contribution. And the order matters, because the G matrices do not commute. Here an x event on the left comes before a y event on the right, and the trace is plus one. Slide the y below the x, and it becomes minus one.
-
-VISUAL:
-- Site 3's merged ticks become `tr[G G G ...]` (main diagram).
-- Right panel, a zoom: three world lines; left bond events x (low) and z (high), right bond event y (middle): `M(r"\operatorname{tr}[G_xG_yG_z]=+1")`.
-- Then the y event slides below the x: `M(r"\operatorname{tr}[G_yG_xG_z]=-1")`, highlighted.
-
-NOTE: Computed: tr(G_x G_y G_z) = +1, tr(G_y G_x G_z) = -1 with (G_alpha)_{jk} = eps_{alpha jk}; product in increasing time (paper's convention). Two-event traces cannot show this (cyclicity).
-
-### ch04.s09  (43 words, ~16 s)
-
-> Events on bonds that share no site act on different spins, so their order never matters. Only interleavings at a shared site count. So the weight of a whole configuration is a product over sites, and each factor involves exactly two neighboring bonds.
+> Now expand e to the minus beta H in powers of minus H, ordered along imaginary time. A term in this expansion is a list of events. Each event picks a bond, a label x, y or z, and a moment, and inserts G alpha at both ends of that bond. Its coefficient is just d t per event, so every term enters with a positive sign. The picture shows one term.
 
 VISUAL:
-- Two non-adjacent bonds highlighted; their events slide past each other with a `GAP` check "commute".
-- Under the diagram, one bracket per site spanning its two bonds; `M(r"\text{weight}=\prod_{\text{sites } j}\operatorname{tr}_j\big[\cdots\big]")`.
+- `M(r"e^{-\beta H}=\sum_{k\ge0}\int_{0<t_1<\cdots<t_k<\beta}dt_1\cdots dt_k\;(-H)^k")`.
+- The torus zooms to 7 site world lines (time up); events (rungs, x/y/z colours) appear in time order.
+- One event: brace "bond", label legend, tau marker, a small G_z at each end. Corner tag "one term of the expansion".
 
-NOTE: Trace over the tensor product factorizes into single-site traces of time-ordered products (paper, proof of Prop. 3.1).
+NOTE: Ordered bond expansion (paper Prop. 3.1; Aizenman-Nachtergaele).
 
-### ch04.s10  (88 words, ~32 s)
+### ch04.s07  (82 words, ~30 s)
 
-> Now group each bond's events into its history, x j. The site between bonds j and j plus one contributes k of x j and x j plus one, and Z sums the product around the ring. That is a one-dimensional chain whose variables are entire histories, with nearest-neighbor couplings that can even be negative. Summing it bond by bond is the action of an operator X, and around the ring Z is the trace of X to the L: bonds are the states, sites do the transferring.
+> Now take the trace. Each event acts on two sites, so the trace of the whole ring splits into one three by three trace per site. A site sees only the events on its two bonds. Merge them in time order and multiply: that is the site's factor. The matrices do not commute, so the factor depends on how the two lists interleave: x, then y, then z gives plus one; move the y below the x and it gives minus one.
 
 VISUAL:
-- Each bond's events become a capsule (history); capsules become beads on a ring with small `k` nodes between them.
-- `M(r"Z_L(\beta)=\int\prod_j k_\beta(x_j,x_{j+1})\,d\mu(x_j)=\operatorname{Tr}\,X_\beta^{\,L}")`.
-- `M(r"\operatorname{tr}(G_xG_x)=-2<0")` tagged "kernel can be negative"; caption "bonds = states, sites = transfer".
+- `M(r"\operatorname{Tr}\big[\cdots\big]=\prod_{\text{sites }j}\operatorname{tr}_j\big[\text{its }G\text{'s in time order}\big]")`.
+- Site 3 and its two bonds highlighted; their events slide onto the site; `tr[G G G ...]`.
+- Zoom: x (left, low), z (left, high), y (right, middle): `tr[G_xG_yG_z]=+1`; y slides below x: `tr[G_yG_xG_z]=-1`.
 
-NOTE: Following the paper: X_beta = e^{-a beta} K_beta (the shift a appears in ch08); Z_n(beta) = Tr X^n for n >= 4. Do not call it a classical Boltzmann chain: the kernel is signed (|k| <= 3).
+NOTE: Computed: tr(GxGyGz)=+1, tr(GyGxGz)=-1, product in increasing time.
+
+### ch04.s08  (84 words, ~31 s)
+
+> This is the structure a transfer matrix needs, with the roles of sites and bonds exchanged. The variable lives on a bond: its history, a list of increasing times between zero and beta, each with a label. Summing over all terms means integrating over every bond's history, weighted by d t one up to d t k, and by one for the empty history. And each site supplies a factor coupling its two neighboring histories, k of x j and x j plus one.
+
+VISUAL:
+- Comparison: "classical Ising: variable on a site, factor on a bond" vs "here: variable on a bond (its history), factor on a site (a trace)".
+- Each bond's events become a capsule labelled x_j; `M(r"d\mu(x)=dt_1\cdots dt_k,\quad\mu(\varnothing)=1")`.
+- `M(r"Z_L=\int\prod_j d\mu(x_j)\;\prod_j k_\beta(x_j,x_{j+1})")`, `M(r"k_\beta(x,y)=\operatorname{tr}\big[\text{merged }G\text{'s}\big]")`.
+
+NOTE: Paper: interleavings of bond histories partition the global time simplex; mu(Omega_b)=e^{3b}.
+
+### ch04.s09  (92 words, ~33 s)
+
+> So the spatial operator is the integral operator with that kernel, acting on functions of one history: K f at x is the integral of k of x and y, times f of y, d mu of y. Composing two of them integrates over the history in between, so around the ring the trace of K to the L is the partition function. The paper's X is K times e to the minus a beta, with a equal to 1.401482: one constant per site, which only measures energies from a fixed reference.
+
+VISUAL:
+- Capsules become beads on a ring with k nodes between them; `K_beta` box in the centre.
+- `M(r"(K_\beta f)(x)=\int k_\beta(x,y)\,f(y)\,d\mu(y)")`, `M(r"\operatorname{Tr}K_\beta^{\,L}=\operatorname{Tr}e^{-\beta H_L}")`.
+- Box becomes `X_beta`; `M(r"X_\beta=e^{-a\beta}K_\beta,\quad a=1.401482")`.
+
+NOTE: Paper: X_b = e^{-ab}K_b; Tr X^n = Tr e^{-b(H_n+an)} (n >= 4). The shift is the 'fixed reference' of ch04 s14 and ch08.
+
+### ch04.s10  (66 words, ~24 s)
+
+> Unlike a classical transfer matrix, the entries can be negative: two x events give a trace of minus two. Still, the kernel is bounded by three, and all histories together weigh e to the three beta, so X is a compact operator with a discrete list of eigenvalues, and Z is a sum of lambda to the L. Bonds are the states; sites do the transferring.
+
+VISUAL:
+- `M(r"\operatorname{tr}(G_xG_x)=-2")` tagged "entries can be negative".
+- `M(r"|k_\beta|\le3,\ \mu(\text{all})=e^{3\beta}\Rightarrow X_\beta\text{ compact}")`, `M(r"Z_L=\sum_i\lambda_i(\beta)^L")`.
+- Caption "bonds = states, sites = transfer".
+
+NOTE: Paper: Hilbert-Schmidt norm <= 9 e^{6b}; real, square-summable eigenvalues.
 
 ### ch04.s11  (27 words, ~10 s)
 
