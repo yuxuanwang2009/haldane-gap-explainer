@@ -7,7 +7,7 @@
 <h1 align="center">The Haldane Gap, Proved?</h1>
 
 <p align="center">
-  A 24-minute narrated explainer, in the visual style of 3Blue1Brown, of the claimed proof of the
+  A 26-minute narrated explainer, in the visual style of 3Blue1Brown, of the claimed proof of the
   spin-1 Haldane gap released by OpenAI in October 2026. It is written for theoretical physicists.
   <br><br>
   <a href="https://github.com/yuxuanwang2009/haldane-gap-explainer/releases/latest"><b>▶ Watch / download the video (1080p)</b></a>
@@ -80,12 +80,12 @@ in β, and that rate *is* a uniform gap.
 | 1:56 | Haldane's picture, and why it is not a proof |
 | 3:33 | Why a proof was hard |
 | 5:51 | One torus, two knives |
-| 9:01 | Purity |
-| 10:54 | The leapfrog |
-| 13:43 | From purity to a gap |
-| 16:02 | Getting into the basin |
-| 20:01 | The edges remember |
-| 21:39 | What it means |
+| 10:32 | Purity |
+| 12:24 | The leapfrog |
+| 15:14 | From purity to a gap |
+| 17:33 | Getting into the basin |
+| 21:31 | The edges remember |
+| 23:10 | What it means |
 
 Physical interpretations that are **not** in the papers are tagged on screen ("physicist's
 reading", "our calculation", "heuristic", "schematic"). Examples are the CFT no-go for spin ½, the
@@ -124,7 +124,7 @@ conda activate haldane-manim
 
 # 2. narration environment (kept separate: torch's OpenMP clashes with conda-forge's)
 python3.11 -m venv .venv-tts && .venv-tts/bin/pip install -r requirements-tts.txt
-.venv-tts/bin/python tools/tts.py                 # ~92 clips; try --voice am_michael etc.
+.venv-tts/bin/python tools/tts.py                 # ~96 clips; try --voice am_michael etc.
 
 # 3. render and assemble
 python tools/build.py render all --draft           # fast 480p preview

@@ -135,34 +135,50 @@
     },
     {
      "id": "s05",
-     "text": "Then e to the minus beta H expands into events with positive weights: a bond, a moment, a label x, y or z. Group them by bond, and each bond carries a history, a list of labeled times."
+     "text": "Now expand e to the minus beta H as a sum over moments in imaginary time. Each term switches on bond terms one at a time. Call each one an event: it picks a bond, a moment, and a label x, y or z, and acts with that same G alpha on both ends of the bond."
     },
     {
      "id": "s06",
-     "text": "A site sits between two bonds and contributes a three by three trace: merge the neighboring histories in time order, and multiply the matrices. The ring becomes a chain whose variables are histories, with signed couplings: bonds are the states, and sites do the transferring."
+     "text": "The picture shows just one term of that sum: one configuration. The sum runs over every way of placing events: any number of them, on any bond, at any moment, with any label, each with a positive coefficient. That is why nothing lines up from one bond to the next. Here is another term, and another."
     },
     {
      "id": "s07",
-     "text": "Sanity check: at infinite temperature every history is empty, X is just the number three, and Z is three to the L. Three states per site. Good."
+     "text": "Placing events freely does not make the bonds independent. Each configuration carries a weight, and the weight is computed site by site. Watch one site: every event on its left bond and every event on its right bond acts on this same three-state spin."
     },
     {
      "id": "s08",
-     "text": "Now the key property. Merging two lists doesn't care which came from the left, and the matrices are real. So the kernel is real and symmetric, X is self-adjoint, and its eigenvalues are real."
+     "text": "So merge the two lists in time order, multiply the matrices, and take the trace: that number is the site's contribution. And the order matters, because the G matrices do not commute. Here an x event on the left comes before a y event on the right, and the trace is plus one. Slide the y below the x, and it becomes minus one."
     },
     {
      "id": "s09",
-     "text": "Real, but not necessarily positive. Pause and think: what would negative eigenvalues do to a ring with an odd number of sites?"
+     "text": "Events on bonds that share no site act on different spins, so their order never matters. Only interleavings at a shared site count. So the weight of a whole configuration is a product over sites, and each factor involves exactly two neighboring bonds."
     },
     {
      "id": "s10",
-     "text": "The paper's data at beta 12.25, energies measured from a fixed reference: if all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3."
+     "text": "Now group each bond's events into its history, x j. The site between bonds j and j plus one contributes k of x j and x j plus one, and Z sums the product around the ring. That is a one-dimensional chain whose variables are entire histories, with nearest-neighbor couplings that can even be negative. Summing it bond by bond is the action of an operator X, and around the ring Z is the trace of X to the L: bonds are the states, sites do the transferring."
     },
     {
      "id": "s11",
-     "text": "So negative eigenvalues exist, and only on even rings is lambda to the L never negative. There, the spatial weights form a second probability distribution for the same Z: that is why the theorem is about even rings."
+     "text": "Sanity check: at infinite temperature every history is empty, X is just the number three, and Z is three to the L. Three states per site. Good."
     },
     {
      "id": "s12",
+     "text": "Now the key property. Merging two lists doesn't care which came from the left, and the matrices are real. So the kernel is real and symmetric, X is self-adjoint, and its eigenvalues are real."
+    },
+    {
+     "id": "s13",
+     "text": "Real, but not necessarily positive. Pause and think: what would negative eigenvalues do to a ring with an odd number of sites?"
+    },
+    {
+     "id": "s14",
+     "text": "The paper's data at beta 12.25, energies measured from a fixed reference: if all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3."
+    },
+    {
+     "id": "s15",
+     "text": "So negative eigenvalues exist, and only on even rings is lambda to the L never negative. There, the spatial weights form a second probability distribution for the same Z: that is why the theorem is about even rings."
+    },
+    {
+     "id": "s16",
      "text": "A physicist's reading, not the paper's: the top eigenvalue encodes the free energy and the others set correlation lengths, so gap in time and correlation length in space are two faces of one mass. The proof needs none of this."
     }
    ]

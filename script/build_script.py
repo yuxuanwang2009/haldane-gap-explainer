@@ -304,25 +304,64 @@ r"""
 """,
 "Paper eq. (2.2): (S^alpha)_jk = -i eps_{alpha jk}, so G_alpha = i S^alpha has entries eps_{alpha jk}. Bond eigenvalues are -2, -1, 1.")
 
-seg("""Then e to the minus beta H expands into events with positive weights: a bond, a moment, a label x, y or z.
-Group them by bond, and each bond carries a history, a list of labeled times.""",
+seg("""Now expand e to the minus beta H as a sum over moments in imaginary time. Each term switches on bond terms
+one at a time. Call each one an event: it picks a bond, a moment, and a label x, y or z, and acts with that same G
+alpha on both ends of the bond.""",
 r"""
-- `bond_history_diagram(n_sites=7, beta=3.0, spacing=0.9, seed=3, rate=1.5)` centred: sites are vertical `DIM` world lines (time up), events are short horizontal rungs on bonds in `SX`/`SY`/`SZ`. Events appear in time order (sorted by y), `lag_ratio=0.15`.
-- Above: `M(r"e^{-\beta H}=\exp\Big(\beta\sum_{\langle jk\rangle}\sum_\alpha G_\alpha^{(j)}G_\alpha^{(k)}\Big)")` with a `GAP` caption "all coefficients positive".
-- Sentence 2: one bond column (between sites 2 and 3) is highlighted; its rungs slide into ticks on a single vertical "history" line (`SPACE` outline) labelled `M("x_2")`.
+- The torus zooms into 7 site world lines (time up); `M(r"e^{-\beta H}=\exp\Big(\beta\sum_{\langle jk\rangle}\sum_\alpha G_\alpha^{(j)}G_\alpha^{(k)}\Big)")` on top.
+- Events (rungs between neighbouring world lines, coloured `SX`/`SY`/`SZ`) appear in time order.
+- One event is singled out: brace "bond", dashed line to "tau", label legend x/y/z, and a small `G_z` at each of its two ends.
 """,
-"Signs appear only later, inside traces of products of G's, never in the expansion weights. History space has total mass e^{3 beta}.")
+"Paper Prop. 3.1 (ordered bond expansion): each event inserts G_alpha (x) G_alpha on its bond; -h = sum_alpha G_alpha (x) G_alpha.")
 
-seg("""A site sits between two bonds and contributes a three by three trace: merge the neighboring histories in
-time order, and multiply the matrices. The ring becomes a chain whose variables are histories, with signed
-couplings: bonds are the states, and sites do the transferring.""",
+seg("""The picture shows just one term of that sum: one configuration. The sum runs over every way of placing events:
+any number of them, on any bond, at any moment, with any label, each with a positive coefficient. That is why nothing
+lines up from one bond to the next. Here is another term, and another.""",
 r"""
-- Highlight site 3's world line: the rungs of bonds (2,3) and (3,4) glow and slide onto it, interleaving by time; to the right a column `G_y, G_x, G_z, G_y, \dots` builds bottom-to-top in merged order.
-- `M(r"k_\beta(x,y)=\operatorname{tr}\big[\,G_{\alpha_1}G_{\alpha_2}\cdots G_{\alpha_m}\big]_{\text{events of }x\text{ and }y\text{, merged in time}}")`.
-- Sentence 2: each bond history becomes a rounded-rectangle "bead" (`SPACE` outline, ticks inside); 10 beads on a circle with a small FG node `k` between consecutive beads. `M(r"Z_L(\beta)=\int\prod_j k_\beta(x_j,x_{j+1})\,d\mu(x_j)=\operatorname{Tr}K_\beta^{\,L}")`. Caption "bonds = states, sites = transfer".
-- On "signed couplings": a small `DIM` example under the kernel, `M(r"\operatorname{tr}(G_xG_x)=-2<0")` (one x event in each of two histories), tagged "kernel can be negative".
+- Corner tag "one configuration = one term of the sum".
+- Caption `T(r"any number $\cdot$ any bond $\cdot$ any moment $\cdot$ any label")`; `GAP` "positive coefficients".
+- The events morph into a second random configuration, then a third, then back to the first.
 """,
-"Following the paper: X_beta = e^{-a beta} K_beta (the shift a appears in ch08); Z_n(beta) = Tr X^n for n >= 4. The expansion weights (s05) are positive, but the kernel, a trace of products of real antisymmetric matrices, can be negative (|k| <= 3); do not call it a classical Boltzmann chain. The signs prepare the viewer for s09-s11 (X is not positive); do not claim the signed entries alone cause the negative eigenvalues.")
+"The placement measure factorizes over bonds; the coefficients (beta^k ordered-time volume) are positive. Signs and coupling enter only through the weights (next segments).")
+
+seg("""Placing events freely does not make the bonds independent. Each configuration carries a weight, and the weight
+is computed site by site. Watch one site: every event on its left bond and every event on its right bond acts on this
+same three-state spin.""",
+r"""
+- Everything dims except site 3's world line and the events of its two bonds (2,3) and (3,4).
+- Small arrows from those events onto the site line; label "one shared spin (3 states)".
+""",
+"The coupling between neighbouring bonds lives in the shared site, not in the placement.")
+
+seg("""So merge the two lists in time order, multiply the matrices, and take the trace: that number is the site's
+contribution. And the order matters, because the G matrices do not commute. Here an x event on the left comes before a
+y event on the right, and the trace is plus one. Slide the y below the x, and it becomes minus one.""",
+r"""
+- Site 3's merged ticks become `tr[G G G ...]` (main diagram).
+- Right panel, a zoom: three world lines; left bond events x (low) and z (high), right bond event y (middle): `M(r"\operatorname{tr}[G_xG_yG_z]=+1")`.
+- Then the y event slides below the x: `M(r"\operatorname{tr}[G_yG_xG_z]=-1")`, highlighted.
+""",
+"Computed: tr(G_x G_y G_z) = +1, tr(G_y G_x G_z) = -1 with (G_alpha)_{jk} = eps_{alpha jk}; product in increasing time (paper's convention). Two-event traces cannot show this (cyclicity).")
+
+seg("""Events on bonds that share no site act on different spins, so their order never matters. Only interleavings at a
+shared site count. So the weight of a whole configuration is a product over sites, and each factor involves exactly two
+neighboring bonds.""",
+r"""
+- Two non-adjacent bonds highlighted; their events slide past each other with a `GAP` check "commute".
+- Under the diagram, one bracket per site spanning its two bonds; `M(r"\text{weight}=\prod_{\text{sites } j}\operatorname{tr}_j\big[\cdots\big]")`.
+""",
+"Trace over the tensor product factorizes into single-site traces of time-ordered products (paper, proof of Prop. 3.1).")
+
+seg("""Now group each bond's events into its history, x j. The site between bonds j and j plus one contributes k of x j
+and x j plus one, and Z sums the product around the ring. That is a one-dimensional chain whose variables are entire
+histories, with nearest-neighbor couplings that can even be negative. Summing it bond by bond is the action of an
+operator X, and around the ring Z is the trace of X to the L: bonds are the states, sites do the transferring.""",
+r"""
+- Each bond's events become a capsule (history); capsules become beads on a ring with small `k` nodes between them.
+- `M(r"Z_L(\beta)=\int\prod_j k_\beta(x_j,x_{j+1})\,d\mu(x_j)=\operatorname{Tr}\,X_\beta^{\,L}")`.
+- `M(r"\operatorname{tr}(G_xG_x)=-2<0")` tagged "kernel can be negative"; caption "bonds = states, sites = transfer".
+""",
+"Following the paper: X_beta = e^{-a beta} K_beta (the shift a appears in ch08); Z_n(beta) = Tr X^n for n >= 4. Do not call it a classical Boltzmann chain: the kernel is signed (|k| <= 3).")
 
 seg("""Sanity check: at infinite temperature every history is empty, X is just the number three, and Z is three to
 the L. Three states per site. Good.""",
@@ -578,7 +617,7 @@ r"""
 - `M(r"Z_L^{1/L}=\Big(\sum_i|\lambda_i|^{L}\Big)^{1/L}\ \text{ decreases in even }L")`.
 - `M(r"T(L,\beta)\ \ge\ \big[T(2n,\beta)\,S(n,\beta)^2\big]^{L/2n}\ \ge\ (1-u)^3\ \ge\ 1-3u\qquad(n\le L\le2n,\ L\ \text{even})")`.
 """,
-"Paper eqs. (4.15)-(4.16). Even L only. Callback to the norm inequality of ch04 s10.")
+"Paper eqs. (4.15)-(4.16). Even L only. Callback to the norm inequality of ch04 s14.")
 
 seg("""Now cash it in. At step j, e to the minus beta j times the gap is at most about three times the defect, which
 stays below r to the power two to the j. Meanwhile beta j is two to the j times beta zero.""",
@@ -944,13 +983,13 @@ GLOBAL = r"""
 3. **WEIGHT BARS**: `weight_bars(...)`; squaring is always animated in two steps: Transform each bar to height proportional to p^2, then rescale the group so it sums to 1 again. Tallest bar uses `highlight_color` `TIME` or `SPACE`; the defect is a `DEFECT` brace over the small bars.
 4. **DEFECT GAUGES**: two vertical gauges (height 2.6), blue "p (spatial)" and orange "q (thermal)". Fill height = log10(defect) mapped [-3, 0] -> [0, 1], so FULL = large defect (impure) and EMPTY = pure; this semantics holds everywhere in the film (never fill a gauge with purity). A `DecimalNumber` under each; dashed `DEFECT` line at 0.127 "basin edge". From ch08 s08 on, the gauges show certified UPPER BOUNDS and are labelled "bound on p", "bound on q".
 5. **STAIRCASE**: `lb_plane` (x = log2 L, `SPACE`; y = log2 beta, `TIME`). The tracked pair is an L-shaped tromino: a `SPACE` segment (n, beta) -> (2n, beta) standing for S(n, beta), and a `TIME` segment (2n, beta) -> (2n, 2beta) standing for T(2n, beta). Each full update translates it by (+1, +1). Interpolation bars as in the paper's Fig. 1.
-6. **OBJECTION BUBBLES**: six small rounded speech bubbles, `DIM` outline, font 26: (a) "every finite chain has a gap", (b) "doesn't the $\theta$-term already explain it?", (c) "why even $L$?", (d) "why not just double $\beta$?", (e) "isn't this just numerics?", (f) "why doesn't it prove spin $\tfrac12$ gapped?". Bubble (a) first appears alone in ch01 s04; all six appear together in ch01 s06. Later, when the narration raises/answers one, that bubble alone fades in at the top-right (scale 0.6), gets `Indicate`, then a small `GAP` check, then fades: (a) ch01 s04, ch03 s08, ch05 s07; (b) ch02 s06 (answered again ch10 s05); (c) ch04 s09 -> s11; (d) ch05 s07 -> ch06 s01; (e) ch08 s02 (again ch10 s06); (f) ch07 s05 -> s08.
+6. **OBJECTION BUBBLES**: six small rounded speech bubbles, `DIM` outline, font 26: (a) "every finite chain has a gap", (b) "doesn't the $\theta$-term already explain it?", (c) "why even $L$?", (d) "why not just double $\beta$?", (e) "isn't this just numerics?", (f) "why doesn't it prove spin $\tfrac12$ gapped?". Bubble (a) first appears alone in ch01 s04; all six appear together in ch01 s06. Later, when the narration raises/answers one, that bubble alone fades in at the top-right (scale 0.6), gets `Indicate`, then a small `GAP` check, then fades: (a) ch01 s04, ch03 s08, ch05 s07; (b) ch02 s06 (answered again ch10 s05); (c) ch04 s13 -> s15; (d) ch05 s07 -> ch06 s01; (e) ch08 s02 (again ch10 s06); (f) ch07 s05 -> s08.
 7. **TAGS**: a small `DIM` rounded box with italic text in a top corner, on screen for the whole segment whenever the narration offers material that is not in the papers: "physicist's reading -- not in the paper", "our calculation -- not in the paper", "heuristic", "analogy". Literature values carry a small `DIM` "literature" label next to the number.
 8. **STATUS CARD** (ch01 s07, ch10 s06): plain text only (see ch01 s07).
 
 ### Three different "twists": keep them visually and verbally distinct
 - ch03 s02, the Lieb-Schultz-Mattis **slow spiral**: every arrow of a ring rotated progressively (a helix). Variational state. Never reuse.
-- ch04 s10 and ch08 s03, the **seam**: a symmetry rotation inserted at ONE bond of a periodic ring (twisted boundary condition), glyph = small circular arrow labelled P. In the spatial reading it is an operator U_g inside the trace; it sorts eigenvalues into sectors. No topology.
+- ch04 s14 and ch08 s03, the **seam**: a symmetry rotation inserted at ONE bond of a periodic ring (twisted boundary condition), glyph = small circular arrow labelled P. In the spatial reading it is an operator U_g inside the trace; it sorts eigenvalues into sectors. No topology.
 - ch09 s05, Tasaki's **gentle local twist**: a ramp of rotation angles (0 -> pi -> 2 pi) on the open chain. The only one that carries topology.
 
 ### Accuracy rules for everything on screen
