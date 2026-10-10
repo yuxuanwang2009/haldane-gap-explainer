@@ -123,6 +123,7 @@ class Ch10(NarratedScene):
         self.s03_why_small()
         self.s04_tool()
         self.s05_not_explanation()
+        self.s06_flow()
         self.s06_status()
         self.s07_computations()
         self.s08_ai()
@@ -347,6 +348,8 @@ class Ch10(NarratedScene):
         crit.next_to(hlab, DOWN, buff=0.18).align_to(hlab, LEFT)
         gapd = T("add up: gapped", font_size=26, color=DIM)
         gapd.next_to(ilab, DOWN, buff=0.18).align_to(ilab, LEFT)
+        sp = T("spin enters only through the seed", font_size=26, color=DIM)
+        sp.next_to(st, DOWN, buff=0.3)
         b = objection_bubble("theta")
         # phasors and sector weights are cartoons (as in ch02): tag the right panel
         sch = tag_box(TAG_SCHEMATIC).move_to([x_lab, b.shape.get_top()[1], 0], aligned_edge=UL)
@@ -354,14 +357,18 @@ class Ch10(NarratedScene):
         with self.seg("s05", breath=1.1):
             self.fade_all(0.6)
             self.play(bubble_in(b), run_time=0.7)
-            self.cue(2.5)                                     # "It claims to certify that..."
+            self.cue(2.36)                                    # "The analytic part never mentions spin"
             self.play(FadeIn(hl, shift=0.1 * DOWN), Create(div), FadeIn(st), run_time=0.6)
-            self.play(FadeIn(tr), Create(cap[0]), FadeIn(cap[1]), FadeIn(cap[2]), run_time=0.5)
+            self.play(FadeIn(tr), run_time=0.4)
             self.play(tr.climb(1, trail=True), run_time=0.8)
-            self.cue(5.1)                                     # "never why"
+            self.cue(4.97)                                    # "spin one enters only through ... the seed"
+            self.play(FadeIn(sp, shift=0.1 * UP), Indicate(tr, color=FG), run_time=0.8)
+            self.cue(8.43)                                    # "So it claims to certify that spin one is gapped"
+            self.play(Create(cap[0]), FadeIn(cap[1]), FadeIn(cap[2]), run_time=0.6)
+            self.cue(11.29)                                   # "never why"
             self.play(FadeIn(hr, shift=0.1 * DOWN), bubble_indicate(b), Write(f), tag_in(sch),
                       run_time=0.9)
-            self.cue(6.1)                                     # "the theta term is still the explanation"
+            self.cue(12.29)                                   # "the theta term is still the explanation"
             self.play(AnimationGroup(
                 AnimationGroup(FadeIn(hlab, shift=0.1 * RIGHT, run_time=0.4),
                                hrow.build(run_time=1.0)),
@@ -374,6 +381,109 @@ class Ch10(NarratedScene):
         self._s05_tag = sch
 
     # ================================================================ s06
+    def s06_flow(self):
+        """Physicist's reading: the leapfrog as a renormalization flow of the defects."""
+        import numpy as np
+        rt = tag(TAG_READING, buff=0.42)
+        x0, x1 = 2.0, 12.3                                  # log2 L
+        ax = Axes(x_range=[x0, x1, 1], y_range=[0, 0.8, 0.2], x_length=9.6, y_length=4.4,
+                  tips=False, axis_config={"color": DIM, "stroke_width": 2,
+                                           "include_ticks": False})
+        ax.move_to([0.3, -0.55, 0])
+        xl = T(r"scale: $L$ and $\beta$ doubled together $\longrightarrow$", font_size=28,
+               color=DIM).next_to(ax.x_axis, DOWN, buff=0.55)
+        yl = T("defect", font_size=30, color=DEFECT).rotate(PI / 2).next_to(ax.y_axis, LEFT,
+                                                                             buff=0.25)
+        sch = tag_box(TAG_SCHEMATIC).next_to(ax, UP, buff=0.15).align_to(ax, LEFT).shift(
+            RIGHT * 0.3)
+
+        def lx(L):
+            return np.log2(L)
+
+        # doublings: small ticks along the scale axis, every factor of two from L = 9
+        hops = VGroup(*[Line(ax.c2p(lx(9 * 2 ** k), 0) + DOWN * 0.07,
+                             ax.c2p(lx(9 * 2 ** k), 0) + UP * 0.07, color=DIM, stroke_width=2)
+                        for k in range(9)])
+        lticks = VGroup(*[M(str(L), font_size=26, color=SPACE).next_to(ax.c2p(lx(L), 0), DOWN,
+                                                                       buff=0.12)
+                          for L in (72, 2304)])
+
+        half = ax.plot(lambda x: 0.55, x_range=[x0, x1 - 0.1], color=HALF, stroke_width=4)
+        hlab = T(r"spin $\tfrac12$: critical, never flows", font_size=28, color=HALF)
+        hlab.next_to(ax.c2p(x1 - 0.1, 0.55), UP, buff=0.15).align_to(ax.c2p(x1 - 0.1, 0), RIGHT)
+
+        def f1(x):
+            return 0.6 * np.exp(-(2 ** x) / 30)
+
+        def f2(x):
+            return 0.7 * np.exp(-(2 ** x) / 250)
+        one = ax.plot(f1, x_range=[x0, 9.0, 0.02], color=INTEGER, stroke_width=4)
+        olab = T("spin 1", font_size=28, color=INTEGER).next_to(ax.c2p(lx(20), f1(lx(20))),
+                                                                RIGHT, buff=0.25)
+        band = Rectangle(width=ax.c2p(x1, 0)[0] - ax.c2p(x0, 0)[0],
+                         height=ax.c2p(x0, 0.127)[1] - ax.c2p(x0, 0)[1], stroke_width=0,
+                         fill_color=GAP, fill_opacity=0.16)
+        band.move_to(ax.c2p(x0, 0), aligned_edge=DL)
+        edge = DashedLine(ax.c2p(x0, 0.127), ax.c2p(x1, 0.127), color=GAP, stroke_width=2,
+                          dash_length=0.08)
+        blab = T("basin", font_size=28, color=GAP).move_to(ax.c2p(x1 - 0.7, 0.065))
+
+        sx = lx(72)
+        seed = Dot(ax.c2p(sx, f1(sx)), radius=0.09, color=FG)
+        slab = T("certified seed", font_size=28).next_to(seed, LEFT, buff=0.25)
+        xi1 = VGroup(Line(ax.c2p(lx(6), 0) + DOWN * 0.1, ax.c2p(lx(6), 0) + UP * 0.1,
+                          color=INTEGER, stroke_width=4))
+        xi1.add(M(r"\xi\approx6", font_size=28, color=INTEGER).next_to(xi1[0], DOWN, buff=0.12))
+        lit1 = literature_label(xi1[1], RIGHT, buff=0.12)
+
+        two = DashedVMobject(ax.plot(f2, x_range=[x0, 11.0, 0.02], color=DIM, stroke_width=3),
+                             num_dashes=60)
+        tlab = T("spin 2", font_size=28, color=DIM).next_to(ax.c2p(x0 + 0.15, f2(x0 + 0.15)), UP,
+                                                            buff=0.15).shift(RIGHT * 0.9)
+        xi2 = VGroup(Line(ax.c2p(lx(50), 0) + DOWN * 0.1, ax.c2p(lx(50), 0) + UP * 0.1,
+                          color=DIM, stroke_width=4))
+        xi2.add(M(r"\xi\approx50", font_size=28, color=DIM).next_to(xi2[0], DOWN, buff=0.12))
+        xi2[1].align_to(xi2[0], RIGHT).shift(RIGHT * 0.1)
+        far = T("seed out of reach", font_size=26, color=DIM).next_to(
+            ax.c2p(lx(430), f2(lx(430))), UR, buff=0.15)
+
+        with self.seg("s06"):
+            self.fade_all(0.6)
+            self.play(tag_in(rt), run_time=0.5)
+            # "doubling L and beta together is a change of scale"
+            self.cue(2.64)
+            self.play(Create(ax), FadeIn(yl), FadeIn(xl, shift=0.1 * UP), run_time=1.0)
+            self.play(LaggedStart(*[GrowFromCenter(h) for h in hops], lag_ratio=0.12),
+                      FadeIn(lticks), run_time=1.1)
+            # "so the leapfrog is a renormalization flow for the two defects"
+            self.cue(5.6)
+            self.play(Indicate(yl, color=DEFECT, scale_factor=1.15), tag_in(sch), run_time=0.9)
+            # "At a critical point they never flow"
+            self.cue(9.14)
+            self.play(Create(half), run_time=1.0)
+            self.play(FadeIn(hlab, shift=0.1 * DOWN), run_time=0.5)
+            # "In a massive phase they flow to zero"
+            self.cue(11.38)
+            self.play(Create(one), FadeIn(olab), run_time=1.5)
+            # "and the basin is that phase's domain of attraction"
+            self.cue(13.36)
+            self.play(FadeIn(band), Create(edge), FadeIn(blab), run_time=0.9)
+            # "The seed certifies that by 72 sites"
+            self.cue(16.45)
+            self.play(GrowFromCenter(seed), FadeIn(slab),
+                      Indicate(lticks[0], color=SPACE, scale_factor=1.3), run_time=0.9)
+            # "about a dozen correlation lengths"
+            self.cue(19.05)
+            self.play(Create(xi1[0]), FadeIn(xi1[1]), FadeIn(lit1), run_time=0.8)
+            # "That is also why spin two"
+            self.cue(23.23)
+            self.play(Create(two), FadeIn(tlab), run_time=1.4)
+            # "with a correlation length near 50 sites, is out of reach"
+            self.cue(25.05)
+            self.play(Create(xi2[0]), FadeIn(xi2[1]), run_time=0.7)
+            self.play(FadeIn(far, shift=0.1 * LEFT), run_time=0.6)
+
+    # ================================================================ s07
     def s06_status(self):
         card = StatusCard()
         bar0 = highlight_bar(card.lines[0])
@@ -418,9 +528,10 @@ class Ch10(NarratedScene):
         h_cl = T("claim", font_size=30, color=GAP).move_to([xcl, h_y, 0])
         nb = objection_bubble("numerics")
 
-        with self.seg("s06"):
+        with self.seg("s07"):
             b = self._bubble
-            self.play(bubble_out(b), run_time=0.4)
+            if b in self.mobjects:
+                self.play(bubble_out(b), run_time=0.4)
             self.fade_all(0.5)
             self.play(FadeIn(card), run_time=1.0)            # reprise: the whole card at once
             self.cue(1.5)                                     # "this is OpenAI's claimed proof"
@@ -497,7 +608,7 @@ class Ch10(NarratedScene):
                                            color=GAP)).arrange(RIGHT, buff=0.25)
         match.next_to(frame, DOWN, buff=0.4)
 
-        with self.seg("s07"):
+        with self.seg("s08"):
             self.play(bubble_out(self._bubble), run_time=0.4)
             self.fade_all(0.5)
             self.play(FadeIn(pub, shift=0.1 * UP), run_time=0.7)
@@ -530,7 +641,7 @@ class Ch10(NarratedScene):
                                                                                    buff=0.3)
         cks = VGroup(ck1, ck2).arrange(DOWN, aligned_edge=LEFT, buff=0.55).move_to([3.3, -0.35, 0])
 
-        with self.seg("s08"):
+        with self.seg("s09"):
             self.fade_all(0.5)                                # "As for the AI:"
             self.play(FadeIn(au, shift=0.1 * UP), run_time=0.8)
             self.cue(4.3)                                     # "with no human author named"
@@ -563,7 +674,7 @@ class Ch10(NarratedScene):
         cS = pay_coin("S").move_to([5.65, -2.0, 0])
         tiles = tor.tiling_overlays()
 
-        with self.seg("s09"):
+        with self.seg("s10"):
             self.play(FadeOut(S["top"]), FadeOut(S["cks"]), tor.pulse_chevrons(), run_time=0.9)
             self.cue(1.5)                                     # "A horizontal knife gives Gibbs weights"
             self.play(hk.glow_on(), run_time=0.3)
@@ -636,7 +747,7 @@ class Ch10(NarratedScene):
                      Line(mag.get_corner(DR), frame.get_corner(DL)))
         con.set_stroke(DIM, width=2, opacity=0.45)
 
-        with self.seg("s10", breath=3.4):
+        with self.seg("s11", breath=3.4):
             self.play(FadeOut(*self.mobjects), run_time=0.5)
             self.play(FadeIn(real), FadeIn(seed), run_time=0.8)
             self.play(FadeIn(lab_in), GrowArrow(arr_in), run_time=0.7)

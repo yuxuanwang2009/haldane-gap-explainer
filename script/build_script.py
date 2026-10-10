@@ -100,7 +100,7 @@ r"""
   2. `GAP` check: "analytic argument: short, checkable by hand"
   3. `GAP` check: "finite computations: published with the paper, re-runnable on a laptop"
 """,
-"Status facts are limited to this allowed list (also ch10 s06-s07). No reactions, no other releases, no repository screenshots, no company branding. Only the periodic manuscript claims the even-ring gap; the boundary manuscript claims a gap for odd open chains with end fields. Keep 'even' visible if the claim is paraphrased on screen.")
+"Status facts are limited to this allowed list (also ch10 s07-s08). No reactions, no other releases, no repository screenshots, no company branding. Only the periodic manuscript claims the even-ring gap; the boundary manuscript claims a gap for odd open chains with end fields. Keep 'even' visible if the claim is paraphrased on screen.")
 
 seg("""And its central idea uses no field theory at all: one partition function read in two directions, a trick of
 squaring probabilities, and a staircase that climbs to infinite length.""",
@@ -896,11 +896,26 @@ r"""
 """,
 "Paper: Prop. 4.3 is 'a reusable criterion ... positivity of the spatial transfer is not required'. Do not claim such representations exist for other spins.")
 
-seg("""And it is not an explanation. It claims to certify that spin one is gapped, never why; the theta term is still
-the explanation.""",
+seg("""And it is not an explanation. The analytic part never mentions spin; spin one enters only through the numbers
+in the seed. So it claims to certify that spin one is gapped, never why; the theta term is still the explanation.""",
 r"""
-- Split screen: left, the ch02 theta phasors labelled "why"; right, the staircase labelled "that".
-""")
+- Split screen: left, the staircase labelled "certifies that", with `DIM` line "spin enters only through the seed"; right, the ch02 theta phasors labelled "explains why".
+""",
+"The integer/half-integer distinction appears nowhere in the analytic argument; it enters only through the construction of X (spin one) and the certified seed numbers.")
+
+seg("""A physicist's reading, not the paper's: doubling L and beta together is a change of scale, so the leapfrog is a
+renormalization flow for the two defects. At a critical point they never flow. In a massive phase they flow to zero,
+and the basin is that phase's domain of attraction. The seed certifies that by 72 sites, about a dozen correlation
+lengths, spin one is already inside. That is also why spin two, with a correlation length near 50 sites, is out of
+reach.""",
+r"""
+- Tag "physicist's reading -- not in the paper" and "schematic". Axes: x "scale: $L$ and $\beta$ doubled together" (log scale, ticks 6, 72, 2304), y "defect".
+- Sentence 2: `HALF` flat line near 0.55, label "spin $\tfrac12$: critical, never flows".
+- Sentence 3: `GAP` band under 0.127 labelled "basin"; `INTEGER` curve falling into it and plunging to zero, label "spin 1".
+- Sentence 4: a dot on the spin-1 curve at $L=72$, label "certified seed"; `INTEGER` tick "$\xi\approx6$".
+- Sentence 5: dashed `DIM` spin-2 curve that reaches the basin only far to the right, tick "$\xi\approx50$".
+""",
+"Reading only: the paper never speaks of RG. Curves are schematic; the only hard numbers are 0.127 (basin edge), 72 (trial state), xi ~ 6 and ~ 50 (literature), 0.55 (our spin-1/2 CFT estimate, ch07 s08). The seed defects (< 0.048 at L = 36-72) are inside the basin.")
 
 seg("""On status: this is OpenAI's claimed proof, a preprint released on October 6, 2026, not yet independently refereed. The analytic argument is short enough to check by hand; the computer only proves finitely many inequalities, about thermal traces of rings and chains of at most twelve sites, and a few integer trial states.""",
 r"""
@@ -986,14 +1001,14 @@ GLOBAL = r"""
 **The letter S** means both spin and spatial purity. On screen, spatial purity is always written with arguments, `S(n,\beta)`, in `SPACE`; spin is written "spin 1" or S in FG.
 
 ### Recurring motifs (build each once in a new shared module, e.g. `scenes/motifs.py`; callbacks must look identical)
-1. **GAPPLOT** (ch01 s02-s05, ch10 s10). `Axes(x_range=[0,0.27,0.05], y_range=[0,1.05,0.2], x_length=8, y_length=4.6)`; x label `M(r"1/L")`, y label `M(r"\gamma_L=E_1-E_0")`. Data `data/gaps.csv`: spin 1/2 rows (L = 4..24) as `HALF` dots, spin 1 rows (L = 4..16) as hollow `INTEGER` squares, x = 1/`L`, y = `gap_first_excitation`. Dashed `HALF` guide y = 4.385 x to the origin; dashed `INTEGER` segment at y = 0.4105 from x = 0 to 1/16, labelled `DIM` "0.4105 - DMRG, White-Huse 1993 - literature".
+1. **GAPPLOT** (ch01 s02-s05, ch10 s11). `Axes(x_range=[0,0.27,0.05], y_range=[0,1.05,0.2], x_length=8, y_length=4.6)`; x label `M(r"1/L")`, y label `M(r"\gamma_L=E_1-E_0")`. Data `data/gaps.csv`: spin 1/2 rows (L = 4..24) as `HALF` dots, spin 1 rows (L = 4..16) as hollow `INTEGER` squares, x = 1/`L`, y = `gap_first_excitation`. Dashed `HALF` guide y = 4.385 x to the origin; dashed `INTEGER` segment at y = 0.4105 from x = 0 to 1/16, labelled `DIM` "0.4105 - DMRG, White-Huse 1993 - literature".
 2. **TORUS + TWO KNIVES** (ch01 s08, ch04 onward, ch10). `torus_rect(width=5, height=3)`; L along the bottom (`SPACE`), beta up the left (`TIME`). Horizontal knife: an orange (`TIME`) `Line` across the full width, stroke 6, small triangular handle at its left end; it sweeps upward (thermal reading). Vertical knife: a blue (`SPACE`) `Line` across the full height with a handle at the top; it sweeps rightward (spatial reading) and always cuts THROUGH A BOND, midway between two site world lines (the states of X are bond histories). Identification chevrons take the colour of the periodic direction: top/bottom chevrons `TIME` ("time is periodic: trace"), left/right chevrons `SPACE` ("space is periodic: ring"); `torus_rect` draws them the other way round, so recolour after construction (submobjects 2-3 -> `TIME`, 4-5 -> `SPACE`). From ch05 a thumbnail (scale 0.35) sits top-left; its width or height visibly doubles whenever L or beta doubles.
 3. **WEIGHT BARS**: `weight_bars(...)`; squaring is always animated in two steps: Transform each bar to height proportional to p^2, then rescale the group so it sums to 1 again. Tallest bar uses `highlight_color` `TIME` or `SPACE`; the defect is a `DEFECT` brace over the small bars.
 4. **DEFECT GAUGES**: two vertical gauges (height 2.6), blue "p (spatial)" and orange "q (thermal)". Fill height = log10(defect) mapped [-3, 0] -> [0, 1], so FULL = large defect (impure) and EMPTY = pure; this semantics holds everywhere in the film (never fill a gauge with purity). A `DecimalNumber` under each; dashed `DEFECT` line at 0.127 "basin edge". From ch08 s08 on, the gauges show certified UPPER BOUNDS and are labelled "bound on p", "bound on q".
 5. **STAIRCASE**: `lb_plane` (x = log2 L, `SPACE`; y = log2 beta, `TIME`). The tracked pair is an L-shaped tromino: a `SPACE` segment (n, beta) -> (2n, beta) standing for S(n, beta), and a `TIME` segment (2n, beta) -> (2n, 2beta) standing for T(2n, beta). Each full update translates it by (+1, +1). Interpolation bars as in the paper's Fig. 1.
-6. **OBJECTION BUBBLES**: six small rounded speech bubbles, `DIM` outline, font 26: (a) "every finite chain has a gap", (b) "doesn't the $\theta$-term already explain it?", (c) "why even $L$?", (d) "why not just double $\beta$?", (e) "isn't this just numerics?", (f) "why doesn't it prove spin $\tfrac12$ gapped?". Bubble (a) first appears alone in ch01 s04; all six appear together in ch01 s06. Later, when the narration raises/answers one, that bubble alone fades in at the top-right (scale 0.6), gets `Indicate`, then a small `GAP` check, then fades: (a) ch01 s04, ch03 s08, ch05 s07; (b) ch02 s06 (answered again ch10 s05); (c) ch04 s13 -> s14; (d) ch05 s07 -> ch06 s01; (e) ch08 s02 (again ch10 s06); (f) ch07 s05 -> s08.
+6. **OBJECTION BUBBLES**: six small rounded speech bubbles, `DIM` outline, font 26: (a) "every finite chain has a gap", (b) "doesn't the $\theta$-term already explain it?", (c) "why even $L$?", (d) "why not just double $\beta$?", (e) "isn't this just numerics?", (f) "why doesn't it prove spin $\tfrac12$ gapped?". Bubble (a) first appears alone in ch01 s04; all six appear together in ch01 s06. Later, when the narration raises/answers one, that bubble alone fades in at the top-right (scale 0.6), gets `Indicate`, then a small `GAP` check, then fades: (a) ch01 s04, ch03 s08, ch05 s07; (b) ch02 s06 (answered again ch10 s05); (c) ch04 s13 -> s14; (d) ch05 s07 -> ch06 s01; (e) ch08 s02 (again ch10 s07); (f) ch07 s05 -> s08.
 7. **TAGS**: a small `DIM` rounded box with italic text in a top corner, on screen for the whole segment whenever the narration offers material that is not in the papers: "physicist's reading -- not in the paper", "our calculation -- not in the paper", "heuristic", "analogy". Literature values carry a small `DIM` "literature" label next to the number.
-8. **STATUS CARD** (ch01 s07, ch10 s06): plain text only (see ch01 s07).
+8. **STATUS CARD** (ch01 s07, ch10 s07): plain text only (see ch01 s07).
 
 ### Three different "twists": keep them visually and verbally distinct
 - ch03 s02, the Lieb-Schultz-Mattis **slow spiral**: every arrow of a ring rotated progressively (a helix). Variational state. Never reuse.

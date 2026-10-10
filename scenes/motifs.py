@@ -70,7 +70,7 @@ def pulse(mob, color=DEFECT, scale_factor=1.12, **kw):
 
 
 def pay_coin(kind="T", radius=0.24):
-    """Coin used for 'T pays' / 'S pays' (ch06 s08, ch10 s09)."""
+    """Coin used for 'T pays' / 'S pays' (ch06 s08, ch10 s10)."""
     c = TIME if kind == "T" else SPACE
     disc = Circle(radius=radius, fill_color=c, fill_opacity=1, stroke_color=FG, stroke_width=2)
     lab = M(kind, color=BG, font_size=30).move_to(disc)
@@ -269,7 +269,7 @@ def objection_collapse(col, corner=UR, **kw):
 
 # =================================================================== 8. STATUS CARD
 class StatusCard(VGroup):
-    """Plain-text status card (ch01 s07, reprise ch10 s06).
+    """Plain-text status card (ch01 s07, reprise ch10 s07).
 
     Parts (animate them in sync with the narration):
       .titles      VGroup(2) the two manuscript titles (font 34)
@@ -342,7 +342,7 @@ def load_gaps():
 
 
 class GapPlot(VGroup):
-    """The ch01 gap-versus-1/L plot (motif 1); identical object in ch10 s10.
+    """The ch01 gap-versus-1/L plot (motif 1); identical object in ch10 s11.
 
     Structure (fixed, so that zoomed() can transform it):
       .ax, .x_label, .y_label, .lines (VGroup(half_segments, one_segments)),
@@ -551,7 +551,7 @@ class GapPlot(VGroup):
         return curves
 
     def floor_lines(self, color=GAP, stroke=5):
-        """ch10 s10 floor at TRUE height: 4.79e-4 for 1/L <= 1/60, and the short
+        """ch10 s11 floor at TRUE height: 4.79e-4 for 1/L <= 1/60, and the short
         3.82e-3 step for 1/L <= 1/2304 (both hug the axis on this scale)."""
         a = Line(self.c2p(0, 4.79e-4), self.c2p(1 / 60, 4.79e-4), color=color, stroke_width=stroke)
         b = Line(self.c2p(0, 3.82e-3), self.c2p(1 / 2304, 3.82e-3), color=color,
@@ -696,7 +696,7 @@ class Torus(VGroup):
             *[Indicate(c, color=SPACE, scale_factor=1.7) for c in self.chev_space], **kw)
 
     def tiling_overlays(self, inset=0.07, badge_size=30):
-        """The four-tori identity on this torus (2n x 2beta), ch06 s06/ch10 s09.
+        """The four-tori identity on this torus (2n x 2beta), ch06 s06/ch10 s10.
 
         Returns a list of 4 VGroups, in order: whole (+1), two tall halves
         n x 2beta (-2, split by a SPACE cut), two wide halves 2n x beta (-2, TIME
@@ -1432,7 +1432,7 @@ class Tromino(VGroup):
 
     def climb(self, n=4, exit=False, trail=False, **kw):
         """n steps up the diagonal; exit=True fades it out on the last step
-        (ch01 s08, ch10 s10: '...and exits the top-right').  trail=True leaves
+        (ch01 s08, ch10 s11: '...and exits the top-right').  trail=True leaves
         ghost copies behind."""
         anims = []
         v = self.stair.unit

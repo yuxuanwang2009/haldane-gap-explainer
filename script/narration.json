@@ -419,26 +419,30 @@
     },
     {
      "id": "s05",
-     "text": "And it is not an explanation. It claims to certify that spin one is gapped, never why; the theta term is still the explanation."
+     "text": "And it is not an explanation. The analytic part never mentions spin; spin one enters only through the numbers in the seed. So it claims to certify that spin one is gapped, never why; the theta term is still the explanation."
     },
     {
      "id": "s06",
-     "text": "On status: this is OpenAI's claimed proof, a preprint released on October 6, 2026, not yet independently refereed. The analytic argument is short enough to check by hand; the computer only proves finitely many inequalities, about thermal traces of rings and chains of at most twelve sites, and a few integer trial states."
+     "text": "A physicist's reading, not the paper's: doubling L and beta together is a change of scale, so the leapfrog is a renormalization flow for the two defects. At a critical point they never flow. In a massive phase they flow to zero, and the basin is that phase's domain of attraction. The seed certifies that by 72 sites, about a dozen correlation lengths, spin one is already inside. That is also why spin two, with a correlation length near 50 sites, is out of reach."
     },
     {
      "id": "s07",
-     "text": "Those computations are published with the paper, about forty minutes of processor time. For this video we re-ran them on a laptop, in about twenty minutes, and every certified number matched."
+     "text": "On status: this is OpenAI's claimed proof, a preprint released on October 6, 2026, not yet independently refereed. The analytic argument is short enough to check by hand; the computer only proves finitely many inequalities, about thermal traces of rings and chains of at most twelve sites, and a few integer trial states."
     },
     {
      "id": "s08",
-     "text": "As for the AI: the manuscripts are credited to OpenAI, with no human author named. For a skeptic, what matters is that the argument is checkable, and its central idea fits in your head."
+     "text": "Those computations are published with the paper, about forty minutes of processor time. For this video we re-ran them on a laptop, in about twenty minutes, and every certified number matched."
     },
     {
      "id": "s09",
-     "text": "One torus. A horizontal knife gives Gibbs weights; a vertical knife gives spatial weights. Squaring one doubles beta, squaring the other doubles L, and an exact identity lets each pay for the other's doubling."
+     "text": "As for the AI: the manuscripts are credited to OpenAI, with no human author named. For a skeptic, what matters is that the argument is checkable, and its central idea fits in your head."
     },
     {
      "id": "s10",
+     "text": "One torus. A horizontal knife gives Gibbs weights; a vertical knife gives spatial weights. Squaring one doubles beta, squaring the other doubles L, and an exact identity lets each pay for the other's doubling."
+    },
+    {
+     "id": "s11",
      "text": "Small rings and one good trial state put the pair inside the basin, and the staircase climbs from there to infinite length. Under the curve we started with, there is now a claimed floor. Low, but a floor, and it never moves."
     }
    ]
