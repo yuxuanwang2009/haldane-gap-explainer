@@ -26,7 +26,7 @@ from ch04_torus_knives import seam_glyph        # the ch04 SEAM glyph (circular 
 
 # clip durations the cue sheets were measured on
 REF = {"s01": 18.425, "s02": 12.825, "s03": 15.225, "s04": 16.05, "s05": 14.6,
-       "s06": 19.7, "s07": 20.975, "s08": 24.725, "s09": 14.575, "s10": 16.475,
+       "s06": 19.7, "s07": 19.8, "s08": 24.725, "s09": 14.575, "s10": 16.475,
        "s11": 25.025, "s12": 16.9, "s13": 17.95}
 
 
@@ -674,9 +674,8 @@ class Ch08(NarratedScene):
         dt.next_to(vt, DOWN, buff=0.12).align_to(vt, RIGHT)
         va = M("-1.401482", font_size=28).next_to(ma, DOWN, buff=0.15).align_to(ma, LEFT)
         va.shift(RIGHT * 0.12)
-        da = T(r"reference $-a$", font_size=26).next_to(va, DOWN, buff=0.12).align_to(va, LEFT)
         gb = Brace(Line([ex(ET), YE + 0.3, 0], [ex(EA), YE + 0.3, 0]), UP, buff=0.02, color=GAP)
-        gl = M(r"\text{below }{-a}\text{ by }1.1\times10^{-7}", font_size=28, color=GAP)
+        gl = M(r"\text{below by }1.1\times10^{-7}", font_size=28, color=GAP)
         gl.next_to(gb, UP, buff=0.1).align_to([ex(EA) + 0.6, 0, 0], RIGHT)
 
         with self.seg("s06"):
@@ -701,7 +700,7 @@ class Ch08(NarratedScene):
             self.at(9.9)
             self.play(GrowFromCenter(mt), FadeIn(vt), FadeIn(dt), run_time=self.rt(0.7))
             self.at(12.0)
-            self.play(GrowFromCenter(ma), FadeIn(va), FadeIn(da), run_time=self.rt(0.7))
+            self.play(GrowFromCenter(ma), FadeIn(va), run_time=self.rt(0.7))
             self.at(13.4)
             self.play(GrowFromCenter(gb), FadeIn(gl), run_time=self.rt(0.7))
             # "just above the true value near minus 1.401484"
@@ -710,17 +709,17 @@ class Ch08(NarratedScene):
             self.play(FadeIn(lit0), run_time=self.rt(0.4))
         self.o6 = dict(jaw=jaw, mps=mps, center=center, mlab=mlab, dlab=dlab, ilab=ilab, hb=hb,
                        darr=darr,
-                       eline=VGroup(eline, eticks, ecap, m0, mt, ma, v0, d0, lit0, vt, dt, va, da,
+                       eline=VGroup(eline, eticks, ecap, m0, mt, ma, v0, d0, lit0, vt, dt, va,
                                     gb, gl),
                        ma=ma, mt=mt, va=va, gb=gb, gl=gl)
 
     # ---------------------------------------------------------------- s07
     def s07(self):
         o = self.o6
-        e1 = MM(r"a=\tfrac{700741}{500000}=1.401482", r",\qquad",
-               r"Z_n(\beta)=\operatorname{Tr}\,e^{-\beta(H_n+an)}", font_size=38)
-        note = T(r"the shift cancels from $S$, $T$ and the gap", font_size=28, color=DIM)
-        e2 = MM(r"E_0(72)+72a<0", r"\ \Longrightarrow\ ", r"Z_{72}(\beta)>1",
+        e1 = MM(r"H_n", r"\ \text{includes}\ ", r"+\tfrac{700741}{500000}\,n=+1.401482\,n",
+               font_size=38)
+        note = T(r"cancels from $S$, $T$ and the gap", font_size=28, color=DIM)
+        e2 = MM(r"E_0(72)<0", r"\ \Longrightarrow\ ", r"Z_{72}(\beta)>1",
                r"\ \text{ for every }\beta", font_size=38)
         e3 = MM(r"\text{all }|\lambda_J|\le0.999", r"\ \Longrightarrow\ ",
                r"Z_{72}(49/4)<1", r"\quad(\text{margin}>0.069)", font_size=38)
@@ -728,7 +727,7 @@ class Ch08(NarratedScene):
         e1.move_to([0, -0.25, 0])
         note.next_to(e1, DOWN, buff=0.3)
         e2.move_to([0, -2.35, 0])
-        zero = T("measure energy from here", font_size=26).next_to(o["ma"], UP, buff=0.95)
+        zero = T("zero of energy, after the constant", font_size=26).next_to(o["ma"], UP, buff=0.95)
         zarr = Arrow(zero.get_bottom(), o["ma"].get_top(), buff=0.1, color=FG,
                      stroke_width=3, tip_length=0.18, max_tip_length_to_length_ratio=0.3)
         up = 3.2
@@ -742,31 +741,30 @@ class Ch08(NarratedScene):
             self.play(rest.animate.shift(UP * up), run_time=self.rt(0.6))
             zero.shift(UP * up)
             zarr.shift(UP * up)
-            # "The paper measures energy from exactly minus 1.401482 per site"
+            # "The constant added to H is exactly 1.401482 per site"
             self.at(1.0)
             self.play(Indicate(o["ma"], color=FG, scale_factor=1.3),
                       FadeIn(zero), GrowArrow(zarr), run_time=self.rt(0.8))
-            self.at(2.4)
+            self.at(2.2)
             self.play(Write(e1), run_time=self.rt(1.8))
-            # "a shift that cancels from every purity and the gap"
-            self.at(5.87)
             self.play(FadeIn(note, shift=0.1 * UP), run_time=self.rt(0.6))
-            # "so the shifted Z of 72 exceeds one at every temperature"
-            self.at(9.06)
+            # "the trial state's energy is negative"
+            self.at(6.42)
             self.play(Indicate(o["mt"], color=VIRTUAL, scale_factor=1.3), Write(e2[0]),
                       run_time=self.rt(1.0))
-            self.at(11.1)
+            # "so Z of 72 exceeds one at every temperature"
+            self.at(8.79)
             self.play(Write(e2[1:]), run_time=self.rt(1.1))
             self.play(Indicate(e2[2], color=GAP), run_time=self.rt(0.6))
             # "Yet if every symmetric eigenvalue were at most 0.999"
-            self.at(13.79)
+            self.at(12.66)
             self.play(FadeOut(*self.present(o["eline"], zero, zarr)),
                       VGroup(e1, note).animate.shift(UP * 2.6),
                       e2.animate.shift(UP * 2.0), run_time=self.rt(0.7))
             e3.move_to([0, -1.75, 0])
             self.play(Write(e3[0]), run_time=self.rt(1.0))
             # "the small-ring moments would force it below one"
-            self.at(18.2)
+            self.at(16.97)
             self.play(Write(e3[1:]), run_time=self.rt(1.0))
             contra.move_to([0, -2.85, 0])
             ln = VGroup(SurroundingRectangle(e2[2], color=SX, buff=0.1, corner_radius=0.06),

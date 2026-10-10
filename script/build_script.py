@@ -275,7 +275,7 @@ r"""
 - The ring is copied upward 6 times (faint, offset in y) to suggest a cylinder; the stack collapses into `torus_rect(width=5, height=3, nx=10, ny=6)` at centre.
 - Identification chevrons pulse, coloured by the direction that is periodic: `TIME` chevrons on top/bottom with orange label "time is periodic: trace", `SPACE` double chevrons on left/right with blue label "space is periodic: ring". (`torus_rect` builds them the other way round; recolour after construction: submobjects 2-3, the top/bottom chevrons, -> `TIME`; submobjects 4-5, the left/right chevrons, -> `SPACE`.) L label (`SPACE`) below, beta (`TIME`) left.
 """,
-"Colour code fixed from here on: horizontal extent L = SPACE blue; vertical extent beta = TIME orange; identification marks take the colour of the periodic direction. Z is unshifted here; ch04 s10 quotes shifted values (said aloud as 'energies measured from a fixed reference'), and the shift itself is given in ch08 s07.")
+"Colour code fixed from here on: horizontal extent L = SPACE blue; vertical extent beta = TIME orange; identification marks take the colour of the periodic direction. From ch04 s14 on, H carries the paper's added constant per site (said aloud once there; its value 1.401482 is given in ch08 s07). No separate symbol for it, and no e^{-a beta}.")
 
 seg("""Slice it with a horizontal knife, and you cut the whole ring at one instant. Stepping upward is imaginary-time
 evolution, so Z is a sum of e to the minus beta E over all eigenstates: positive weights, the Gibbs distribution.""",
@@ -349,16 +349,14 @@ r"""
 """,
 "Paper: interleavings of bond histories partition the global time simplex; mu(Omega_b)=e^{3b}.")
 
-seg("""So the spatial operator is the integral operator with that kernel, acting on functions of one history: K f at x
+seg("""So the spatial operator X is the integral operator with that kernel, acting on functions of one history: X f at x
 is the integral of k of x and y, times f of y, d mu of y. Composing two of them integrates over the history in between,
-so around the ring the trace of K to the L is the partition function. The paper's X is K times e to the minus a beta,
-with a equal to 1.401482: one constant per site, which only measures energies from a fixed reference.""",
+so around the ring the trace of X to the L is the partition function.""",
 r"""
-- Capsules become beads on a ring with k nodes between them; `K_beta` box in the centre.
-- `M(r"(K_\beta f)(x)=\int k_\beta(x,y)\,f(y)\,d\mu(y)")`, `M(r"\operatorname{Tr}K_\beta^{\,L}=\operatorname{Tr}e^{-\beta H_L}")`.
-- Box becomes `X_beta`; `M(r"X_\beta=e^{-a\beta}K_\beta,\quad a=1.401482")`.
+- Capsules become beads on a ring with k nodes between them; `X_beta` box in the centre.
+- `M(r"(X_\beta f)(x)=\int k_\beta(x,y)\,f(y)\,d\mu(y)")`, `M(r"\operatorname{Tr}X_\beta^{\,L}=\operatorname{Tr}e^{-\beta H_L}")`.
 """,
-"Paper: X_b = e^{-ab}K_b; Tr X^n = Tr e^{-b(H_n+an)} (n >= 4). The shift is the 'fixed reference' of ch04 s14 and ch08.")
+"Paper: X_b = e^{-ab}K_b with Tr X^n = Tr e^{-b(H_n+an)}. The film folds the constant a into H (stated once, ch04 s14) and calls the operator X throughout.")
 
 seg("""Unlike a classical transfer matrix, the entries can be negative: two x events give a trace of minus two. Still,
 the kernel is bounded by three, and all histories together weigh e to the three beta, so X is a compact operator with a
@@ -394,13 +392,13 @@ r"""
 """,
 "breath=2.0 after this clip. The paper states explicitly that X is not positive, but gives no eigenvalues: do not use the free-boson 'Matsubara tower' numbers (-0.848, -0.768, -0.641) from the physics digest; they are a model, not data.", pause=2.0)
 
-seg("""The paper's data at beta 12.25, energies measured from a fixed reference: if all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3.""",
+seg("""The paper's data at beta 12.25, with a constant per site added to H, which cancels from every purity and the gap. If all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3.""",
 r"""
-- Three small FG rings (4, 5, 6 sites) with values beneath from `data/paper_thermal_table_check.csv` (rows `b == 12.25`, `g == 1`, column `paper_center`): `M(r"Z_4=124.885")`, `M(r"Z_5=0.0029", color=DEFECT)`, `M(r"Z_6=12.871")`. Header `M(r"\beta=\tfrac{49}{4}")` with a `DIM` note, shown on "fixed reference": `M(r"Z_n=\operatorname{Tr}\,e^{-\beta(H_n+an)}")` "(energy measured from $-a$ per site; $a$ in ch08)".
+- Three small FG rings (4, 5, 6 sites) with values beneath from `data/paper_thermal_table_check.csv` (rows `b == 12.25`, `g == 1`, column `paper_center`): `M(r"Z_4=124.885")`, `M(r"Z_5=0.0029", color=DEFECT)`, `M(r"Z_6=12.871")`. Header `M(r"\beta=\tfrac{49}{4}")` with a `DIM` note, shown on "a constant per site": `M(r"Z_n=\operatorname{Tr}\,e^{-\beta H_n}")` "$H_n$ includes a constant per site (value in ch08)".
 - Sentence 1: `M(r"\text{all }\lambda_i\ge0\ \Rightarrow\ Z_5^{1/5}\ge Z_6^{1/6}\ \Rightarrow\ Z_5\ge12.87^{5/6}\approx8.4")`. Sentence 2: it gets an `SX`-red cross.
 - Sentence 3: the 5-ring gets a SEAM glyph on one bond (small circular arrow labelled `M("P")`, "half turn"); value `M(r"Z_5(P)=2.961")` (row `g == P`); arrow "x1000".
 """,
-"The norm step is homogeneous, hence independent of the energy shift (our check, not in the paper). Values are the paper's certified centres (Lemma 5.1); they are SHIFTED partition functions (unshifted Z_4 at this beta exceeds e^73), which is why the narration names the reference. Do not compare Z5 with Z4: shifted Z_n falls with n regardless. 'Frustration' here means the odd ring's Neel frustration; the even ring is unfrustrated. The seam is a twisted boundary condition (TWIST RULE: 'seam').")
+"The norm step is homogeneous, hence independent of the energy shift (our check, not in the paper). Values are the paper's certified centres (Lemma 5.1); they are SHIFTED partition functions (unshifted Z_4 at this beta exceeds e^73), which is why the narration names the added constant. Do not compare Z5 with Z4: shifted Z_n falls with n regardless. 'Frustration' here means the odd ring's Neel frustration; the even ring is unfrustrated. The seam is a twisted boundary condition (TWIST RULE: 'seam').")
 
 seg("""So negative eigenvalues exist, and only on even rings is lambda to the L never negative. There, the spatial
 weights form a second probability distribution for the same Z: that is why the theorem is about even rings.""",
@@ -737,19 +735,19 @@ seg("""The lower jaw is one explicit trial state, a matrix product state with bo
 On 72 sites, its energy per bond is certified below minus 1.401482, just above the true value near minus 1.401484.""",
 r"""
 - Ring of 24 small tensor circles (stand-in for 72) with thick `VIRTUAL` bonds labelled `M("D=26")`, "integer entries".
-- Zoomed energy number line from -1.401485 to -1.401481 with three marks, left to right: `-1.401484039` "true $e_0$ (DMRG, literature)" (`DIM`); `-1.4014821126` "trial state, certified, $L=72$" (`VIRTUAL`); `-1.401482` "reference $-a$" (FG). `GAP` brace "below $-a$ by $1.1\times10^{-7}$".
+- Zoomed energy number line from -1.401485 to -1.401481 with three marks, left to right: `-1.401484039` "true $e_0$ (DMRG, literature)" (`DIM`); `-1.4014821126` "trial state, certified, $L=72$" (`VIRTUAL`); `-1.401482` (FG, unlabelled until s07). `GAP` brace "below by $1.1\times10^{-7}$".
 """,
-"Order must be e0 < e_MPS < -a (critic row 1). The trial is 1.9e-6 above e0; -a is 2.0e-6 above e0. The paper never quotes e0: label it literature.")
+"Order must be e0 < e_MPS < -1.401482 (critic row 1). The trial is 1.9e-6 above e0; -a is 2.0e-6 above e0. The paper never quotes e0: label it literature.")
 
-seg("""The paper measures energy from exactly minus 1.401482 per site, a shift that cancels from every purity and the
-gap, so the shifted Z of 72 exceeds one at every temperature. Yet if every symmetric eigenvalue were at most 0.999,
+seg("""The constant added to H is exactly 1.401482 per site. With it, the trial state's energy is negative, so Z of 72
+exceeds one at every temperature. Yet if every symmetric eigenvalue were at most 0.999,
 the small-ring moments would force it below one.""",
 r"""
-- `M(r"a=\tfrac{700741}{500000}=1.401482,\qquad Z_n(\beta)=\operatorname{Tr}\,e^{-\beta(H_n+an)}")` and `DIM` "cancels from $S$, $T$ and the gap".
-- `M(r"E_0(72)+72a<0\ \Longrightarrow\ Z_{72}(\beta)>1\ \text{ for every }\beta")`.
+- Arrow "zero of energy after the constant" onto the -1.401482 mark; `M(r"H_n\ \text{includes}\ +\tfrac{700741}{500000}\,n=+1.401482\,n")`.
+- `M(r"E_0(72)<0\ \Longrightarrow\ Z_{72}(\beta)>1\ \text{ for every }\beta")`.
 - Sentence 2: `M(r"\text{all }|\lambda_J|\le0.999\ \Longrightarrow\ Z_{72}(\tfrac{49}{4})<1\quad(\text{margin}>0.069)")` with an `SX`-red "contradiction" flash.
 """,
-"Paper (2.4), Lemma C.2, Prop. 5.5 (capped-mass margin > 0.0693). Sign: the paper ADDS a = 1.401482 per site (H_n + a n), i.e. measures energy from -a per site; never say 'subtracts 1.401482'. This is the 'fixed reference' of ch04 s10.")
+"Paper (2.4), Lemma C.2, Prop. 5.5 (capped-mass margin > 0.0693). Sign: the paper ADDS 1.401482 per site to H; never say 'subtracts 1.401482'. This is the constant mentioned in ch04 s14.")
 
 seg("""So one eigenvalue is pinched between 0.999 and 1.00139, and the twelfth-moment budget leaves no room for a second
 symmetric one near one. The threefold ones are crushed: 0.872 to the 72nd power is about five in a hundred thousand.
@@ -1006,7 +1004,7 @@ GLOBAL = r"""
 - Never round a proved lower bound up: 4.79e-4 (not 4.8e-4 or 0.00048 after 'exceeds'), 3.82e-3, 5.87e-3 (not 5.9e-3).
 - Spoken symbols: the letter u is never spoken (TTS says 'you'); the narration says 'the defect'. The torus aspect ratio is rho on screen, never r (r = C u0 is the contraction rate).
 - Literature values, labelled "literature": 0.41050(2), e0 = -1.401484039, xi ~ 6, v ~ 2.49, spin-2 values (Delta 0.08917, xi 49.5).
-- Energy number line order: e0 (-1.401484039) < trial (-1.4014821126) < -a (-1.401482).
+- Energy number line order: e0 (-1.401484039) < trial (-1.4014821126) < -1.401482.
 - X is a spatial transfer operator "in the spirit of" Suzuki's quantum transfer matrix; never "a QTM". Never imply a spin-1/2 spatial transfer operator exists.
 - Do not invent reasons for the paper's design constants (beta0 = 49/4 and 21/2, seeds 36 and 60, D = 26, h = 3/5, the filter polynomials).
 - Do not say the periodic paper's symmetry group has 12 elements.

@@ -12,7 +12,7 @@ import json
 from motifs import *  # noqa: F401,F403
 
 # clip lengths when the cue times below were measured
-D_REF = {"s01": 15.875, "s02": 15.5, "s03": 19.35, "s11": 9.825, "s12": 12.375, "s13": 8.25, "s14": 22.425,
+D_REF = {"s01": 15.875, "s02": 15.5, "s03": 19.35, "s11": 9.825, "s12": 12.375, "s13": 8.25, "s14": 24.825,
          "s15": 14.65, "s16": 14.65}
 
 XYZ = {"x": SX, "y": SY, "z": SZ}
@@ -696,7 +696,7 @@ class Ch04(NarratedScene):
                                  radius=0.07, color=FG) for a in angles])
             klab = M(r"k_\beta", font_size=32).move_to(
                 RING_C + (R + 0.48) * np.array([np.cos(np.deg2rad(72)), np.sin(np.deg2rad(72)), 0]))
-            kb = M(r"K_\beta", color=SPACE, font_size=38).move_to(RING_C)
+            kb = M(r"X_\beta", color=SPACE, font_size=38).move_to(RING_C)
             kbox = SurroundingRectangle(kb, buff=0.14, color=SPACE, stroke_width=2, corner_radius=0.08)
             self.play(FadeOut(self.s08_all), FadeOut(self.xl), FadeOut(sites),
                       self.zf.animate.move_to([3.6, -2.55, 0]),
@@ -707,31 +707,21 @@ class Ch04(NarratedScene):
                       LaggedStart(*[GrowFromCenter(n_) for n_ in nodes], lag_ratio=0.06), FadeIn(klab),
                       FadeIn(kb), Create(kbox), run_time=1.2)
             self.bring_to_front(beads, nodes)
-            self.at_words("K f at x is")
-            g1 = MT(r"(K_\beta f)(x)=\int k_\beta(x,y)\,f(y)\,d\mu(y)", font_size=34).move_to([3.6, 2.5, 0])
+            self.at_words("X f at x is")
+            g1 = MT(r"(X_\beta f)(x)=\int k_\beta(x,y)\,f(y)\,d\mu(y)", font_size=34).move_to([3.6, 2.5, 0])
             self.play(Write(g1), run_time=1.5)
             self.at_words("Composing two of them")
-            g2 = MT(r"(K_\beta^2)(x,z)=\int k_\beta(x,y)\,k_\beta(y,z)\,d\mu(y)", font_size=32)
+            g2 = MT(r"(X_\beta^2)(x,z)=\int k_\beta(x,y)\,k_\beta(y,z)\,d\mu(y)", font_size=32)
             g2.move_to([3.6, 1.55, 0])
             self.play(Write(g2), Circumscribe(beads[3], color=SPACE, buff=0.06), run_time=1.4)
             self.at_words("so around the ring")
-            g3 = MT(r"\operatorname{Tr}K_\beta^{\,L}=\operatorname{Tr}\,e^{-\beta H_L}", font_size=34)
+            g3 = MT(r"\operatorname{Tr}X_\beta^{\,L}=\operatorname{Tr}\,e^{-\beta H_L}", font_size=34)
             g3.move_to([3.6, 0.6, 0])
             self.play(Write(g3), LaggedStart(*[Indicate(b, color=SPACE, scale_factor=1.12) for b in beads],
                                              lag_ratio=0.06), run_time=1.4)
-            self.at_words("The paper's X is")
-            xb = M(r"X_\beta", color=SPACE, font_size=38).move_to(RING_C)
-            xbox = SurroundingRectangle(xb, buff=0.14, color=SPACE, stroke_width=2, corner_radius=0.08)
-            h1 = MT(r"X_\beta=e^{-a\beta}K_\beta,\qquad a=1.401482", font_size=34).move_to([3.6, -0.45, 0])
-            h1[0][0:2].set_color(SPACE)
-            self.play(Write(h1), Transform(kb, xb), Transform(kbox, xbox), run_time=1.2)
-            self.at_words("which only measures energies")
-            h2 = MT(r"\operatorname{Tr}X_\beta^{\,L}=\operatorname{Tr}\,e^{-\beta(H_L+aL)}", font_size=30, color=DIM)
-            h2.move_to([3.6, -1.4, 0])
-            self.play(FadeIn(h2, shift=0.1 * UP), run_time=0.8)
         self.beads, self.nodes, self.hoop, self.klab = beads, nodes, hoop, klab
         self.xb, self.xbox = kb, kbox
-        self.s09_all = VGroup(g1, g2, g3, h1, h2, self.zf)
+        self.s09_all = VGroup(g1, g2, g3, self.zf)
 
     # ================================================================ s10
     def s10(self):
@@ -928,25 +918,25 @@ class Ch04(NarratedScene):
             self.play(LaggedStart(*[FadeIn(VGroup(r, z), shift=0.15 * UP)
                                     for r, z in ((r4, z4), (r5, z5q), (r6, z6))], lag_ratio=0.25),
                       run_time=1.4)
-            note = MT(r"Z_n=\operatorname{Tr}\,e^{-\beta(H_n+an)}", font_size=34, color=DIM)
+            note = MT(r"Z_n=\operatorname{Tr}\,e^{-\beta H_n}", font_size=34, color=DIM)
             note.next_to(hdr, RIGHT, buff=0.7)
-            note2 = TX(r"energies measured from $-a$ per site", font_size=26, color=DIM)
+            note2 = TX(r"$H_n$ includes a constant per site", font_size=26, color=DIM)
             note2.next_to(note, DOWN, buff=0.15).align_to(note, LEFT)
-            self.at(3.26)
+            self.at(3.05)
             self.play(FadeIn(note), FadeIn(note2), run_time=0.8)
 
             ineq = MT(r"\text{all }\lambda_i\ge0", r"\ \Rightarrow\ Z_5^{1/5}\ge Z_6^{1/6}",
                       r"\ \Rightarrow\ Z_5\ge12.87^{5/6}\approx8.4", font_size=36)
             ineq.move_to([0, -2.05, 0])
-            self.at(5.72)
+            self.at(8.28)
             # Z_4 plays no part in the argument: dim it so the eye compares Z_5 with Z_6
             self.play(Write(ineq[0]), VGroup(r4, z4).animate.fade(0.6), run_time=0.9)
-            self.at(8.51)
+            self.at(11.04)
             self.play(Write(ineq[1]), Indicate(z6, color=FG, scale_factor=1.12), run_time=1.3)
             self.play(Write(ineq[2]), run_time=1.3)
 
             cx = cross_mark(0.42).next_to(ineq, RIGHT, buff=0.35)
-            self.at(13.27)
+            self.at(15.64)
             self.play(TransformMatchingTex(z5q, z5), Create(cx), ineq.animate.set_opacity(0.45),
                       run_time=0.7)
             self.play(pulse(z5), run_time=0.7)
@@ -960,7 +950,7 @@ class Ch04(NarratedScene):
             seam = seam_glyph().move_to(r5[0].get_center() + (R + 0.55) * np.array(
                 [np.cos(mid), np.sin(mid), 0]))
             ht = T("half turn", font_size=26, color=DIM).next_to(seam, RIGHT, buff=0.15)
-            self.at(15.89)
+            self.at(18.21)
             self.play(FadeOut(ineq), FadeOut(cx), Create(fb), run_time=0.8)
             self.play(FadeIn(seam, scale=0.6), FadeIn(ht), Indicate(fb, color=FG), run_time=1.0)
 
@@ -968,7 +958,7 @@ class Ch04(NarratedScene):
             arr = Arrow(z5.get_bottom() + DOWN * 0.05, zp.get_top() + UP * 0.05, buff=0.08,
                         color=DIM, stroke_width=3, max_tip_length_to_length_ratio=0.25)
             x1000 = M(r"\times1400", font_size=32, color=FG).next_to(arr, RIGHT, buff=0.2)
-            self.at(20.54)
+            self.at(22.93)
             self.play(GrowArrow(arr), FadeIn(zp, shift=0.2 * DOWN), FadeIn(x1000), run_time=1.0)
         self.s14_all = VGroup(hdr, r4, r5, r6, z4, z5, z6, note, note2, fb, seam, ht, zp, arr,
                               x1000)

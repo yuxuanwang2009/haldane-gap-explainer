@@ -151,7 +151,7 @@
     },
     {
      "id": "s09",
-     "text": "So the spatial operator is the integral operator with that kernel, acting on functions of one history: K f at x is the integral of k of x and y, times f of y, d mu of y. Composing two of them integrates over the history in between, so around the ring the trace of K to the L is the partition function. The paper's X is K times e to the minus a beta, with a equal to 1.401482: one constant per site, which only measures energies from a fixed reference."
+     "text": "So the spatial operator X is the integral operator with that kernel, acting on functions of one history: X f at x is the integral of k of x and y, times f of y, d mu of y. Composing two of them integrates over the history in between, so around the ring the trace of X to the L is the partition function."
     },
     {
      "id": "s10",
@@ -171,7 +171,7 @@
     },
     {
      "id": "s14",
-     "text": "The paper's data at beta 12.25, energies measured from a fixed reference: if all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3."
+     "text": "The paper's data at beta 12.25, with a constant per site added to H, which cancels from every purity and the gap. If all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3."
     },
     {
      "id": "s15",
@@ -343,7 +343,7 @@
     },
     {
      "id": "s07",
-     "text": "The paper measures energy from exactly minus 1.401482 per site, a shift that cancels from every purity and the gap, so the shifted Z of 72 exceeds one at every temperature. Yet if every symmetric eigenvalue were at most 0.999, the small-ring moments would force it below one."
+     "text": "The constant added to H is exactly 1.401482 per site. With it, the trial state's energy is negative, so Z of 72 exceeds one at every temperature. Yet if every symmetric eigenvalue were at most 0.999, the small-ring moments would force it below one."
     },
     {
      "id": "s08",
