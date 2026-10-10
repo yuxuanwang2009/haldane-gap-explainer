@@ -223,7 +223,7 @@
    "segments": [
     {
      "id": "s01",
-     "text": "Let's try. Attempt one: double only beta. The thermal defect squares, again and again, but the ring never grew: we have proved that one fixed ring has a gap, which we knew."
+     "text": "Two gauges track the two defects: p, one minus the spatial purity, and q, one minus the thermal purity. Let's try. Attempt one: double only beta. The thermal defect squares, again and again, but the ring never grew: we have proved that one fixed ring has a gap, which we knew."
     },
     {
      "id": "s02",
@@ -235,11 +235,11 @@
     },
     {
      "id": "s04",
-     "text": "So we must double both, and everything hinges on the exchange rate: when we double beta, how much spatial purity do we lose? Pause here. This is where the proof is decided."
+     "text": "So we must double both, and everything hinges on the exchange rate: doubling beta squares the thermal defect q, but how much does it cost the spatial defect p? Pause here. This is where the proof is decided."
     },
     {
      "id": "s05",
-     "text": "The answer is an identity, almost embarrassingly simple. The spatial purity at doubled beta equals the old one squared, times the thermal purity of the doubled ring, over the old thermal purity squared. Expand into partition functions, and everything cancels: an exact equality, by pure algebra."
+     "text": "The answer starts from an identity, almost embarrassingly simple. The spatial purity at doubled beta equals the old one squared, times the thermal purity of the doubled ring, over the old thermal purity squared. To check it, write each purity in partition functions: S is Z of the doubled ring over Z squared, and T is Z at doubled beta over Z squared. Substitute, and everything cancels: an exact equality, by pure algebra."
     },
     {
      "id": "s06",
@@ -247,7 +247,7 @@
     },
     {
      "id": "s07",
-     "text": "The only inequality needed: a purity is at most one, so drop the denominator. Doubling beta then costs the spatial defect about twice itself, plus the thermal defect. A linear loss."
+     "text": "Now the answer. A purity is at most one, so dropping the denominator can only make the right side smaller: the new spatial purity is at least the old one squared, times the thermal purity of the doubled ring. In defects, with p for this ring and q for the doubled ring, that bound comes to about 2p plus q. So doubling beta costs only a linear amount: the spatial defect roughly doubles, and picks up the thermal one. That is the exchange rate, and it is cheap: squaring gains quadratically, so once both defects are small, the gain wins."
     },
     {
      "id": "s08",
@@ -285,11 +285,11 @@
     },
     {
      "id": "s03",
-     "text": "Now cash it in. At step j, e to the minus beta j times the gap is at most about three times the defect, which stays below r to the power two to the j. Meanwhile beta j is two to the j times beta zero."
+     "text": "Now cash it in. At step j, e to the minus beta j times the gap is at most about three times the defect. The defect squares each step, so this bound falls like a fixed number below one, raised to the power two to the j: in the paper's run, one twentieth. Meanwhile beta j is two to the j times beta zero."
     },
     {
      "id": "s04",
-     "text": "Take logs, and the powers of two cancel. The gap exceeds log of one over r, divided by beta zero, at every even length from the start on. One rate, certified at the starting scale, bounds the gap forever."
+     "text": "Take logs, and the powers of two cancel. The gap exceeds log 20, divided by beta zero, at every even length from the start on. One rate, certified at the starting scale, bounds the gap forever."
     },
     {
      "id": "s05",
@@ -355,7 +355,7 @@
     },
     {
      "id": "s11",
-     "text": "Then both bounds collapse. At beta 784, the spatial defect at two thousand three hundred and four sites is below 0.0085, and the thermal one, on the doubled ring, below 0.0055: under one percent, the one in a hundred we started from. With r one twentieth, every even ring from there on has a gap above log 20 over 784."
+     "text": "Then both bounds collapse. At beta 784, the spatial defect at two thousand three hundred and four sites is below 0.0085, and the thermal one, on the doubled ring, below 0.0055: under one percent, the one in a hundred we started from. So every even ring from there on has a gap above log 20 over 784."
     },
     {
      "id": "s12",

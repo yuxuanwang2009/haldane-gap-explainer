@@ -1,10 +1,10 @@
 # Storyboard: "The Haldane gap, proved?" (final synthesis)
 
-Narration voice `af_heart`, speed 1.0. Total narration: 3961 words (about 24.0 min at 165 wpm), 10 chapters.
+Narration voice `af_heart`, speed 1.0. Total narration: 4094 words (about 24.8 min at 165 wpm), 10 chapters.
 
 Source of truth for wording and segment ids: `script/narration.json`. Every narration line below is copied verbatim from it.
 
-Chapter word counts: ch01 283; ch02 253; ch03 327; ch04 834; ch05 307; ch06 438; ch07 356; ch08 555; ch09 244; ch10 364.
+Chapter word counts: ch01 283; ch02 253; ch03 327; ch04 834; ch05 307; ch06 559; ch07 371; ch08 552; ch09 244; ch10 364.
 
 ## Global conventions (read once; they apply to every chapter)
 
@@ -44,7 +44,7 @@ Chapter word counts: ch01 283; ch02 253; ch03 327; ch04 834; ch05 307; ch06 438;
 - Periodic theorem: EVEN rings only; unique ground state and gamma_L > (4/105) log(80/79) ~ 4.79e-4 for even L >= 60; gamma_L > log 20/784 ~ 3.82e-3 for even L >= 2304. Uniqueness on even rings is classical (Marshall-Lieb-Mattis); the new content is the uniform gap.
 - Boundary theorem: odd open chain of 2L+1 sites, field h = 3/5 on both end spins; gap > log 10/392 ~ 5.87e-3 for L >= 960 (>= 1921 sites); index -1 for every boundary-selected SUBSEQUENTIAL limit; full-sequence convergence and infinite-volume uniqueness not claimed. Never compare this gap with 0.41.
 - Never round a proved lower bound up: 4.79e-4 (not 4.8e-4 or 0.00048 after 'exceeds'), 3.82e-3, 5.87e-3 (not 5.9e-3).
-- Spoken symbols: the letter u is never spoken (TTS says 'you'); the narration says 'the defect'. The torus aspect ratio is rho on screen, never r (r = C u0 is the contraction rate).
+- Spoken symbols: the letter u is never spoken (TTS says 'you'); the narration says 'the defect'. The torus aspect ratio is rho on screen. Never introduce r (or C) for the contraction rate; write the number (1/20) instead.
 - Literature values, labelled "literature": 0.41050(2), e0 = -1.401484039, xi ~ 6, v ~ 2.49, spin-2 values (Delta 0.08917, xi 49.5).
 - Energy number line order: e0 (-1.401484039) < trial (-1.4014821126) < -1.401482.
 - X is a spatial transfer operator "in the spirit of" Suzuki's quantum transfer matrix; never "a QTM". Never imply a spin-1/2 spatial transfer operator exists.
@@ -596,14 +596,14 @@ VISUAL:
 
 ## ch06: The leapfrog
 
-**Purpose.** The key idea, rediscovered: two failed attempts, the exchange-rate question, the exact cancellation identity, the four-step leapfrog on the staircase, linear loss vs quadratic gain, and the collapse of the defect.  *(438 words, about 2.7 min)*
+**Purpose.** The key idea, rediscovered: two failed attempts, the exchange-rate question, the exact cancellation identity, the four-step leapfrog on the staircase, linear loss vs quadratic gain, and the collapse of the defect.  *(559 words, about 3.4 min)*
 
-### ch06.s01  (32 words, ~12 s)
+### ch06.s01  (51 words, ~19 s)
 
-> Let's try. Attempt one: double only beta. The thermal defect squares, again and again, but the ring never grew: we have proved that one fixed ring has a gap, which we knew.
+> Two gauges track the two defects: p, one minus the spatial purity, and q, one minus the thermal purity. Let's try. Attempt one: double only beta. The thermal defect squares, again and again, but the ring never grew: we have proved that one fixed ring has a gap, which we knew.
 
 VISUAL:
-- DEFECT GAUGES appear (blue p "spatial", orange q "thermal"). The torus thumbnail grows only vertically, three doublings; the orange gauge drops u -> u^2 -> u^4.
+- DEFECT GAUGES appear (blue p "spatial", orange q "thermal"); under them `M(r"p=1-S")` (`SPACE`) and `M(r"q=1-T")` (`TIME`), on screen until attempt two. The torus thumbnail grows only vertically, three doublings; the orange gauge drops u -> u^2 -> u^4.
 - On a small `lb_plane`, an arrow goes straight up from the start point; `DIM` stamp "fixed $L$: already known". The bubble "why not just double $\beta$?" gets a `GAP` check.
 
 ### ch06.s02  (43 words, ~16 s)
@@ -627,9 +627,9 @@ VISUAL:
 
 NOTE: n = 4 is below xi ~ 6, so the inset is qualitative only. The beta -> 0 anchor (visual only; the narration sentence was cut for length): X -> 3 gives S -> 1 and T -> 3^{-n} (critic). Gauges use DEFECT semantics: never draw a full gauge for a pure distribution.
 
-### ch06.s04  (32 words, ~12 s)
+### ch06.s04  (38 words, ~14 s)
 
-> So we must double both, and everything hinges on the exchange rate: when we double beta, how much spatial purity do we lose? Pause here. This is where the proof is decided.
+> So we must double both, and everything hinges on the exchange rate: doubling beta squares the thermal defect q, but how much does it cost the spatial defect p? Pause here. This is where the proof is decided.
 
 VISUAL:
 - The two gauges sit on a balance-scale icon; `T(r"exchange rate?")`; pause glyph.
@@ -638,12 +638,13 @@ NOTE: breath=2.0 after this clip.
 
 PAUSE: `breath=2.0`
 
-### ch06.s05  (46 words, ~17 s)
+### ch06.s05  (73 words, ~27 s)
 
-> The answer is an identity, almost embarrassingly simple. The spatial purity at doubled beta equals the old one squared, times the thermal purity of the doubled ring, over the old thermal purity squared. Expand into partition functions, and everything cancels: an exact equality, by pure algebra.
+> The answer starts from an identity, almost embarrassingly simple. The spatial purity at doubled beta equals the old one squared, times the thermal purity of the doubled ring, over the old thermal purity squared. To check it, write each purity in partition functions: S is Z of the doubled ring over Z squared, and T is Z at doubled beta over Z squared. Substitute, and everything cancels: an exact equality, by pure algebra.
 
 VISUAL:
 - Write `M(r"S(n,2\beta)=S(n,\beta)^2\,\frac{T(2n,\beta)}{T(n,\beta)^2}")`, S terms `SPACE`, T terms `TIME`.
+- Sentence 3: reminder line `M(r"S(n,\beta)=\frac{Z(2n,\beta)}{Z(n,\beta)^2},\qquad T(n,\beta)=\frac{Z(n,2\beta)}{Z(n,\beta)^2}")`, S `SPACE`, T `TIME`.
 - Expand with `TransformMatchingTex`: LHS `\frac{Z(2n,2\beta)}{Z(n,2\beta)^2}`; RHS `\frac{Z(2n,\beta)^2}{Z(n,\beta)^4}\cdot\frac{Z(2n,2\beta)}{Z(2n,\beta)^2}\cdot\frac{Z(n,\beta)^4}{Z(n,2\beta)^2}`. Strike the `Z(2n,\beta)^2` pair, then the `Z(n,\beta)^4` pair (`DEFECT` lines, fade); what remains equals the LHS (flash `GAP`, check mark).
 - Footnote (`DIM`, font 24): "ED check, 35 cases: $|\Delta\log|<4\times10^{-15}$" (`data/cancellation_identity_check.csv`, column `abs diff (logs)`).
 
@@ -660,13 +661,14 @@ VISUAL:
 
 NOTE: Reformulation from the logic audit; algebraically identical to the paper's identity (the paper just says 'direct cancellation'). Do not add a winding-loop picture here.
 
-### ch06.s07  (31 words, ~11 s)
+### ch06.s07  (100 words, ~36 s)
 
-> The only inequality needed: a purity is at most one, so drop the denominator. Doubling beta then costs the spatial defect about twice itself, plus the thermal defect. A linear loss.
+> Now the answer. A purity is at most one, so dropping the denominator can only make the right side smaller: the new spatial purity is at least the old one squared, times the thermal purity of the doubled ring. In defects, with p for this ring and q for the doubled ring, that bound comes to about 2p plus q. So doubling beta costs only a linear amount: the spatial defect roughly doubles, and picks up the thermal one. That is the exchange rate, and it is cheap: squaring gains quadratically, so once both defects are small, the gain wins.
 
 VISUAL:
 - In the identity, `T(n,\beta)^2` gets an arrow "$\le1$" and fades: `M(r"S(n,2\beta)\ \ge\ S(n,\beta)^2\,T(2n,\beta)")`.
-- Defect form: `M(r"1-S(n,2\beta)\ \le\ 1-(1-p)^2(1-q)\ \approx\ 2p+q")` with p `SPACE`, q `TIME`; the blue gauge pulses up.
+- Defect form: `M(r"1-S(n,2\beta)\ \le\ 1-(1-p)^2(1-q)\ \approx\ 2p+q")` with p `SPACE`, q `TIME`; the blue gauge pulses up; brace "linear loss".
+- Last sentence: `M(r"\text{squaring: }\ u\ \to\ \approx u^2/2")` with "quadratic gain" (`GAP`); `M(r"2p+q\ \ll\ \text{gain once small}")` is NOT shown (the basin edge is quantified in s11).
 
 NOTE: 'Both denominators are at most one' is the only inequality in the coupling step (paper).
 
@@ -726,7 +728,7 @@ NOTE: This is the paper's row 2 (u0 = 1/100, C = 5, r = 1/20): u_j = C^{-1} r^{2
 
 ## ch07: From purity to a gap
 
-**Purpose.** Doubly exponential in steps = exponential in beta = a gap; interpolation; gap extraction. Then the sharpest skeptical question: the machine is spin-blind, so why doesn't it prove spin one-half gapped? Answer with real ED data and a flagged CFT calculation; conclude that everything hinges on the start.  *(356 words, about 2.2 min)*
+**Purpose.** Doubly exponential in steps = exponential in beta = a gap; interpolation; gap extraction. Then the sharpest skeptical question: the machine is spin-blind, so why doesn't it prove spin one-half gapped? Answer with real ED data and a flagged CFT calculation; conclude that everything hinges on the start.  *(371 words, about 2.2 min)*
 
 ### ch07.s01  (39 words, ~14 s)
 
@@ -749,21 +751,21 @@ VISUAL:
 
 NOTE: Paper eqs. (4.15)-(4.16). Even L only. The norm inequality is introduced here.
 
-### ch07.s03  (46 words, ~17 s)
+### ch07.s03  (64 words, ~23 s)
 
-> Now cash it in. At step j, e to the minus beta j times the gap is at most about three times the defect, which stays below r to the power two to the j. Meanwhile beta j is two to the j times beta zero.
-
-VISUAL:
-- `M(r"e^{-\beta_j\gamma_L}\ \le\ \frac{3u_j}{1-3u_j}\ <\ r^{2^j},\qquad u_j=C^{-1}r^{2^j}")` then `M(r"\beta_j=2^j\beta_0")` below it.
-
-NOTE: Paper eq. (4.17); 3u/(1-3u) < r^{2^j} uses C(1-3u0) > 3.
-
-### ch07.s04  (39 words, ~14 s)
-
-> Take logs, and the powers of two cancel. The gap exceeds log of one over r, divided by beta zero, at every even length from the start on. One rate, certified at the starting scale, bounds the gap forever.
+> Now cash it in. At step j, e to the minus beta j times the gap is at most about three times the defect. The defect squares each step, so this bound falls like a fixed number below one, raised to the power two to the j: in the paper's run, one twentieth. Meanwhile beta j is two to the j times beta zero.
 
 VISUAL:
-- Take log of both sides; strike `2^j` in `DEFECT`; result boxed `GAP`: `M(r"\gamma_L\ >\ \frac{\log(1/r)}{\beta_0}\qquad\text{for every even }L\ge n_0", color=GAP)`.
+- `M(r"e^{-\beta_j\gamma_L}\ \le\ \frac{3u_j}{1-3u_j}\ <\ (1/20)^{2^j}")` with a `DIM` tag "paper's run" under the last term; then `M(r"\beta_j=2^j\beta_0")` below it. No new letter for the base (the user asked for no extra notation such as r).
+
+NOTE: Paper eq. (4.17) and Prop. 4.3: 3u/(1-3u) < r^{2^j} with r = C u0 = 1/20 (C = 5, u0 = 1/100) for the n0 = 2304 run. The film never names r or C.
+
+### ch07.s04  (36 words, ~13 s)
+
+> Take logs, and the powers of two cancel. The gap exceeds log 20, divided by beta zero, at every even length from the start on. One rate, certified at the starting scale, bounds the gap forever.
+
+VISUAL:
+- Take log of both sides; strike `2^j` in `DEFECT`; result boxed `GAP`: `M(r"\gamma_L\ >\ \frac{\log 20}{\beta_0}\qquad\text{for every even }L\ge n_0", color=GAP)`.
 - The straight line from s01 returns small beside it, its slope labelled with the same expression.
 
 ### ch07.s05  (34 words, ~12 s)
@@ -817,7 +819,7 @@ NOTE: Verified: at rho = pi/2 (beta = n), 1-S = 0.618 and 1-T = 0.0555; minimum 
 
 ## ch08: Getting into the basin
 
-**Purpose.** Isn't this just numerics? Show exactly what the computer does: low moments of the same operator, seams as symmetry sectors, polynomial walls (upper jaw), one integer trial state (lower jaw), the pinch, the seed bounds (and why the thermal one is loose), six exact leapfrogs whose bounds get worse before better, and the payoff number. Then the weaker 60-site seed and two flagged physicist's checks. Every seed and update number is a certified UPPER BOUND on a defect, never the defect itself.  *(555 words, about 3.4 min)*
+**Purpose.** Isn't this just numerics? Show exactly what the computer does: low moments of the same operator, seams as symmetry sectors, polynomial walls (upper jaw), one integer trial state (lower jaw), the pinch, the seed bounds (and why the thermal one is loose), six exact leapfrogs whose bounds get worse before better, and the payoff number. Then the weaker 60-site seed and two flagged physicist's checks. Every seed and update number is a certified UPPER BOUND on a defect, never the defect itself.  *(552 words, about 3.3 min)*
 
 ### ch08.s01  (48 words, ~17 s)
 
@@ -926,16 +928,16 @@ VISUAL:
 
 NOTE: q0 = 0.1815 > 1/6, so Prop. 4.3 cannot start here; Lemma 4.2 needs no smallness. Every number in this table is an upper bound, rounded up to a multiple of 1e-7 (paper's rounded update table), not a value of 1-S or 1-T. The early rise of p is an artifact of worst-case bounds, not physics: never label it as the defect itself getting worse.
 
-### ch08.s11  (60 words, ~22 s)
+### ch08.s11  (57 words, ~21 s)
 
-> Then both bounds collapse. At beta 784, the spatial defect at two thousand three hundred and four sites is below 0.0085, and the thermal one, on the doubled ring, below 0.0055: under one percent, the one in a hundred we started from. With r one twentieth, every even ring from there on has a gap above log 20 over 784.
+> Then both bounds collapse. At beta 784, the spatial defect at two thousand three hundred and four sites is below 0.0085, and the thermal one, on the doubled ring, below 0.0055: under one percent, the one in a hundred we started from. So every even ring from there on has a gap above log 20 over 784.
 
 VISUAL:
 - Rows j = 4..6: p = .0633, .0376, .0085; q = .1055, .0446, .0055 (same "certified bound" legends). The tromino reaches (2304, 784)-(4608, 784)-(4608, 1568); its `SPACE` segment is labelled `M(r"1-S(2304,784)\le0.0084513")`, its `TIME` segment `M(r"1-T(4608,784)\le0.0054986")`. Both gauges drop under the 1% line and turn `GAP`.
 - Callback: the ch06 s12 column returns with its first row now labelled `(n_0,\beta_0)=(2304,\,784)`, and the ch07 straight line gets real tick values 784, 1568, 3136, ...
 - Theorem line, `GAP` box: `M(r"\gamma_L>\frac{\log20}{784}\approx3.82\times10^{-3}\quad\text{for every even }L\ge2304")`. A small arrow back to the ch03 claim card: "this is where it comes from".
 
-NOTE: Final row: 1 - S(2304, 784) <= 0.0084513 and 1 - T(4608, 784) <= 0.0054986. Then Prop. 4.3 with n0 = 2304, b0 = 784, u0 = 1/100, C = 5, r = 1/20.
+NOTE: Final row: 1 - S(2304, 784) <= 0.0084513 and 1 - T(4608, 784) <= 0.0054986. Then Prop. 4.3 with n0 = 2304, b0 = 784, u0 = 1/100, C = 5, r = 1/20 (r and C are never named on screen; the input line shows only (n0, b0) and 'both defects < 1/100').
 
 ### ch08.s12  (41 words, ~15 s)
 

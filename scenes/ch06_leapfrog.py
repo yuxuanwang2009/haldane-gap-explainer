@@ -18,8 +18,8 @@ import numpy as np
 from motifs import *  # noqa: F401,F403
 
 # clip lengths at the time the beats below were measured
-D0 = {"s01": 11.3, "s02": 16.85, "s03": 10.125, "s04": 10.975, "s05": 19.75,
-      "s06": 14.05, "s07": 12.475, "s08": 14.125, "s09": 15.175, "s10": 7.825,
+D0 = {"s01": 18.48, "s02": 16.85, "s03": 10.125, "s04": 13.38, "s05": 26.8,
+      "s06": 14.05, "s07": 33.67, "s08": 14.125, "s09": 15.175, "s10": 7.825,
       "s11": 18.075, "s12": 12.425}
 
 
@@ -269,10 +269,23 @@ class Ch06(NarratedScene):
         for lab, v in zip(qlabs, qv):
             lab.move_to([gg.q.frame.get_left()[0] - 0.42, max(fill_top(gg.q, v), gg.q.frame.get_bottom()[1] + 0.2), 0])
 
+        pdef = M(r"p=1-S", color=SPACE, font_size=32).next_to(gg.p.number, DOWN, buff=0.3)
+        qdef = M(r"q=1-T", color=TIME, font_size=32).next_to(gg.q.number, DOWN, buff=0.3)
+        qdef.match_y(pdef)
+
         with self.seg("s01") as d:
             gauges_freeze(gg)
             self.go(FadeIn(self.thumb), FadeIn(gg), bubble_in(bub), until=1.0)
             gauges_thaw(gg)
+            # "p, one minus the spatial purity, and q, one minus the thermal purity"
+            self.go(FadeIn(pdef, shift=0.1 * UP), Indicate(gg.p.frame, color=SPACE), at=2.48,
+                    until=3.4)
+            self.go(FadeIn(qdef, shift=0.1 * UP), Indicate(gg.q.frame, color=TIME), at=4.6,
+                    until=5.5)
+            # the beats below were measured on the clip without this intro: "Let's try"
+            # now starts 7.25 s later
+            self.at(7.25)
+            self._t0 += 7.25 * self._k
             self.go(Write(head), at=1.25, until=2.2)
             self.go(Create(pl.ax), FadeIn(pl.labels), FadeIn(dot, scale=0.5),
                     FadeIn(qlabs[0]), until=3.6)
@@ -289,7 +302,7 @@ class Ch06(NarratedScene):
             self.go(FadeIn(stamp, shift=0.1 * LEFT), at=7.85, until=8.6)
             self.go(bubble_check(bub), until=9.5)
             self.go(Indicate(stamp, color=FG, scale_factor=1.05), at=9.8, until=10.7)
-        self.s01_left = VGroup(pl.ax, pl.labels, dot, arrows, stamp, xmark, xguide, qlabs[3])
+        self.s01_left = VGroup(pl.ax, pl.labels, dot, arrows, stamp, xmark, xguide, qlabs[3], pdef, qdef)
         self.bub = bub
 
     # ================================================================ s02
@@ -505,16 +518,17 @@ class Ch06(NarratedScene):
                     FadeIn(VGroup(plank, fulcrum), shift=np.array([dx, dy, 0])),
                     at=1.7, until=2.7)
             self.go(Write(rate), until=3.8)
-            # when we double beta: thermal defect squares, spatial defect grows by ... ?
-            self.go(gg.set_defects(q=0.04), at=4.4, until=5.4)
+            # "doubling beta squares the thermal defect q"
+            self.go(gg.set_defects(q=0.04), at=4.44, until=5.8)
             qm.move_to([gg.p.frame.get_left()[0] - 0.45, fill_top(gg.p, 0.3) - lift, 0])
-            self.go(gg.set_defects(p=0.3), until=6.4)
+            # "but how much does it cost the spatial defect p?"
+            self.go(gg.set_defects(p=0.3), at=7.21, until=8.1)
             self.go(Rotate(plank, ang, about_point=pivot),
                     ApplyMethod(gg.p.shift, DOWN * lift), ApplyMethod(gg.q.shift, UP * lift),
-                    FadeIn(qm, scale=0.5), until=7.4)
+                    FadeIn(qm, scale=0.5), until=9.3)
             # pause here
-            self.go(FadeIn(pg, scale=0.7), at=7.83, until=8.5)
-            self.go(Circumscribe(rate, color=DEFECT, buff=0.15), at=8.82, until=10.4)
+            self.go(FadeIn(pg, scale=0.7), at=10.16, until=10.8)
+            self.go(Circumscribe(rate, color=DEFECT, buff=0.15), at=11.17, until=12.8)
         self.s04_stage = VGroup(gg, plank, fulcrum, qm, pg, thumb)
         self.rate = rate
 
@@ -551,6 +565,12 @@ class Ch06(NarratedScene):
         assert n == 35 and mx < 4e-15
         foot = T(r"ED check, 35 cases: $|\Delta\log|<4\times10^{-15}$", font_size=24, color=DIM)
         foot.to_edge(DOWN, buff=0.4)
+        defs = MT(r"S(n,\beta)=\frac{Z(2n,\beta)}{Z(n,\beta)^2}", r",\qquad",
+                  r"T(n,\beta)=\frac{Z(n,2\beta)}{Z(n,\beta)^2}", font_size=34)
+        defs[0].set_color(SPACE)
+        defs[1].set_color(DIM)
+        defs[2].set_color(TIME)
+        defs.move_to([0, -2.55, 0])
 
         with self.seg("s05") as d:
             big = T(r"an exact identity", font_size=52).move_to([0, 0.4, 0])
@@ -560,10 +580,13 @@ class Ch06(NarratedScene):
             self.go(Indicate(big, color=FG, scale_factor=1.06), at=2.0, until=3.4)
             # big[0] and hdr[1] hold the same 15 glyphs: a clean move-and-shrink
             self.go(ReplacementTransform(big[0], hdr[1]), FadeIn(hdr[0]), at=3.6, until=4.4)
-            self.go(Write(L1[0]), at=4.42, until=5.9)
-            self.go(Write(L1[1]), Write(L1[2]), at=6.2, until=7.6)
-            self.go(Write(L1[4]), Create(L1[5]), at=8.14, until=9.6)
-            self.go(Write(L1[6]), at=10.69, until=11.9)
+            self.go(Write(L1[0]), at=4.42, until=5.8)
+            self.go(Write(L1[1]), Write(L1[2]), at=5.9, until=7.4)
+            self.go(Write(L1[4]), Create(L1[5]), at=7.76, until=9.5)
+            self.go(Write(L1[6]), at=10.09, until=11.5)
+            # "S is Z of the doubled ring over Z squared, and T is Z at doubled beta ..."
+            self.go(Write(defs[0]), at=15.73, until=17.6)
+            self.go(FadeIn(defs[1]), Write(defs[2]), at=18.41, until=20.4)
             # expand into partition functions: each Z fraction drops out of its parent term
             def drop(parent, frac):
                 return AnimationGroup(Indicate(parent, color=FG, scale_factor=1.1),
@@ -571,23 +594,23 @@ class Ch06(NarratedScene):
             self.go(LaggedStart(drop(L1[0], A), FadeIn(L2[5]), drop(L1[2], B), FadeIn(L2[11]),
                                 drop(L1[4], C), FadeIn(L2[17]), drop(L1[6], Dg),
                                 lag_ratio=0.18),
-                    at=13.21, until=14.9)
+                    at=21.59, until=22.9)
             # everything cancels: strike the pairs, clear them, then close up the survivors
             s1 = VGroup(strike(L2[7]), strike(L2[15]))
             s2 = VGroup(strike(L2[9]), strike(L2[19]))
-            self.go(Create(s1), until=15.5)
-            self.go(Create(s2), until=16.1)
+            self.go(Create(s1), until=23.4)
+            self.go(Create(s2), until=23.9)
             dead = VGroup(L2[7], L2[15], L2[9], L2[19], s1, s2, L2[8], L2[11], L2[17], L2[20])
-            self.go(FadeOut(dead), until=16.6)
+            self.go(FadeOut(dead), until=24.3)
             self.go(A.animate.shift(RIGHT * x_shift), L2[5].animate.shift(RIGHT * x_shift),
                     ReplacementTransform(L2[13], R[1]), ReplacementTransform(L2[14], R[2]),
-                    ReplacementTransform(L2[21], R[3]), until=17.4)
+                    ReplacementTransform(L2[21], R[3]), until=25.1)
             ck = check_mark(0.45).next_to(L1, RIGHT, buff=0.45)
             self.go(Indicate(A, color=GAP, scale_factor=1.08), Indicate(R, color=GAP,
                                                                         scale_factor=1.08),
-                    Create(ck), until=18.2)
-            self.go(FadeIn(foot), at=18.23, until=19.0)
-        self.L1, self.s05_rest = L1, VGroup(hdr, A, L2[5], R, ck, foot)
+                    Create(ck), until=25.9)
+            self.go(FadeIn(foot), until=26.5)
+        self.L1, self.s05_rest = L1, VGroup(hdr, A, L2[5], R, ck, foot, defs)
 
     # ================================================================ s06
     def s06(self):
@@ -698,6 +721,9 @@ class Ch06(NarratedScene):
         D2.shift(RIGHT * (D1[1].get_left()[0] - D2[0].get_left()[0]))
         br = Brace(VGroup(D2[1], D2[2], D2[3]), DOWN, buff=0.12, color=DEFECT)
         loss = T("linear loss", font_size=30, color=DEFECT).next_to(br, DOWN, buff=0.12)
+        gain = MT(r"\text{squaring:}\ \ u\ \to\ \approx\tfrac{u^2}{2}", font_size=36)
+        gain.next_to(loss, DOWN, buff=0.5).align_to(D1, LEFT)
+        gain_l = T("quadratic gain", font_size=30, color=GAP).next_to(gain, RIGHT, buff=0.4)
 
         # illustrative values inside the basin: 1-(1-p)^2(1-q) = 0.0967 < 0.127
         p, q = 0.03, 0.04
@@ -716,23 +742,37 @@ class Ch06(NarratedScene):
             gauges_freeze(gg)
             self.go(FadeIn(gg), until=2.1)
             gauges_thaw(gg)
-            self.go(Write(le1), Indicate(I1[6], color=TIME, scale_factor=1.15), at=2.17,
-                    until=3.5)
-            # drop the denominator
+            # "A purity is at most one"
+            self.go(Write(le1), Indicate(I1[6], color=TIME, scale_factor=1.15), at=1.9,
+                    until=3.1)
+            # "so dropping the denominator can only make the right side smaller"
             self.go(FadeOut(VGroup(I1[5], I1[6], le1), shift=0.3 * DOWN),
                     ReplacementTransform(I1[0], I2[0]), ReplacementTransform(I1[1], I2[1]),
                     ReplacementTransform(I1[2], I2[2]), ReplacementTransform(I1[4], I2[4]),
-                    at=3.75, until=4.9)
-            self.go(FadeIn(legend), at=5.0, until=5.9)
-            self.go(Write(D1), until=7.3)
-            # about twice itself ...
-            self.go(Write(D2[0]), Write(D2[1]), gg.set_defects(p=2 * p), at=7.4, until=8.9)
-            # ... plus the thermal defect
-            self.go(Write(D2[2]), Write(D2[3]), gg.set_defects(p=newp), at=9.32, until=10.3)
+                    at=3.75, until=5.0)
+            # "the new spatial purity is at least the old one squared, times ..."
+            self.go(Indicate(I2, color=FG, scale_factor=1.06), at=7.12, until=8.4)
+            # "In defects, with p for this ring and q for the doubled ring"
+            self.go(FadeIn(legend), at=12.88, until=14.0)
+            # "that bound comes to about 2p plus q"
+            self.go(Write(D1), at=16.43, until=17.7)
+            self.go(Write(D2), until=18.9)
+            # "So doubling beta costs only a linear amount"
+            self.go(GrowFromCenter(br), FadeIn(loss), at=20.5, until=21.5)
+            # "the spatial defect roughly doubles, and picks up the thermal one"
+            self.go(gg.set_defects(p=2 * p), Indicate(D2[1], color=SPACE), at=22.24, until=23.6)
+            self.go(gg.set_defects(p=newp), Indicate(D2[3], color=TIME), at=24.31, until=25.3)
             self.play(*gauge_pulse(gg.p), run_time=0.6)
-            self.go(GrowFromCenter(br), FadeIn(loss), at=11.0, until=11.9)
+            # "That is the exchange rate, and it is cheap: squaring gains quadratically"
+            self.go(Circumscribe(VGroup(D2, br, loss), color=FG, buff=0.12), at=26.38,
+                    until=27.6)
+            self.go(Write(gain), at=28.9, until=30.2)
+            self.go(FadeIn(gain_l, shift=0.1 * LEFT), until=30.7)
+            # "so once both defects are small, the gain wins"
+            self.go(Indicate(VGroup(gain, gain_l), color=GAP, scale_factor=1.05), at=32.44,
+                    until=33.4)
         self.I2 = I2
-        self.s07_rest = VGroup(legend, D1, D2, br, loss, gg)
+        self.s07_rest = VGroup(legend, D1, D2, br, loss, gain, gain_l, gg)
         self.s07_gg = gg
 
     # ================================================================ s08

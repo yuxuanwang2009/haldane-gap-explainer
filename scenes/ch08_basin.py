@@ -27,7 +27,7 @@ from ch04_torus_knives import seam_glyph        # the ch04 SEAM glyph (circular 
 # clip durations the cue sheets were measured on
 REF = {"s01": 18.425, "s02": 19.05, "s03": 15.225, "s04": 16.05, "s05": 14.6,
        "s06": 19.7, "s07": 19.8, "s08": 24.725, "s09": 14.575, "s10": 16.475,
-       "s11": 25.025, "s12": 16.9, "s13": 17.95}
+       "s11": 23.98, "s12": 16.9, "s13": 17.95}
 
 
 # =================================================================== data
@@ -1040,8 +1040,8 @@ class Ch08(NarratedScene):
         gg = self.gg
         heads, cols, rule = self.tab
         last = cols[6]
-        inp = MM(r"(n_0,\beta_0)=(2304,\,784)", r",\qquad u_0=1/100,\qquad C=5,\qquad "
-                 r"r=Cu_0=1/20", font_size=34).move_to([0, 3.3, 0])
+        inp = MM(r"(n_0,\beta_0)=(2304,\,784)", r",\qquad\text{both defects}<1/100",
+                 font_size=34).move_to([0, 3.3, 0])
         # (n_0, beta_0) is the recursion's new starting point, not the seed's beta = 49/4
         inote = T("new start for the recursion", font_size=26, color=DIM).next_to(
             inp[0], DOWN, buff=0.16)
@@ -1076,13 +1076,13 @@ class Ch08(NarratedScene):
             self.at(16.3)
             self.play(Indicate(gg.p.pct[1], color=GAP, scale_factor=1.5),
                       Indicate(gg.q.pct[1], color=GAP, scale_factor=1.5), run_time=self.rt(0.9))
-            # "With r one twentieth"
-            self.at(18.4)
+            # "So every even ring from there on"
+            self.at(18.2)
             self.play(FadeOut(heads, cols, rule, bp, bq, self.exact), run_time=self.rt(0.5))
             self.play(FadeIn(inp, shift=0.1 * DOWN), FadeIn(inote, shift=0.1 * DOWN),
                       run_time=self.rt(0.7))
-            # "every even ring from there on has a gap above log 20 over 784"
-            self.at(20.08)
+            # "has a gap above log 20 over 784"
+            self.at(19.5)
             self.play(Write(thm), run_time=self.rt(1.8))
             self.play(Create(tbox), run_time=self.rt(0.6))
         self.o11 = dict(inp=VGroup(inp, inote), thm=thm, tbox=tbox)

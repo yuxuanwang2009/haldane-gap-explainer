@@ -3,7 +3,7 @@
 s01  doubly exponential in steps = plain exponential in beta   (data/bootstrap_dyadic.csv, n0=2304)
 s02  interpolation between dyadic lengths (paper Fig. 1, eqs. 4.15-4.16)
 s03  the gap step (4.17)
-s04  take logs: gamma_L > log(1/r)/beta_0
+s04  take logs: gamma_L > log(20)/beta_0
 s05  the doubling machine never used spin; objection (f)
 s06  Prop. 3.1 is spin 1 only; scale invariance at a critical point (physicist's reading)
 s07  the seesaw; ED along beta = L (thermal_purity_ray.csv, spatial_purity_ray.csv)
@@ -18,7 +18,7 @@ from motifs import *  # noqa: F401,F403
 
 # Cue times (seconds into each clip, read off the pauses of the narration audio).
 # They are rescaled by d / D_REF so that a regenerated clip keeps the cues in place.
-D_REF = {"s01": 14.2, "s02": 18.075, "s03": 14.425, "s04": 14.175, "s05": 15.125,
+D_REF = {"s01": 14.2, "s02": 18.075, "s03": 20.4, "s04": 13.4, "s05": 15.125,
          "s06": 18.175, "s07": 23.75, "s08": 16.95}
 
 
@@ -341,7 +341,7 @@ class Ch07(NarratedScene):
 
     # ------------------------------------------------------------ s03
     def s03(self):
-        eq = MM(r"e^{-\beta_j\gamma_L}", r"\ \le\ ", r"\frac{3u_j}{1-3u_j}", r"\ <\ ", r"r^{2^j}",
+        eq = MM(r"e^{-\beta_j\gamma_L}", r"\ \le\ ", r"\frac{3u_j}{1-3u_j}", r"\ <\ ", r"(1/20)^{2^j}",
                 font_size=56)
         eq[0][2:4].set_color(TIME)
         eq[0][4:6].set_color(GAP)
@@ -351,9 +351,7 @@ class Ch07(NarratedScene):
         gl = T("gap", font_size=28, color=GAP).next_to(eq[0][4:6], UP, buff=0.12)
         br = Brace(eq[2], DOWN, buff=0.12, color=DIM)
         br_lab = T(r"$\approx 3\times$ defect", font_size=30, color=DIM).next_to(br, DOWN, 0.1)
-        ujn = M(r"u_j=C^{-1}\,r^{2^j}", font_size=36)
-        ujn[0][0:2].set_color(DEFECT)
-        ujn.next_to(eq[4], DOWN, buff=0.75).shift(RIGHT * 0.35)
+        run = T("paper's run", font_size=28, color=DIM).next_to(eq[4], DOWN, buff=0.55)
         bj = MM(r"\beta_j", "=", r"2^j", r"\beta_0", font_size=56)
         bj[0].set_color(TIME)
         bj[3].set_color(TIME)
@@ -384,36 +382,43 @@ class Ch07(NarratedScene):
             self.until(2.6)
             self.play(Write(eq[0]), run_time=0.9)
             self.play(FadeIn(gl, shift=0.1 * DOWN), run_time=0.5)
-            self.until(4.5)
-            self.play(Write(eq[1]), Write(eq[2]), run_time=1.1)
-            self.until(6.0)
+            self.until(4.6)
+            self.play(Write(eq[1]), Write(eq[2]), run_time=1.0)
+            # "is at most about three times the defect"
+            self.until(5.7)
             self.play(GrowFromCenter(br), FadeIn(br_lab, shift=0.1 * UP), run_time=0.8)
-            self.until(7.7)
-            self.play(Write(eq[3]), Write(eq[4]), run_time=1.0)
-            self.until(9.3)
-            self.play(FadeIn(ujn, shift=0.1 * UP), run_time=0.8)
-            self.until(11.45)
+            # "so this bound falls like a fixed number below one, raised to the power 2^j"
+            self.until(9.04)
+            self.play(Write(eq[3]), Write(eq[4]), run_time=1.2)
+            self.until(12.03)
+            self.play(Indicate(eq[4][6:8], color=FG, scale_factor=1.4), run_time=0.9)
+            # "in the paper's run, one twentieth"
+            self.until(14.2)
+            self.play(FadeIn(run, shift=0.1 * UP), Indicate(eq[4][0:6], color=FG,
+                                                            scale_factor=1.15), run_time=0.9)
+            # "Meanwhile beta j is two to the j times beta zero"
+            self.until(16.7)
             self.play(Write(bj), run_time=1.4)
         self.s03_eq, self.s03_bj = eq, bj
-        self.s03_extra = VGroup(gl, br, br_lab, ujn, prem, imp)
+        self.s03_extra = VGroup(gl, br, br_lab, run, prem, imp)
 
     # ------------------------------------------------------------ s04
     def s04(self):
         eq, bj = self.s03_eq, self.s03_bj
-        # the chain with its middle removed: e^{-beta_j gamma_L} < r^{2^j}
-        eqC = MM(r"e^{-\beta_j\gamma_L}", r"\ <\ ", r"r^{2^j}", font_size=56)
+        # the chain with its middle removed: e^{-beta_j gamma_L} < (1/20)^{2^j}
+        eqC = MM(r"e^{-\beta_j\gamma_L}", r"\ <\ ", r"(1/20)^{2^j}", font_size=56)
         eqC[0][2:4].set_color(TIME)
         eqC[0][4:6].set_color(GAP)
         eqC.move_to(UP * 0.85)
-        eqL = MM(r"\beta_j", r"\gamma_L", r"\ >\ ", r"2^j", r"\log(1/r)", font_size=56)
+        eqL = MM(r"\beta_j", r"\gamma_L", r"\ >\ ", r"2^j", r"\log 20", font_size=56)
         eqL[0].set_color(TIME)
         eqL[1].set_color(GAP)
         eqL.move_to(UP * 0.85)
-        eqS = MM(r"2^j\,", r"\beta_0", r"\gamma_L", r"\ >\ ", r"2^j", r"\log(1/r)", font_size=56)
+        eqS = MM(r"2^j\,", r"\beta_0", r"\gamma_L", r"\ >\ ", r"2^j", r"\log 20", font_size=56)
         eqS[1].set_color(TIME)
         eqS[2].set_color(GAP)
         eqS.move_to(UP * 0.85)
-        eqR = MM(r"\gamma_L", r"\ >\ ", r"\frac{\log(1/r)}{\beta_0}", font_size=60, color=GAP)
+        eqR = MM(r"\gamma_L", r"\ >\ ", r"\frac{\log 20}{\beta_0}", font_size=60, color=GAP)
         eqR.move_to(UP * 0.85)
         ev = T(r"for every even $L\ge n_0$", font_size=36, color=GAP)
         ev.next_to(eqR, DOWN, buff=0.4)
@@ -433,34 +438,35 @@ class Ch07(NarratedScene):
         mfwd = DashedLine(mp.p(32, a0 + a1 * 32), mp.p(45, a0 + a1 * 45), color=DEFECT,
                           stroke_width=3, dash_length=0.07).add_tip(tip_length=0.16,
                                                                      tip_width=0.14)
-        slope = MM(r"\text{slope}=-", r"\frac{\log(1/r)}{\beta_0}", font_size=34)
+        slope = MM(r"\text{slope}=-", r"\frac{\log 20}{\beta_0}", font_size=34)
         slope[1].set_color(GAP)
         slope.move_to([5.05, 0.6, 0])
 
         with self.seg("s04") as d:
             # 1. drop the middle term (and the s03 annotations), then close the gap:
-            #    e^{-beta_j gamma_L} < r^{2^j}
+            #    e^{-beta_j gamma_L} < (1/20)^{2^j}
             self.play(FadeOut(self.s03_extra), FadeOut(eq[1], eq[2]), run_time=0.4)
             self.play(ReplacementTransform(eq[0], eqC[0]), ReplacementTransform(eq[3], eqC[1]),
                       ReplacementTransform(eq[4], eqC[2]), run_time=0.45)
             # 2. take logs, one piece after another: the exponent beta_j gamma_L comes down
-            #    to the left and the inequality flips; the 2^j exponent comes down; r becomes
-            #    log(1/r)
+            #    to the left and the inequality flips; the 2^j exponent comes down; 1/20
+            #    becomes log 20
             lt = eqC[1].copy().rotate(PI, axis=UP).move_to(eqL[2])
-            self.until(1.1)
+            self.until(0.8)
             self.play(LaggedStart(
                 AnimationGroup(FadeOut(eqC[0][0:2], shift=0.25 * UP, run_time=0.45),
                                ReplacementTransform(eqC[0][2:4], eqL[0]),
                                ReplacementTransform(eqC[0][4:6], eqL[1]),
                                Transform(eqC[1], lt)),
-                ReplacementTransform(eqC[2][1:3], eqL[3]),
-                AnimationGroup(ReplacementTransform(eqC[2][0], eqL[4][6]),
-                               FadeIn(eqL[4][0:6], eqL[4][7])),
+                ReplacementTransform(eqC[2][6:8], eqL[3]),
+                AnimationGroup(ReplacementTransform(eqC[2][3:5], eqL[4][3:5]),
+                               FadeOut(eqC[2][0:3], eqC[2][5], shift=0.3 * UP),
+                               FadeIn(eqL[4][0:3], shift=0.3 * UP)),
                 lag_ratio=0.45), run_time=1.15)
             self.remove(eqC[1])
             self.add(eqL[2])
-            # 3. hold beta_j gamma_L > 2^j log(1/r), then substitute beta_j = 2^j beta_0
-            self.until(2.85)
+            # 3. hold beta_j gamma_L > 2^j log 20, then substitute beta_j = 2^j beta_0
+            self.until(1.75)
             self.play(FadeOut(eqL[0], shift=0.25 * UP),
                       TransformFromCopy(VGroup(bj[2], bj[3]), VGroup(eqS[0], eqS[1])),
                       ReplacementTransform(eqL[1], eqS[2]), ReplacementTransform(eqL[2], eqS[3]),
@@ -473,13 +479,13 @@ class Ch07(NarratedScene):
             # beta_0 dips under the line into the denominator
             self.play(FadeOut(bj),
                       ReplacementTransform(eqS[2], eqR[0]), ReplacementTransform(eqS[3], eqR[1]),
-                      ReplacementTransform(eqS[5], eqR[2][0:8]),
-                      ReplacementTransform(eqS[1], eqR[2][9:11], path_arc=0.9),
-                      FadeIn(eqR[2][8]), run_time=0.9)
-            self.until(5.75)
+                      ReplacementTransform(eqS[5], eqR[2][0:5]),
+                      ReplacementTransform(eqS[1], eqR[2][6:8], path_arc=0.9),
+                      FadeIn(eqR[2][5]), run_time=0.9)
+            self.until(5.17)
             self.play(FadeIn(ev, shift=0.1 * UP), Create(box), run_time=0.9)
             # 4. "One rate, certified at the starting scale, bounds the gap forever."
-            self.until(9.25)
+            self.until(9.1)
             grp = VGroup(res, box)
             self.play(grp.animate.move_to([-3.0, 0.1, 0]), run_time=0.5)
             self.play(Create(mp.axes), FadeIn(mp.xlabel, mp.ylabel),
@@ -489,7 +495,7 @@ class Ch07(NarratedScene):
             # the slope label is the same expression, carried over from the box
             self.play(FadeIn(slope[0], shift=0.1 * LEFT),
                       TransformFromCopy(eqR[2], slope[1], path_arc=1.2), run_time=0.7)
-            self.until(12.4)
+            self.until(11.61)
             self.play(Create(mfwd), box.animate(rate_func=there_and_back).set_stroke(width=8),
                       run_time=1.0)
         self.s04_mobs = VGroup(grp, mp.axes, mp.xlabel, mp.ylabel, mdots, mline, mfwd, slope)
