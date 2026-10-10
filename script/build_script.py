@@ -225,7 +225,7 @@ r"""
 - Number line from -2.1 to -1.2: marker at -2 "singlet: one bond's minimum"; marker at -1.4015 "Heisenberg ground state, per bond (literature)". Above it, a `spin_chain(8)` whose bonds try to snap into singlets one at a time; each snap breaks its neighbour (flicker). Big `DEFECT` text "about 70\%".
 - Sentence 2: a horizontal parameter line labelled `M(r"h+c\,h^2")`: points "Heisenberg, $c=0$" and "AKLT, $c=\tfrac13$". A shaded `GAP` disk around AKLT, "proved gapped neighbourhood", visibly not reaching c = 0; a `?` at Heisenberg.
 """,
-"Bond spectrum {-2, -1, 1} is in the paper; -1.4015 per bond is the literature e0. Yarotsky's result covers a neighbourhood of AKLT only, not a gapped path to the bilinear point; draw no path. Wording: 'not frustration-free' (the paper's term: no state minimizes every bond). Never write 'frustrated' for the even ring on screen: the bipartite even ring is the textbook UNfrustrated magnet (Marshall sign rule). Plain 'frustration' is reserved for odd rings (ch04 s10).")
+"Bond spectrum {-2, -1, 1} is in the paper; -1.4015 per bond is the literature e0. Yarotsky's result covers a neighbourhood of AKLT only, not a gapped path to the bilinear point; draw no path. Wording: 'not frustration-free' (the paper's term: no state minimizes every bond). Never write 'frustrated' for the even ring on screen: the bipartite even ring is the textbook UNfrustrated magnet (Marshall sign rule). Plain 'frustration' is reserved for odd rings.")
 
 seg("""Physicists, meanwhile, stopped doubting. Neutrons saw the gap in cesium nickel chloride in 1986, and in
 1993, D-M-R-G pinned it at 0.4105.""",
@@ -275,7 +275,7 @@ r"""
 - The ring is copied upward 6 times (faint, offset in y) to suggest a cylinder; the stack collapses into `torus_rect(width=5, height=3, nx=10, ny=6)` at centre.
 - Identification chevrons pulse, coloured by the direction that is periodic: `TIME` chevrons on top/bottom with orange label "time is periodic: trace", `SPACE` double chevrons on left/right with blue label "space is periodic: ring". (`torus_rect` builds them the other way round; recolour after construction: submobjects 2-3, the top/bottom chevrons, -> `TIME`; submobjects 4-5, the left/right chevrons, -> `SPACE`.) L label (`SPACE`) below, beta (`TIME`) left.
 """,
-"Colour code fixed from here on: horizontal extent L = SPACE blue; vertical extent beta = TIME orange; identification marks take the colour of the periodic direction. From ch04 s14 on, H carries the paper's added constant per site (said aloud once there; its value 1.401482 is given in ch08 s07). No separate symbol for it, and no e^{-a beta}.")
+"Colour code fixed from here on: horizontal extent L = SPACE blue; vertical extent beta = TIME orange; identification marks take the colour of the periodic direction. From ch08 s02 on, H carries the paper's added constant per site (said aloud once there; its value 1.401482 is given in ch08 s07). No separate symbol for it, and no e^{-a beta}.")
 
 seg("""Slice it with a horizontal knife, and you cut the whole ring at one instant. Stepping upward is imaginary-time
 evolution, so Z is a sum of e to the minus beta E over all eigenstates: positive weights, the Gibbs distribution.""",
@@ -356,7 +356,7 @@ r"""
 - Capsules become beads on a ring with k nodes between them; `X_beta` box in the centre.
 - `M(r"(X_\beta f)(x)=\int k_\beta(x,y)\,f(y)\,d\mu(y)")`, `M(r"\operatorname{Tr}X_\beta^{\,L}=\operatorname{Tr}e^{-\beta H_L}")`.
 """,
-"Paper: X_b = e^{-ab}K_b with Tr X^n = Tr e^{-b(H_n+an)}. The film folds the constant a into H (stated once, ch04 s14) and calls the operator X throughout.")
+"Paper: X_b = e^{-ab}K_b with Tr X^n = Tr e^{-b(H_n+an)}. The film folds the constant a into H (stated once, ch08 s02) and calls the operator X throughout.")
 
 seg("""Unlike a classical transfer matrix, the entries can be negative: two x events give a trace of minus two. Still,
 the kernel is bounded by three, and all histories together weigh e to the three beta, so X is a compact operator with a
@@ -384,30 +384,24 @@ r"""
 """,
 "Paper: 'no reversal of the matrix product occurs'. X is compact, self-adjoint, Hilbert-Schmidt.")
 
-seg("""Real, but not necessarily positive. Pause and think: what would negative eigenvalues do to a ring with an
-odd number of sites?""",
+seg("""Real, but not necessarily positive: the paper notes that X does have negative eigenvalues.""",
 r"""
-- `NumberLine` from -1.1 to 1.1 with blue dots at visibly generic positions, one near 1, a few small positive ones, and a few on the negative side; `DIM` tag "schematic" on the number line.
-- Pause glyph (two `DIM` bars) and `T(r"odd $L$\,?")`. OBJECTION BUBBLE "why even $L$?" appears top-right.
+- `NumberLine` from -1.1 to 1.1 with blue dots at visibly generic positions, one near 1, a few small positive ones, and a few on the negative side; `DIM` tag "schematic" on the number line; brace over the negative ones, `M(r"\lambda_i<0")`.
+- OBJECTION BUBBLE "why even $L$?" appears top-right.
 """,
-"breath=2.0 after this clip. The paper states explicitly that X is not positive, but gives no eigenvalues: do not use the free-boson 'Matsubara tower' numbers (-0.848, -0.768, -0.641) from the physics digest; they are a model, not data.", pause=2.0)
+"The paper states explicitly that X is not positive, but gives no eigenvalues: do not use the free-boson 'Matsubara tower' numbers (-0.848, -0.768, -0.641) from the physics digest; they are a model, not data.")
 
-seg("""The paper's data at beta 12.25, with a constant per site added to H, which cancels from every purity and the gap. If all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3.""",
+seg("""On an even ring that does no harm: lambda to an even power is never negative, so every term of Z is
+nonnegative. Divided by Z, these terms form a second probability distribution for the same Z. On an odd ring, a
+negative eigenvalue would add a negative term, and there is no distribution. That is why the theorem is about even
+rings.""",
 r"""
-- Three small FG rings (4, 5, 6 sites) with values beneath from `data/paper_thermal_table_check.csv` (rows `b == 12.25`, `g == 1`, column `paper_center`): `M(r"Z_4=124.885")`, `M(r"Z_5=0.0029", color=DEFECT)`, `M(r"Z_6=12.871")`. Header `M(r"\beta=\tfrac{49}{4}")` with a `DIM` note, shown on "a constant per site": `M(r"Z_n=\operatorname{Tr}\,e^{-\beta H_n}")` "$H_n$ includes a constant per site (value in ch08)".
-- Sentence 1: `M(r"\text{all }\lambda_i\ge0\ \Rightarrow\ Z_5^{1/5}\ge Z_6^{1/6}\ \Rightarrow\ Z_5\ge12.87^{5/6}\approx8.4")`. Sentence 2: it gets an `SX`-red cross.
-- Sentence 3: the 5-ring gets a SEAM glyph on one bond (small circular arrow labelled `M("P")`, "half turn"); value `M(r"Z_5(P)=2.961")` (row `g == P`); arrow "x1000".
+- Signed bars of lambda_i^6, all pointing up (`DIM` tag "schematic": generic eigenvalues, not data). `M(r"L\ \text{even}:\quad \lambda_i^{L}=|\lambda_i|^{L}\ge0")`.
+- Sentence 2: bars become `p_i` (`, p_i=\frac{|\lambda_i|^{L}}{Z}`); orange Gibbs bars beside them, a brace under both: "same $Z$".
+- Sentence 3: the blue bars briefly become lambda_i^5 (negative ones hang below the base), labelled "odd $L$".
+- Sentence 4: back to `p_i`; the bubble "why even $L$?" `Indicate`s and gets a `GAP` check.
 """,
-"The norm step is homogeneous, hence independent of the energy shift (our check, not in the paper). Values are the paper's certified centres (Lemma 5.1); they are SHIFTED partition functions (unshifted Z_4 at this beta exceeds e^73), which is why the narration names the added constant. Do not compare Z5 with Z4: shifted Z_n falls with n regardless. 'Frustration' here means the odd ring's Neel frustration; the even ring is unfrustrated. The seam is a twisted boundary condition (TWIST RULE: 'seam').")
-
-seg("""So negative eigenvalues exist, and only on even rings is lambda to the L never negative. There, the spatial
-weights form a second probability distribution for the same Z: that is why the theorem is about even rings.""",
-r"""
-- Bars of lambda_i^5 (negative eigenvalues give downward bars that cancel upward ones); then they become lambda_i^6, all pointing up. `DIM` tag "schematic" (generic eigenvalues, not data).
-- `M(r"L\ \text{even}:\quad \lambda_i^{L}=|\lambda_i|^{L}\ge0,\qquad p_i=\frac{|\lambda_i|^{L}}{Z}")`.
-- Side by side: orange Gibbs bars and blue spatial bars (`weight_bars(..., color=SPACE)`), a brace under both: "same $Z$". The bubble "why even $L$?" `Indicate`s and gets a `GAP` check.
-""",
-"Evenness is essential in the paper (eq. 3.8). Nothing is claimed about odd periodic rings.")
+"Evenness is essential in the paper (eq. 3.8). Nothing is claimed about odd periodic rings. No odd-ring data and no seam here: the seam is introduced in ch08 s03, where the proof uses it.")
 
 seg("""A physicist's reading, not the paper's: the top eigenvalue encodes the free energy and the others set
 correlation lengths, so gap in time and correlation length in space are two faces of one mass. The proof needs none
@@ -622,7 +616,7 @@ r"""
 - `M(r"Z_L^{1/L}=\Big(\sum_i|\lambda_i|^{L}\Big)^{1/L}\ \text{ decreases in even }L")`.
 - `M(r"T(L,\beta)\ \ge\ \big[T(2n,\beta)\,S(n,\beta)^2\big]^{L/2n}\ \ge\ (1-u)^3\ \ge\ 1-3u\qquad(n\le L\le2n,\ L\ \text{even})")`.
 """,
-"Paper eqs. (4.15)-(4.16). Even L only. Callback to the norm inequality of ch04 s14.")
+"Paper eqs. (4.15)-(4.16). Even L only. The norm inequality is introduced here.")
 
 seg("""Now cash it in. At step j, e to the minus beta j times the gap is at most about three times the defect, which
 stays below r to the power two to the j. Meanwhile beta j is two to the j times beta zero.""",
@@ -696,11 +690,13 @@ r"""
 "Seeds sit at beta0 = 49/4; the paper gives no rationale for 36, 72, 49/4 (do not invent one).")
 
 seg("""Is this just numerics? Not in the usual sense: rings of four to twelve sites are enclosed in integer
-arithmetic, with explicit error bounds, and no floating-point eigenvalue is ever a premise.""",
+arithmetic, with explicit error bounds, and no floating-point eigenvalue is ever a premise. These values are for H plus a
+constant per site, which cancels from every purity and the gap.""",
 r"""
 - The bubble "isn't this just numerics?" `Indicate`s.
 - Table from `data/paper_thermal_table_check.csv`, rows `b == 12.25`, n = 4..12, two columns g = 1 and g = P, column `paper_center`; header "$\pm3\times10^{-5}$".
 - Badges: "integer arithmetic", "explicit error bounds", "no floating-point premise". `DIM` footnote: "27 enclosures: 18 at $\beta=49/4$, 9 at $\beta=21/2$". The bubble gets a `GAP` check.
+- Last sentence: `DIM` note under the table header, `M(r"Z_n=\operatorname{Tr}\,e^{-\beta H_n}")` "$H_n$ includes a constant per site (value in s07)".
 """,
 "Lemma 5.1: errors < 3e-5 at beta = 49/4 and < 1e-5 at 21/2. Our ED reproduces all 27 centres within 1e-6.")
 
@@ -747,7 +743,7 @@ r"""
 - `M(r"E_0(72)<0\ \Longrightarrow\ Z_{72}(\beta)>1\ \text{ for every }\beta")`.
 - Sentence 2: `M(r"\text{all }|\lambda_J|\le0.999\ \Longrightarrow\ Z_{72}(\tfrac{49}{4})<1\quad(\text{margin}>0.069)")` with an `SX`-red "contradiction" flash.
 """,
-"Paper (2.4), Lemma C.2, Prop. 5.5 (capped-mass margin > 0.0693). Sign: the paper ADDS 1.401482 per site to H; never say 'subtracts 1.401482'. This is the constant mentioned in ch04 s14.")
+"Paper (2.4), Lemma C.2, Prop. 5.5 (capped-mass margin > 0.0693). Sign: the paper ADDS 1.401482 per site to H; never say 'subtracts 1.401482'. This is the constant mentioned in ch08 s02.")
 
 seg("""So one eigenvalue is pinched between 0.999 and 1.00139, and the twelfth-moment budget leaves no room for a second
 symmetric one near one. The threefold ones are crushed: 0.872 to the 72nd power is about five in a hundred thousand.
@@ -988,13 +984,13 @@ GLOBAL = r"""
 3. **WEIGHT BARS**: `weight_bars(...)`; squaring is always animated in two steps: Transform each bar to height proportional to p^2, then rescale the group so it sums to 1 again. Tallest bar uses `highlight_color` `TIME` or `SPACE`; the defect is a `DEFECT` brace over the small bars.
 4. **DEFECT GAUGES**: two vertical gauges (height 2.6), blue "p (spatial)" and orange "q (thermal)". Fill height = log10(defect) mapped [-3, 0] -> [0, 1], so FULL = large defect (impure) and EMPTY = pure; this semantics holds everywhere in the film (never fill a gauge with purity). A `DecimalNumber` under each; dashed `DEFECT` line at 0.127 "basin edge". From ch08 s08 on, the gauges show certified UPPER BOUNDS and are labelled "bound on p", "bound on q".
 5. **STAIRCASE**: `lb_plane` (x = log2 L, `SPACE`; y = log2 beta, `TIME`). The tracked pair is an L-shaped tromino: a `SPACE` segment (n, beta) -> (2n, beta) standing for S(n, beta), and a `TIME` segment (2n, beta) -> (2n, 2beta) standing for T(2n, beta). Each full update translates it by (+1, +1). Interpolation bars as in the paper's Fig. 1.
-6. **OBJECTION BUBBLES**: six small rounded speech bubbles, `DIM` outline, font 26: (a) "every finite chain has a gap", (b) "doesn't the $\theta$-term already explain it?", (c) "why even $L$?", (d) "why not just double $\beta$?", (e) "isn't this just numerics?", (f) "why doesn't it prove spin $\tfrac12$ gapped?". Bubble (a) first appears alone in ch01 s04; all six appear together in ch01 s06. Later, when the narration raises/answers one, that bubble alone fades in at the top-right (scale 0.6), gets `Indicate`, then a small `GAP` check, then fades: (a) ch01 s04, ch03 s08, ch05 s07; (b) ch02 s06 (answered again ch10 s05); (c) ch04 s13 -> s15; (d) ch05 s07 -> ch06 s01; (e) ch08 s02 (again ch10 s06); (f) ch07 s05 -> s08.
+6. **OBJECTION BUBBLES**: six small rounded speech bubbles, `DIM` outline, font 26: (a) "every finite chain has a gap", (b) "doesn't the $\theta$-term already explain it?", (c) "why even $L$?", (d) "why not just double $\beta$?", (e) "isn't this just numerics?", (f) "why doesn't it prove spin $\tfrac12$ gapped?". Bubble (a) first appears alone in ch01 s04; all six appear together in ch01 s06. Later, when the narration raises/answers one, that bubble alone fades in at the top-right (scale 0.6), gets `Indicate`, then a small `GAP` check, then fades: (a) ch01 s04, ch03 s08, ch05 s07; (b) ch02 s06 (answered again ch10 s05); (c) ch04 s13 -> s14; (d) ch05 s07 -> ch06 s01; (e) ch08 s02 (again ch10 s06); (f) ch07 s05 -> s08.
 7. **TAGS**: a small `DIM` rounded box with italic text in a top corner, on screen for the whole segment whenever the narration offers material that is not in the papers: "physicist's reading -- not in the paper", "our calculation -- not in the paper", "heuristic", "analogy". Literature values carry a small `DIM` "literature" label next to the number.
 8. **STATUS CARD** (ch01 s07, ch10 s06): plain text only (see ch01 s07).
 
 ### Three different "twists": keep them visually and verbally distinct
 - ch03 s02, the Lieb-Schultz-Mattis **slow spiral**: every arrow of a ring rotated progressively (a helix). Variational state. Never reuse.
-- ch04 s14 and ch08 s03, the **seam**: a symmetry rotation inserted at ONE bond of a periodic ring (twisted boundary condition), glyph = small circular arrow labelled P. In the spatial reading it is an operator U_g inside the trace; it sorts eigenvalues into sectors. No topology.
+- ch08 s03, the **seam**: a symmetry rotation inserted at ONE bond of a periodic ring (twisted boundary condition), glyph = small circular arrow labelled P. In the spatial reading it is an operator U_g inside the trace; it sorts eigenvalues into sectors. No topology.
 - ch09 s05, Tasaki's **gentle local twist**: a ramp of rotation angles (0 -> pi -> 2 pi) on the open chain. The only one that carries topology.
 
 ### Accuracy rules for everything on screen

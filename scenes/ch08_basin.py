@@ -25,7 +25,7 @@ from ch03_why_hard import aklt_cartoon          # the ch03 valence-bond cartoon
 from ch04_torus_knives import seam_glyph        # the ch04 SEAM glyph (circular arrow, P)
 
 # clip durations the cue sheets were measured on
-REF = {"s01": 18.425, "s02": 12.825, "s03": 15.225, "s04": 16.05, "s05": 14.6,
+REF = {"s01": 18.425, "s02": 19.05, "s03": 15.225, "s04": 16.05, "s05": 14.6,
        "s06": 19.7, "s07": 19.8, "s08": 24.725, "s09": 14.575, "s10": 16.475,
        "s11": 25.025, "s12": 16.9, "s13": 17.95}
 
@@ -367,6 +367,10 @@ class Ch08(NarratedScene):
         badges.move_to([3.55, 0.05, 0])
         foot = T(r"27 enclosures: 18 at $\beta=49/4$, 9 at $\beta=21/2$",
                  font_size=26, color=DIM).move_to([3.55, -2.35, 0])
+        cst = T(r"$Z_n=\operatorname{Tr}\,e^{-\beta H_n}$, where $H_n$ includes a constant per site",
+                font_size=28).move_to([0, -3.0, 0])
+        cst_note = T(r"(cancels from $S$, $T$ and the gap)", font_size=24, color=DIM)
+        cst_note.next_to(cst, DOWN, buff=0.15)
 
         with self.seg("s02"):
             self.play(FadeOut(o["arrows"], o["box"], o["long"], o["tgt"], o["eq"], o["rings"]),
@@ -388,7 +392,12 @@ class Ch08(NarratedScene):
             self.at(10.6)
             self.play(FadeIn(foot), run_time=self.rt(0.5))
             self.play(bubble_check(b), run_time=self.rt(0.6))
-        self.o2 = VGroup(title, hdr, rule, nl, vals, badges, foot)
+            # "These values are for H plus a constant per site, which cancels ..."
+            self.at(13.1)
+            self.play(FadeIn(cst, shift=0.1 * UP), run_time=self.rt(0.7))
+            self.at(16.18)
+            self.play(FadeIn(cst_note), run_time=self.rt(0.5))
+        self.o2 = VGroup(title, hdr, rule, nl, vals, badges, foot, cst, cst_note)
         self.bub = b
 
     # ---------------------------------------------------------------- s03

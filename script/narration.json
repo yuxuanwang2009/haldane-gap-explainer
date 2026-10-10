@@ -167,18 +167,14 @@
     },
     {
      "id": "s13",
-     "text": "Real, but not necessarily positive. Pause and think: what would negative eigenvalues do to a ring with an odd number of sites?"
+     "text": "Real, but not necessarily positive: the paper notes that X does have negative eigenvalues."
     },
     {
      "id": "s14",
-     "text": "The paper's data at beta 12.25, with a constant per site added to H, which cancels from every purity and the gap. If all spatial eigenvalues were nonnegative, a norm inequality would force the five-site partition function above about 8. It is 0.003. A half-turn spin rotation at one bond relieves the odd ring's frustration, and it jumps to about 3."
+     "text": "On an even ring that does no harm: lambda to an even power is never negative, so every term of Z is nonnegative. Divided by Z, these terms form a second probability distribution for the same Z. On an odd ring, a negative eigenvalue would add a negative term, and there is no distribution. That is why the theorem is about even rings."
     },
     {
      "id": "s15",
-     "text": "So negative eigenvalues exist, and only on even rings is lambda to the L never negative. There, the spatial weights form a second probability distribution for the same Z: that is why the theorem is about even rings."
-    },
-    {
-     "id": "s16",
      "text": "A physicist's reading, not the paper's: the top eigenvalue encodes the free energy and the others set correlation lengths, so gap in time and correlation length in space are two faces of one mass. The proof needs none of this."
     }
    ]
@@ -323,7 +319,7 @@
     },
     {
      "id": "s02",
-     "text": "Is this just numerics? Not in the usual sense: rings of four to twelve sites are enclosed in integer arithmetic, with explicit error bounds, and no floating-point eigenvalue is ever a premise."
+     "text": "Is this just numerics? Not in the usual sense: rings of four to twelve sites are enclosed in integer arithmetic, with explicit error bounds, and no floating-point eigenvalue is ever a premise. These values are for H plus a constant per site, which cancels from every purity and the gap."
     },
     {
      "id": "s03",

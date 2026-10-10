@@ -12,8 +12,8 @@ import json
 from motifs import *  # noqa: F401,F403
 
 # clip lengths when the cue times below were measured
-D_REF = {"s01": 15.875, "s02": 15.5, "s03": 19.35, "s11": 9.825, "s12": 12.375, "s13": 8.25, "s14": 24.825,
-         "s15": 14.65, "s16": 14.65}
+D_REF = {"s01": 15.875, "s02": 15.5, "s03": 19.35, "s11": 9.825, "s12": 12.375, "s13": 6.28, "s14": 22.0,
+         "s15": 14.65}
 
 XYZ = {"x": SX, "y": SY, "z": SZ}
 NARR = {c["id"]: {g["id"]: g["text"] for g in c["segments"]}
@@ -182,7 +182,7 @@ class Ch04(NarratedScene):
         self.s01()
         self.s02()
         self.s03()
-        for k in range(4, 17):
+        for k in range(4, 16):
             getattr(self, "s%02d" % k)()
 
     # ================================================================ s01
@@ -868,127 +868,53 @@ class Ch04(NarratedScene):
 
     # ================================================================ s13
     def s13(self):
-        with self.voice("s13", breath=2.0) as d:
+        with self.voice("s13") as d:
             self.begin("s13", d)
             self.play(FadeOut(self.s12_all), run_time=0.35)
-            el = EigLine(LAMS, width=9.0, dot_r=0.1, font_size=30).move_to([0, 0.85, 0])
+            el = EigLine(LAMS, width=9.0, dot_r=0.1, font_size=30).move_to([0, 0.4, 0])
             lab = M(r"\lambda_i(\beta)", color=SPACE, font_size=36).next_to(el.line, RIGHT,
                                                                             buff=0.3)
             sch = inline_tag(TAG_SCHEMATIC, el.line, DOWN, buff=0.7).align_to(el.line, RIGHT)
-            self.at(0.34)
+            self.at(0.33)
             self.play(el.build(), FadeIn(lab), FadeIn(sch), run_time=1.3)
             negs = VGroup(*[dt for dt, v in zip(el.dots, LAMS) if v < 0])
             nb = Brace(negs, UP, buff=0.2, color=FG)
             nl = M(r"\lambda_i<0", font_size=34).next_to(nb, UP, buff=0.1)
+            # "the paper notes that X does have negative eigenvalues"
+            self.at(2.82)
             self.play(GrowFromCenter(nb), FadeIn(nl),
                       LaggedStart(*[Indicate(dt, color=FG, scale_factor=1.6) for dt in negs],
-                                  lag_ratio=0.15), run_time=1.0)
-            pg = pause_glyph().move_to([-1.6, -1.45, 0])
-            self.at(2.92)
-            self.play(FadeIn(pg, scale=0.8), run_time=0.6)
-            r5 = fg_ring(5, radius=0.55, length=0.3).move_to([-0.2, -1.45, 0])
-            q = TX(r"odd $L$\,?", font_size=44).next_to(r5, RIGHT, buff=0.45)
-            self.at(4.15)
-            self.play(FadeIn(r5), Write(q), run_time=1.0)
+                                  lag_ratio=0.15), run_time=1.2)
             bub = objection_bubble("even")
-            self.at(5.4)
             self.play(bubble_in(bub), run_time=0.8)
         self.bub = bub
-        self.s13_all = VGroup(el, lab, sch, nb, nl, pg, r5, q)
+        self.s13_all = VGroup(el, lab, sch, nb, nl)
 
     # ================================================================ s14
     def s14(self):
+        bub = self.bub
         with self.voice("s14") as d:
             self.begin("s14", d)
             self.play(FadeOut(self.s13_all), run_time=0.35)
-            hdr = M(r"\beta=\tfrac{49}{4}=12.25", color=TIME, font_size=40).to_corner(UL, buff=0.5)
-            ys = 0.75
-            r4 = fg_ring(4).move_to([-4.3, ys, 0])
-            r5 = fg_ring(5).move_to([0.0, ys, 0])
-            r6 = fg_ring(6).move_to([4.3, ys, 0])
-            z4 = M(r"Z_4=124.885", font_size=36).next_to(r4, DOWN, buff=0.45)
-            # Z_5 stays a question mark until the reveal ("It is 0.003")
-            z5q = MT(r"Z_5=", r"\text{?}", font_size=36).next_to(r5, DOWN, buff=0.45)
-            z5 = MT(r"Z_5=", r"0.0029", font_size=36, color=DEFECT).next_to(r5, DOWN, buff=0.45)
-            z6 = M(r"Z_6=12.871", font_size=36).next_to(r6, DOWN, buff=0.45)
-            for z in (z4, z5q, z5, z6):
-                z.set_y(ys - 1.35)
-            self.at(0.30)
-            self.play(FadeIn(hdr, shift=0.1 * DOWN), run_time=0.6)
-            self.play(LaggedStart(*[FadeIn(VGroup(r, z), shift=0.15 * UP)
-                                    for r, z in ((r4, z4), (r5, z5q), (r6, z6))], lag_ratio=0.25),
-                      run_time=1.4)
-            note = MT(r"Z_n=\operatorname{Tr}\,e^{-\beta H_n}", font_size=34, color=DIM)
-            note.next_to(hdr, RIGHT, buff=0.7)
-            note2 = TX(r"$H_n$ includes a constant per site", font_size=26, color=DIM)
-            note2.next_to(note, DOWN, buff=0.15).align_to(note, LEFT)
-            self.at(3.05)
-            self.play(FadeIn(note), FadeIn(note2), run_time=0.8)
-
-            ineq = MT(r"\text{all }\lambda_i\ge0", r"\ \Rightarrow\ Z_5^{1/5}\ge Z_6^{1/6}",
-                      r"\ \Rightarrow\ Z_5\ge12.87^{5/6}\approx8.4", font_size=36)
-            ineq.move_to([0, -2.05, 0])
-            self.at(8.28)
-            # Z_4 plays no part in the argument: dim it so the eye compares Z_5 with Z_6
-            self.play(Write(ineq[0]), VGroup(r4, z4).animate.fade(0.6), run_time=0.9)
-            self.at(11.04)
-            self.play(Write(ineq[1]), Indicate(z6, color=FG, scale_factor=1.12), run_time=1.3)
-            self.play(Write(ineq[2]), run_time=1.3)
-
-            cx = cross_mark(0.42).next_to(ineq, RIGHT, buff=0.35)
-            self.at(15.64)
-            self.play(TransformMatchingTex(z5q, z5), Create(cx), ineq.animate.set_opacity(0.45),
-                      run_time=0.7)
-            self.play(pulse(z5), run_time=0.7)
-
-            # the seam: a half turn at one bond of the odd ring
-            ang0, ang4 = PI / 2, TAU * 4 / 5 + PI / 2
-            R = 0.75
-            fb = Arc(radius=R, start_angle=ang4 - TAU, angle=(ang0 - (ang4 - TAU)), color=FG,
-                     stroke_width=6).move_arc_center_to(r5[0].get_center())
-            mid = (ang0 + ang4 - TAU) / 2
-            seam = seam_glyph().move_to(r5[0].get_center() + (R + 0.55) * np.array(
-                [np.cos(mid), np.sin(mid), 0]))
-            ht = T("half turn", font_size=26, color=DIM).next_to(seam, RIGHT, buff=0.15)
-            self.at(18.21)
-            self.play(FadeOut(ineq), FadeOut(cx), Create(fb), run_time=0.8)
-            self.play(FadeIn(seam, scale=0.6), FadeIn(ht), Indicate(fb, color=FG), run_time=1.0)
-
-            zp = M(r"Z_5(P)=2.961", font_size=36).move_to([0, -2.55, 0])
-            arr = Arrow(z5.get_bottom() + DOWN * 0.05, zp.get_top() + UP * 0.05, buff=0.08,
-                        color=DIM, stroke_width=3, max_tip_length_to_length_ratio=0.25)
-            x1000 = M(r"\times1400", font_size=32, color=FG).next_to(arr, RIGHT, buff=0.2)
-            self.at(22.93)
-            self.play(GrowArrow(arr), FadeIn(zp, shift=0.2 * DOWN), FadeIn(x1000), run_time=1.0)
-        self.s14_all = VGroup(hdr, r4, r5, r6, z4, z5, z6, note, note2, fb, seam, ht, zp, arr,
-                              x1000)
-
-    # ================================================================ s15
-    def s15(self):
-        bub = self.bub
-        with self.voice("s15") as d:
-            self.begin("s15", d)
-            self.play(FadeOut(self.s14_all), run_time=0.35)
             base_y = -0.6
-            sb = WeightBars(LAMS ** 5, width=3.6, height=2.6, color=SPACE, signed=True,
+            sb = WeightBars(LAMS ** 6, width=3.6, height=2.6, color=SPACE, signed=True,
                             value_scale=1.6)
             sb.shift(np.array([-3.3, base_y, 0]) - sb.base.get_center())
-            l5 = M(r"\lambda_i^{\,5}", color=SPACE, font_size=38).next_to(sb.base, LEFT, buff=0.3)
+            l6 = M(r"\lambda_i^{\,6}", color=SPACE, font_size=38).next_to(sb.base, LEFT, buff=0.3)
             sch = inline_tag(TAG_SCHEMATIC, sb.base, DOWN, buff=1.15)
-            self.at(0.30)
-            self.play(Create(sb.base), LaggedStart(*[GrowFromEdge(
-                b, DOWN if v >= 0 else UP) for b, v in zip(sb.bars, LAMS ** 5)], lag_ratio=0.1),
-                FadeIn(l5), FadeIn(sch), run_time=1.3)
+            self.at(0.35)
+            self.play(Create(sb.base), LaggedStart(*[GrowFromEdge(b, DOWN) for b in sb.bars],
+                                                   lag_ratio=0.1),
+                      FadeIn(l6), FadeIn(sch), run_time=1.3)
             ev = MT(r"L\ \text{even}:\quad", r"\lambda_i^{L}=|\lambda_i|^{L}\ge0",
                     r",\qquad p_i=\frac{|\lambda_i|^{L}}{Z}", font_size=36)
             ev[2].set_color(SPACE)
             ev.to_corner(UL, buff=0.5)
-            l6 = M(r"\lambda_i^{\,6}", color=SPACE, font_size=38).move_to(l5)
-            self.at(2.76)
-            self.play(sb.morph_to(LAMS ** 6), Transform(l5, l6), run_time=1.3)
-            self.play(Write(ev[0:2]), run_time=1.0)
+            # "lambda to an even power is never negative"
+            self.at(2.69)
+            self.play(Write(ev[0:2]), run_time=1.2)
 
-            # a second probability distribution for the same Z
+            # "Divided by Z, these terms form a second probability distribution for the same Z"
             p = LAMS ** 6 / (LAMS ** 6).sum()
             gb = WeightBars(GIBBS, width=3.6, height=2.6, color=TIME, highlight_color=TIME)
             gb.shift(np.array([3.3, base_y, 0]) - gb.base.get_center())
@@ -996,8 +922,8 @@ class Ch04(NarratedScene):
             wl_ = MT(r"w_k", r"\ \text{(thermal)}", color=TIME, font_size=34)
             pl_.next_to(sb.base, DOWN, buff=0.3)
             wl_.next_to(gb.base, DOWN, buff=0.3)
-            self.at(7.35)
-            self.play(Write(ev[2]), sb.morph_to(p * 2.6 / 1.6), FadeOut(l5), run_time=1.2)
+            self.at(8.07)
+            self.play(Write(ev[2]), sb.morph_to(p * 2.6 / 1.6), FadeOut(l6), run_time=1.2)
             self.play(FadeIn(pl_), Create(gb.base),
                       LaggedStart(*[GrowFromEdge(b, DOWN) for b in gb.bars], lag_ratio=0.1),
                       FadeIn(wl_), run_time=1.2)
@@ -1007,20 +933,29 @@ class Ch04(NarratedScene):
             self.play(GrowFromCenter(br), FadeIn(same),
                       sch.animate.next_to(same, DOWN, buff=0.3), run_time=0.7)
 
-            self.at(11.77)
-            self.play(bubble_indicate(bub), run_time=0.8)
+            # "On an odd ring, a negative eigenvalue would add a negative term"
+            odd = TX(r"odd $L$:\ $\lambda_i^{\,5}$", font_size=32, color=DEFECT)
+            odd.next_to(sb.base, UP, buff=1.9).align_to(sb.base, LEFT)
+            self.at(14.24)
+            self.play(sb.morph_to(LAMS ** 5), FadeIn(odd), FadeOut(pl_),
+                      run_time=1.2)
+            negb = VGroup(*[b for b, v in zip(sb.bars, LAMS ** 5) if v < 0])
+            self.play(negb.animate.set_color(DEFECT), run_time=0.5)
+            # "That is why the theorem is about even rings"
+            self.at(19.17)
+            self.play(negb.animate.set_color(SPACE), FadeOut(odd), run_time=0.3)
+            self.play(sb.morph_to(p * 2.6 / 1.6), FadeIn(pl_), bubble_indicate(bub), run_time=0.9)
             self.play(bubble_check(bub), run_time=0.6)
-            self.at(13.9)
             self.play(bubble_out(bub), run_time=0.5)
-        self.s15_all = VGroup(sb, gb, ev, pl_, wl_, br, same, sch)
+        self.s14_all = VGroup(sb, gb, ev, pl_, wl_, br, same, sch)
 
-    # ================================================================ s16
-    def s16(self):
-        with self.voice("s16") as d:
-            self.begin("s16", d)
+    # ================================================================ s15
+    def s15(self):
+        with self.voice("s15") as d:
+            self.begin("s15", d)
             tor = place_torus(Torus(5, 3, nx=10, ny=6), TOR_L)
             rt = tag(TAG_READING, buff=0.42)
-            self.play(FadeOut(self.s15_all), run_time=0.35)
+            self.play(FadeOut(self.s14_all), run_time=0.35)
             self.at(0.31)
             self.play(FadeIn(tor), tag_in(rt), run_time=0.9)
 
