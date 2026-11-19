@@ -10,7 +10,7 @@
   A 27-minute narrated explainer, in the visual style of 3Blue1Brown, of the claimed proof of the
   spin-1 Haldane gap released by OpenAI in October 2026. It is written for theoretical physicists.
   <br><br>
-  <a href="https://github.com/yuxuanwang2009/haldane-gap-explainer/releases/latest"><b>▶ Watch / download the video (1080p)</b></a>
+  <a href="[https://github.com/yuxuanwang2009/haldane-gap-explainer/releases/latest](https://www.youtube.com/watch?v=sKIdC9v7CWU&t)"><b>▶ Watch on YouTube</b></a>
 </p>
 
 ---
